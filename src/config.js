@@ -55,7 +55,7 @@ export const ICON = {
   NAVBAR_ITEM_HORIZONTAL: 20,
 };
 
-// SETTINGS
+// Configuration
 // ----------------------------------------------------------------------
 
 export const cookiesExpires = 3;
