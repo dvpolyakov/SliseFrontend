@@ -1,20 +1,20 @@
-import Layout from 'src/layouts';
-import { Card, CardMedia, Grid, Typography, Box, CircularProgress } from '@mui/material';
-import Page from 'src/components/Page';
-import React, { useCallback, useEffect, useState } from 'react';
+import { CircularProgress, Grid, Typography } from '@mui/material';
 import { styled } from '@mui/styles';
+import React, { useCallback, useEffect, useState } from 'react';
+import Page from 'src/components/Page';
+import useIsMountedRef from 'src/hooks/useIsMountedRef';
+import Layout from 'src/layouts';
+import axiosInstance from 'src/utils/axios';
 import BluechipHolders from 'src/widgets/BluechipHolders';
 import BotsIdentified from 'src/widgets/BotsIdentified';
 import DiscordMembers from 'src/widgets/DiscordMembers';
-import Whales from 'src/widgets/Whales';
-import WhitelistSize from 'src/widgets/WhitelistSize';
-import TwitterFollowers from 'src/widgets/TwitterFollowers';
 import MlPrediction from 'src/widgets/MlPrediction';
-import TopHolders from 'src/widgets/TopHolders';
 import MutualHolders from 'src/widgets/MutualHolders';
 import TargetWallets from 'src/widgets/TargetWallets';
-import axiosInstance from 'src/utils/axios';
-import useIsMountedRef from 'src/hooks/useIsMountedRef';
+import TopHolders from 'src/widgets/TopHolders';
+import TwitterFollowers from 'src/widgets/TwitterFollowers';
+import Whales from 'src/widgets/Whales';
+import WhitelistSize from 'src/widgets/WhitelistSize';
 
 const CardsGrid = styled('div')(() => ({
   display: 'grid',
@@ -29,6 +29,7 @@ const CardsGrid = styled('div')(() => ({
   minHeight: 0,
   '& > *': {
     minHeight: 0,
+    minWidth: 0,
   },
 }));
 
@@ -39,6 +40,7 @@ const BigCardsGrid = styled('div')(() => ({
   minHeight: 0,
   '& > *': {
     minHeight: 0,
+    minWidth: 0,
   },
 }));
 
@@ -55,7 +57,7 @@ const DashboardIndex = () => {
       window.localStorage.setItem('whitelistSize', response.data.data.whitelistSize);
       setStatistics(response.data.data);
     } else {
-      const response = await axios.get(
+      const response = await axiosInstance.get(
         `https://daoanalytics.herokuapp.com/api/analytics/getWhitelistStatistics?id=afd7626f-388e-4f98-9f36-123d54688936`
       );
       window.localStorage.setItem('whitelistSize', response.data.data.whitelistSize);

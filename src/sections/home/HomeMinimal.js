@@ -21,7 +21,7 @@ const CARDS = [
     description: 'Easy to customize and extend each component, saving you time and money.',
   },
   {
-    icon: '/logo/logo_single.svg',
+    icon: '/logo/slise_logo.svg',
     title: 'Branding',
     description: 'Consistent design in colors, fonts ... makes brand recognition easy.',
   },
@@ -99,7 +99,7 @@ export default function HomeMinimal() {
         >
           <m.div variants={varFade().inUp}>
             <Typography component="div" variant="overline" sx={{ mb: 2, color: 'text.disabled' }}>
-              Minimal
+              Slise
             </Typography>
           </m.div>
           <m.div variants={varFade().inDown}>

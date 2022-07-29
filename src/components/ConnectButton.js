@@ -10,6 +10,8 @@ const Root = styled('button')(() => ({
   gap: 8,
   alignItems: 'center',
 
+  marginTop: 8,
+
   color: '#212B36',
   border: 'none',
   outline: 'none',

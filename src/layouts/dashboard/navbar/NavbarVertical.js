@@ -1,31 +1,30 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 // next
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 // @mui
-import { styled, useTheme } from '@mui/material/styles';
-import { Box, Stack, Drawer, Button, Modal, Typography} from '@mui/material';
+import {styled, useTheme} from '@mui/material/styles';
+import {Box, Button, Drawer, Modal, Stack} from '@mui/material';
 // hooks
 import useResponsive from '../../../hooks/useResponsive';
 import useCollapseDrawer from '../../../hooks/useCollapseDrawer';
 // utils
 import cssStyles from '../../../utils/cssStyles';
 // config
-import { NAVBAR } from '../../../config';
+import {NAVBAR} from '../../../config';
 // components
 import Logo from '../../../components/Logo';
 import Scrollbar from '../../../components/Scrollbar';
-import { NavSectionVertical } from '../../../components/nav-section';
+import {NavSectionVertical} from '../../../components/nav-section';
 import UploadCollection from '../../../components/uploadModal'
 //
 import navConfig from './NavConfig';
-import NavbarDocs from './NavbarDocs';
 import NavbarAccount from './NavbarAccount';
 import CollapseButton from './CollapseButton';
 
 // ----------------------------------------------------------------------
 
-const RootStyle = styled('div')(({ theme }) => ({
+const RootStyle = styled('div')(({theme}) => ({
   [theme.breakpoints.up('lg')]: {
     flexShrink: 0,
     transition: theme.transitions.create('width', {
@@ -41,7 +40,7 @@ NavbarVertical.propTypes = {
   onCloseSidebar: PropTypes.func,
 };
 
-export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
+export default function NavbarVertical({isOpenSidebar, onCloseSidebar}) {
   //Modal states/style
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -53,21 +52,21 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: '440px',
-    height:'432px',
-    bgcolor: '#FFFFFF',  
+    height: '432px',
+    bgcolor: '#FFFFFF',
     p: 3,
     borderRadius: '25px'
   };
 
   const theme = useTheme();
 
-  const { pathname } = useRouter();
+  const {pathname} = useRouter();
 
   const isDesktop = useResponsive('up', 'lg');
 
-  const { isCollapse, collapseClick, collapseHover, onToggleCollapse, onHoverEnter, onHoverLeave } =
+  const {isCollapse, collapseClick, collapseHover, onToggleCollapse, onHoverEnter, onHoverLeave} =
     useCollapseDrawer();
-    
+
 
   useEffect(() => {
     if (isOpenSidebar) {
@@ -80,7 +79,7 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
     <Scrollbar
       sx={{
         height: 1,
-        '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' },
+        '& .simplebar-content': {height: 1, display: 'flex', flexDirection: 'column'},
       }}
     >
       <Stack
@@ -90,35 +89,35 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
           pb: 2,
           px: 2.5,
           flexShrink: 0,
-          ...(isCollapse && { alignItems: 'center' }),
+          ...(isCollapse && {alignItems: 'center'}),
         }}
       >
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Logo />
+          <Logo/>
 
           {isDesktop && !isCollapse && (
-            <CollapseButton onToggleCollapse={onToggleCollapse} collapseClick={collapseClick} />
+            <CollapseButton onToggleCollapse={onToggleCollapse} collapseClick={collapseClick}/>
           )}
         </Stack>
 
-        <NavbarAccount isCollapse={isCollapse} />
+        <NavbarAccount isCollapse={isCollapse}/>
       </Stack>
 
-      <NavSectionVertical navConfig={navConfig} isCollapse={isCollapse} />
+      <NavSectionVertical navConfig={navConfig} isCollapse={isCollapse}/>
       <Box textAlign="center">
-      <Button onClick={handleOpen} variant="contained" sx={{color:'black', backgroundColor: '#DDFF55', marginTop:'100px',':hover':{opacity: '.6', backgroundColor:'#DDFF55'}}}>Add Your Collection</Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-         <UploadCollection close= {handleClose}/>
-        </Box>
-      </Modal>
+        <Button onClick={handleOpen} variant="contained" sx={{color:'black', backgroundColor: '#DDFF55', marginTop:'220px',':hover':{opacity: '.6', backgroundColor:'#DDFF55'}}}>Add Your Collection</Button>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <UploadCollection close={handleClose}/>
+          </Box>
+        </Modal>
       </Box>
-      <Box sx={{ flexGrow: 1 }} />
+      <Box sx={{flexGrow: 1}}/>
 
       {!isCollapse}
     </Scrollbar>
@@ -136,7 +135,7 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
       }}
     >
       {!isDesktop && (
-        <Drawer open={isOpenSidebar} onClose={onCloseSidebar} PaperProps={{ sx: { width: NAVBAR.DASHBOARD_WIDTH } }}>
+        <Drawer open={isOpenSidebar} onClose={onCloseSidebar} PaperProps={{sx: {width: NAVBAR.DASHBOARD_WIDTH}}}>
           {renderContent}
         </Drawer>
       )}
@@ -150,7 +149,7 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
           PaperProps={{
             sx: {
               width: NAVBAR.DASHBOARD_WIDTH,
-              borderRightStyle: 'dashed',
+              borderRightStyle: 'none',
               bgcolor: 'background.default',
               transition: (theme) =>
                 theme.transitions.create('width', {

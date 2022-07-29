@@ -1,12 +1,12 @@
 // routes
-import { PATH_DASHBOARD } from '../../../routes/paths';
+import { PATH_DASHBOARD, PATH_PAGE } from '../../../routes/paths';
 // components
 import Label from '../../../components/Label';
 import SvgIconStyle from '../../../components/SvgIconStyle';
 
 // ----------------------------------------------------------------------
 
-const getIcon = (name) => <SvgIconStyle src={`/icons/${name}.svg`} sx={{ width: 1, height: 1 }} />;
+const getIcon = (name) => <SvgIconStyle src={`/icons/${name}.svg/`} sx={{ width: 1, height: 1 }} />;
 
 const ICONS = {
   blog: getIcon('ic_blog'),
@@ -32,14 +32,14 @@ const navConfig = [
     items: [
       {
         title: 'Dashboard',
-        path: PATH_DASHBOARD.general.app,
+        path: PATH_PAGE.app,
         icon: ICONS.dashboard,
       },
-      { title: 'Whitelist', path: PATH_DASHBOARD.general.analytics, icon: ICONS.analytics },
-      { title: 'Social Data', path: PATH_DASHBOARD.general.banking, icon: ICONS.chat },
-      { title: 'Mutual Holders', path: PATH_DASHBOARD.general.booking, icon: ICONS.social },
-      { title: 'Community Insights', path: PATH_DASHBOARD.general.booking, icon: ICONS.user },
-      { title: 'ML Targeting', path: PATH_DASHBOARD.general.mltargeting, icon: ICONS.components }
+      { title: 'Mint List', path: PATH_PAGE.mintlist, icon: ICONS.analytics },
+      { title: 'Social Data', path: PATH_PAGE.socialdata, icon: ICONS.chat },
+      { title: 'Mutual Holders', path: PATH_PAGE.mutualholders, icon: ICONS.social },
+/*      { title: 'Community Insights', path: PATH_DASHBOARD.general.booking, icon: ICONS.user },*/
+      { title: 'ML Targeting', path: PATH_PAGE.mltargeting, icon: ICONS.components },
     ],
   },
 

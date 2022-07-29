@@ -29,7 +29,10 @@ const Root = styled('div')(() => ({
 }));
 
 const SBodyTableCell = styled(TableCell)(() => ({
+  width: '50%',
+  display: 'block',
   padding: '6px 0',
+  overflow: 'hidden',
   '&:first-of-type': {
     padding: '6px 0',
   },
@@ -61,8 +64,8 @@ const MutualHolders = ({ data = [] }) => {
         <Table size="medium" stickyHeader sx={{ height: 'max-content' }}>
           <TableBody>
             {Array.from(data).map((row) => (
-              <TableRow key={row.address}>
-                <SBodyTableCell size="small" style={{ width: '50%', paddingRight: 16 }}>
+              <TableRow key={row.address} sx={{ display: 'flex', alignItems: 'center' }}>
+                <SBodyTableCell size="small">
                   <Stack direction="row" alignItems="flex-start" spacing={1}>
                     <a
                       style={{ textDecoration: 'none', color: 'inherit' }}
@@ -76,11 +79,19 @@ const MutualHolders = ({ data = [] }) => {
                       />
                     </a>
                     <a
-                      style={{ textDecoration: 'none', color: 'inherit' }}
+                      style={{ textDecoration: 'none', color: 'inherit', overflow: 'hidden' }}
                       target={'_blank'}
                       href={`https://etherscan.io/address/${row.address}`}
                     >
-                      <Typography variant="subtitle2">{row.name}</Typography>
+                      <Typography
+                        sx={{ WebkitLineClamp: 1, textOverflow: 'ellipsis', overflow: 'hidden' }}
+                        whiteSpace={'nowrap'}
+                        variant="subtitle2"
+                        lineHeight={'22px'}
+                        height={'22px'}
+                      >
+                        {row.name}
+                      </Typography>
                     </a>
                   </Stack>
                 </SBodyTableCell>

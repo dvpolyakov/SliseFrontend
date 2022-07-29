@@ -43,6 +43,11 @@ export default function NavbarAccount({isCollapse, textColor}) {
   const getWhitelists = useCallback(async () => {
     const response = await axios.get('https://daoanalytics.herokuapp.com/api/analytics/getWhitelists');
     if (isMountedRef.current) {
+      const stored = JSON.parse(window.localStorage.getItem('storedWhitelists'));
+      if(stored){
+        console.log(stored);
+        response.data.data.push(...stored.whitelists);
+      }
       setWhitelists(response.data.data);
       const existWhitelist = window.localStorage.getItem('whitelistId');
       if (!existWhitelist) {

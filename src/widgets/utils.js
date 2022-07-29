@@ -1,4 +1,13 @@
+const { format } = new Intl.NumberFormat('en-US', {
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
+  useGrouping: true,
+});
+
 export const formatNumber = (num, digits) => {
+  if (num <= 10_000) {
+    return format(num);
+  }
   const lookup = [
     { value: 1, symbol: '' },
     { value: 1e3, symbol: 'K' },

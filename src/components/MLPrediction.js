@@ -44,7 +44,7 @@ export default function MLPrediction({title}) {
         .then((response) => {
           console.log(`https://slise-ml.herokuapp.com/items?price=${price}&supply=${collectionSize}&whitelist=${+whitelistSize}`);
           console.log(response);
-          const mintShare = response.data.mint_share[0].toFixed(2);
+          const mintShare = response.data.data[0].toFixed(2);
           setMintShare(mintShare);
           console.log(mintShare);
           if (mintShare > 0.00 && mintShare < 0.05) {

@@ -20,7 +20,7 @@ const MainStyle = styled('main', {
   shouldForwardProp: (prop) => prop !== 'collapseClick',
 })(({ collapseClick, theme }) => ({
   flexGrow: 1,
-  background: '#E5E5E5',
+  background: '#F3F4EF',
   paddingTop: 12,
   paddingBottom: 48,
   paddingLeft: 40,
