@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const withTM = require('next-transpile-modules')([
   '@fullcalendar/common',
   '@fullcalendar/daygrid',
@@ -9,11 +10,17 @@ const withTM = require('next-transpile-modules')([
 ]);
 
 module.exports = withTM({
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   swcMinify: false,
   trailingSlash: true,
   env: {
-    HOST_API_KEY: 'https://minimal-assets-api.vercel.app',
-    // FIREBASE AUTH
+    // HOST
+    HOST_API_KEY: 'https://minimal-assets-api-dev.vercel.app',
+    // MAPBOX
+    MAPBOX_API: '',
+    // FIREBASE
     FIREBASE_API_KEY: '',
     FIREBASE_AUTH_DOMAIN: '',
     FIREBASE_PROJECT_ID: '',
@@ -21,13 +28,13 @@ module.exports = withTM({
     FIREBASE_MESSAGING_SENDER_ID: '',
     FIREBASE_APPID: '',
     FIREBASE_MEASUREMENT_ID: '',
-    // AWS COGNITO AUTH
+    // AWS COGNITO
     AWS_COGNITO_USER_POOL_ID: '',
     AWS_COGNITO_CLIENT_ID: '',
-    // AUTH0 AUTH
+    // AUTH0
     AUTH0_CLIENT_ID: '',
     AUTH0_DOMAIN: '',
-    //
-    MAPBOX: '',
-  }
+  },
 });
+
+
