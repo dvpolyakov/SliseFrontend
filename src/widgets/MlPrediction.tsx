@@ -5,6 +5,7 @@ import {styled} from '@mui/system';
 import React, {useEffect, useState} from 'react';
 import Label from 'src/components/Label';
 import axiosInstance from 'src/utils/axios';
+import { ML_URL } from '../utils/endpoints';
 
 const Root = styled('div')(() => ({
   gridArea: 'MlPrediction',
@@ -113,7 +114,7 @@ const MlPrediction = () => {
       if (priceSliderValue > 0.1 || collectionSizeSliderValue > 10)
         axiosInstance
           .get(
-            `https://slise-ml.herokuapp.com/items?price=${priceSliderValue}&supply=${collectionSizeSliderValue}&whitelist=${+whitelistSize!}`,
+            `${ML_URL}items?price=${priceSliderValue}&supply=${collectionSizeSliderValue}&whitelist=${+whitelistSize!}`,
             {
               headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -122,7 +123,7 @@ const MlPrediction = () => {
           )
           .then((response) => {
             console.log(
-              `https://slise-ml.herokuapp.com/items?price=${priceSliderValue}&supply=${collectionSizeSliderValue}&whitelist=${+whitelistSize!}`
+              `${ML_URL}items?price=${priceSliderValue}&supply=${collectionSizeSliderValue}&whitelist=${+whitelistSize!}`
             );
             console.log(response.data);
             const mintShare = response.data[0].toFixed(2);

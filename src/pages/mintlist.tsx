@@ -20,6 +20,7 @@ import nft2 from 'src/assets/nft2.svg';
 import nft3 from 'src/assets/nft3.svg';
 import axiosInstance from '../utils/axios';
 import useIsMountedRef from '../hooks/useIsMountedRef';
+import { BACKEND_URL } from '../utils/endpoints';
 
 const Cards = styled('div')(() => ({
   display: 'grid',
@@ -188,7 +189,7 @@ const MintList = () => {
     const whitelistId = window.localStorage.getItem('whitelistId');
     if (whitelistId) {
       const response = await axiosInstance.get(
-        `https://daoanalytics.herokuapp.com/api/analytics/getTopHolders?id=${whitelistId}`
+        `${BACKEND_URL}analytics/getTopHolders?id=${whitelistId}`
       );
      /* response.data.data.map((holding) => {
         holding.id = Math.floor(Math.random() * 1000).toString(16);
@@ -213,7 +214,7 @@ const MintList = () => {
       setSize(response.data.data.size);
     } else {
       const response = await axiosInstance.get(
-        `https://daoanalytics.herokuapp.com/api/analytics/getTopHolders?id=afd7626f-388e-4f98-9f36-123d54688936`
+        `${BACKEND_URL}analytics/getTopHolders?id=afd7626f-388e-4f98-9f36-123d54688936`
       );
      /* response.data.data.map((holding) => {
         holding.id = Math.floor(Math.random() * 1000).toString(16);

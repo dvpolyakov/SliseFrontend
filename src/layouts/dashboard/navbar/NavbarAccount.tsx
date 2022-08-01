@@ -13,6 +13,7 @@ import { useCallback, useEffect, useState } from 'react';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
 import axiosInstance from '../../../utils/axios';
 import nft3 from 'src/assets/nft3.svg';
+import { BACKEND_URL } from '../../../utils/endpoints';
 
 // ----------------------------------------------------------------------
 
@@ -41,7 +42,7 @@ export default function NavbarAccount({ isCollapse }: Props) {
   const isMountedRef = useIsMountedRef();
 
   const getWhitelists = useCallback(async () => {
-    const response = await axiosInstance.get('https://daoanalytics.herokuapp.com/api/analytics/getWhitelists');
+    const response = await axiosInstance.get(`${BACKEND_URL}analytics/getWhitelists`);
     if (isMountedRef.current) {
       const stored = JSON.parse(localStorage.getItem('storedWhitelists')!);
       if (stored) {

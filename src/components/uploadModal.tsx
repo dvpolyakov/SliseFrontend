@@ -5,6 +5,7 @@ import axiosInstance from 'src/utils/axios';
 import {Box, Button, CircularProgress, Grid, TextField, Typography} from '@mui/material';
 import React, {useCallback, useState} from 'react';
 import useIsMountedRef from '../hooks/useIsMountedRef';
+import { BACKEND_URL } from '../utils/endpoints';
 
 
 // ----------------------------------------------------------------------
@@ -57,7 +58,7 @@ export default function UploadSingleFile(props: any) {
     console.log(uploadedFile);
     formData.append('file', uploadedFile!);
     formData.append('collectionName', whitelistName);
-    const response = await axiosInstance.post('https://daoanalytics.herokuapp.com/api/analytics/storeWhitelist', formData, {
+    const response = await axiosInstance.post(`${BACKEND_URL}analytics/storeWhitelist`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       },

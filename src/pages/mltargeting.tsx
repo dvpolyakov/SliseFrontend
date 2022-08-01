@@ -13,6 +13,7 @@ import useSettings from 'src/hooks/useSettings';
 import Layout from 'src/layouts';
 import { styled } from '@mui/system';
 import useIsMountedRef from '../hooks/useIsMountedRef';
+import { BACKEND_URL } from '../utils/endpoints';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -171,7 +172,7 @@ export default function GeneralBooking() {
     const getData = setTimeout(() => {
       axiosInstance
         .get(
-          `https://daoanalytics.herokuapp.com/api/analytics/getTargets?vector=${+newView / 100}`,
+          `${BACKEND_URL}analytics/getTargets?vector=${+newView / 100}`,
           {
             headers: {
               'Access-Control-Allow-Origin': '*',
@@ -204,7 +205,7 @@ export default function GeneralBooking() {
         );
       axiosInstance
         .get(
-          `https://daoanalytics.herokuapp.com/api/analytics/getExport?vector=${+newView / 100}`,
+          `${BACKEND_URL}analytics/getExport?vector=${+newView / 100}`,
           {
             headers: {
               'Access-Control-Allow-Origin': '*',

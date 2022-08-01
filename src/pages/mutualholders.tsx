@@ -14,6 +14,7 @@ import nft3 from 'src/assets/nft3.svg';
 import MutualHoldersCard from 'src/widgets/MutualHoldersCard';
 import useIsMountedRef from '../hooks/useIsMountedRef';
 import axiosInstance from '../utils/axios';
+import { BACKEND_URL } from '../utils/endpoints';
 
 const Cards = styled('div')(() => ({
   display: 'grid',
@@ -160,7 +161,7 @@ const MutualHolders = () => {
     const whitelistId = window.localStorage.getItem('whitelistId');
     if (whitelistId) {
       const response = await axiosInstance.get(
-        `https://daoanalytics.herokuapp.com/api/analytics/getMutualHoldings?id=${whitelistId}`
+        `${BACKEND_URL}analytics/getMutualHoldings?id=${whitelistId}`
       );
       response.data.data.map((holding: any) => {
         holding.id = Math.floor(Math.random() * 1000).toString(16);
@@ -173,7 +174,7 @@ const MutualHolders = () => {
       setMutualHolders(response.data.data);
     } else {
       const response = await axiosInstance.get(
-        `https://daoanalytics.herokuapp.com/api/analytics/getMutualHoldings?id=afd7626f-388e-4f98-9f36-123d54688936`
+        `${BACKEND_URL}analytics/getMutualHoldings?id=afd7626f-388e-4f98-9f36-123d54688936`
       );
       response.data.data.map((holding: any) => {
         holding.id = Math.floor(Math.random() * 1000).toString(16);
