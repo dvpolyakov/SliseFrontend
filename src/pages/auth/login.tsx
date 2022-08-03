@@ -76,17 +76,17 @@ export default function Login() {
         <RootStyle>
           <HeaderStyle>
             <Logo />
-            {smUp && (
+            {/*{smUp && (
               <Typography variant="body2" sx={{ mt: { md: -2 } }}>
                 Don’t have an account? {''}
                 <NextLink href={PATH_AUTH.register} passHref>
                   <Link variant="subtitle2">Get started</Link>
                 </NextLink>
               </Typography>
-            )}
+            )}*/}
           </HeaderStyle>
 
-          {mdUp && (
+          {/*{mdUp && (
             <SectionStyle>
               <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
                 Hi, Welcome Back
@@ -98,17 +98,17 @@ export default function Login() {
                 alt="login"
               />
             </SectionStyle>
-          )}
+          )}*/}
 
           <Container maxWidth="sm">
             <ContentStyle>
               <Stack direction="row" alignItems="center" sx={{ mb: 5 }}>
                 <Box sx={{ flexGrow: 1 }}>
                   <Typography variant="h4" gutterBottom>
-                    Sign in to Minimal
+                    Login to Slise
                   </Typography>
                   <Typography sx={{ color: 'text.secondary' }}>
-                    Enter your details below.
+                    Choose how you want to connect.
                   </Typography>
                 </Box>
 

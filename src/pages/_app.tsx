@@ -61,6 +61,9 @@ import MotionLazyContainer from '../components/animate/MotionLazyContainer';
 // https://docs-minimals.vercel.app/authentication/ts-version
 
 import { AuthProvider } from '../contexts/JWTContext';
+import { Web3ReactProvider } from '@web3-react/core'
+import { MetaMaskProvider } from '../hooks/useMetamask'
+import Web3 from 'web3';
 // import { AuthProvider } from '../contexts/Auth0Context';
 // import { AuthProvider } from '../contexts/FirebaseContext';
 // import { AuthProvider } from '../contexts/AwsCognitoContext';
@@ -78,6 +81,9 @@ interface MyAppProps extends AppProps {
 
 export default function MyApp(props: MyAppProps) {
   const { Component, pageProps, settings } = props;
+  function getLibrary(provider: any, connector: any) {
+    return new Web3(provider)
+  }
 
   const getLayout = Component.getLayout ?? ((page) => page);
 
@@ -94,6 +100,8 @@ export default function MyApp(props: MyAppProps) {
               <SettingsProvider defaultSettings={settings}>
                 <MotionLazyContainer>
                   <ThemeProvider>
+                    <Web3ReactProvider getLibrary={getLibrary}>
+                      <MetaMaskProvider>
                     {/* <ThemeSettings> */}
                       <NotistackProvider>
                         <ChartStyle />
@@ -101,6 +109,8 @@ export default function MyApp(props: MyAppProps) {
                         {getLayout(<Component {...pageProps} />)}
                       </NotistackProvider>
                     {/* </ThemeSettings> */}
+                      </MetaMaskProvider>
+                    </Web3ReactProvider>
                   </ThemeProvider>
                 </MotionLazyContainer>
               </SettingsProvider>

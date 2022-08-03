@@ -6,7 +6,7 @@ import NextLink from 'next/link';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Link, Stack, Alert, IconButton, InputAdornment } from '@mui/material';
+import { Link, Stack, Alert, IconButton, InputAdornment, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // routes
 import { PATH_AUTH } from '../../../routes/paths';
@@ -16,6 +16,8 @@ import useIsMountedRef from '../../../hooks/useIsMountedRef';
 // components
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hook-form';
+import Connect2Phantom from '../../../components/Connect2Phantom';
+import useMetaMask from '../../../hooks/useMetamask';
 
 // ----------------------------------------------------------------------
 
@@ -28,6 +30,8 @@ type FormValuesProps = {
 
 export default function LoginForm() {
   const { login } = useAuth();
+  // @ts-ignore
+  const { connect, disconnect, isActive, account, shouldDisable } = useMetaMask();
 
   const isMountedRef = useIsMountedRef();
 
@@ -71,34 +75,29 @@ export default function LoginForm() {
   };
 
   return (
-    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+    <div>
       <Stack spacing={3}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
 
-        <RHFTextField name="email" label="Email address" />
+        <Connect2Phantom/>
 
-        <RHFTextField
-          name="password"
-          label="Password"
-          type={showPassword ? 'text' : 'password'}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
       </Stack>
 
-      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-        <RHFCheckbox name="remember" label="Remember me" />
+    {/*  <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
+
         <NextLink href={PATH_AUTH.resetPassword} passHref>
           <Link variant="subtitle2">Forgot password?</Link>
         </NextLink>
-      </Stack>
+      </Stack>*/}
+      <Button fullWidth variant="outlined" onClick={connect} disabled={shouldDisable}>
+        <img src="/assets/metamask.svg" alt="MetaMask" width="50" height="50" /> Connect to MetaMask
+      </Button>
+      {/*<div className="mt-2 mb-2">
+        Connected Account: { isActive ? account : '' }
+      </div>*/}
+     {/* <Button variant="contained" onClick={disconnect}>
+        Disconnect MetaMask<img src="/assets/disconnect_metamask.svg" width="50" height="50" />
+      </Button>*/}
 
       <LoadingButton
         fullWidth
@@ -109,6 +108,6 @@ export default function LoginForm() {
       >
         Login
       </LoadingButton>
-    </FormProvider>
+    </div>
   );
 }

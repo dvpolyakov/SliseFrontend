@@ -7,17 +7,26 @@ import useLocales from '../../../hooks/useLocales';
 import { PATH_DOCS } from '../../../routes/paths';
 // assets
 import { DocIllustration } from '../../../assets';
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import UploadCollection from '../../../components/uploadModal';
+import { ethers } from 'ethers';
+import Web3 from 'web3';
+import useIsMountedRef from '../../../hooks/useIsMountedRef';
+import { useRouter } from 'next/router';
+import Connect2Phantom from '../../../components/Connect2Phantom';
+
 
 // ----------------------------------------------------------------------
-
 export default function NavbarDocs() {
+  const isMountedRef = useIsMountedRef();
+  const [web3interface, setWeb3Interface] = useState("ethers");
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
+  const handleOpenAddCollection = () => setOpen(true);
+  const handleCloseAddCollection = () => setOpen(false);
+  const handleOpenConnectWallet = () => setOpen(true);
+  const handleCloseConnectWallet = () => setOpen(false);
+  const router = useRouter();
 
   const { translate } = useLocales();
 
@@ -33,6 +42,11 @@ export default function NavbarDocs() {
     borderRadius: '25px'
   };
 
+  const redirectToAuth = async () => {
+   await router.push('auth/login');
+  }
+
+  // @ts-ignore
   return (
     <Stack
       spacing={3}
@@ -40,17 +54,21 @@ export default function NavbarDocs() {
     >
       <Box textAlign="center">
 
-        <Button onClick={handleOpen} variant="contained" sx={{ color: 'black', backgroundColor: '#DDFF55', ':hover': { opacity: '.6', backgroundColor: '#DDFF55' } }}>Add Your Collection</Button>
-        <Modal
+        <Button onClick={handleOpenConnectWallet} variant="contained" sx={{ color: 'black', backgroundColor: '#DDFF55', ':hover': { opacity: '.6', backgroundColor: '#DDFF55' } }}>Add Your Collection</Button>
+        <div></div>
+         <Modal
           open={open}
-          onClose={handleClose}
+          onClose={handleCloseAddCollection}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <UploadCollection close={handleClose} />
+            <UploadCollection close={handleCloseAddCollection} />
           </Box>
         </Modal>
+
+
+        <Button onClick={redirectToAuth} variant="contained" sx={{ color: 'black', backgroundColor: '#DDFF55', ':hover': { opacity: '.6', backgroundColor: '#DDFF55' } }}>Login</Button>
       </Box>
     </Stack>
   );
