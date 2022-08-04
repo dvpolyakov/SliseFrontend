@@ -66,8 +66,6 @@ export default function NavbarDocs() {
             <UploadCollection close={handleCloseAddCollection} />
           </Box>
         </Modal>
-
-
         <Button onClick={redirectToAuth} variant="contained" sx={{ color: 'black', backgroundColor: '#DDFF55', ':hover': { opacity: '.6', backgroundColor: '#DDFF55' } }}>Login</Button>
       </Box>
     </Stack>

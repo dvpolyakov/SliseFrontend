@@ -1,27 +1,28 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { injected } from '../components/wallet/connectors'
 import { useWeb3React } from '@web3-react/core';
+import { authUser } from '../utils/authUtils';
 
 export const MetaMaskContext = React.createContext(null)
 
 export const MetaMaskProvider = ({ children }: any) => {
-
   const { activate, account, library, connector, active, deactivate } = useWeb3React()
-
   const [isActive, setIsActive] = useState(false)
-  const [shouldDisable, setShouldDisable] = useState(false) // Should disable connect button while connecting to MetaMask
-  const [isLoading, setIsLoading] = useState(true)
+  const [shouldDisable, setShouldDisable] = useState(true) // Should disable connect button while connecting to MetaMask
+  const [isLoading, setIsLoading] = useState(false);
 
   // Init Loading
   useEffect(() => {
     connect().then(val => {
       setIsLoading(false)
-    })
+    });
+    console.log(`${account} aaadd`);
   }, [])
 
   // Check when App is Connected or Disconnected to MetaMask
-  const handleIsActive = useCallback(() => {
+  const handleIsActive = useCallback(async () => {
     console.log('App is connected with MetaMask ', active)
+    await authUser(account!, 'Ethereum');
     setIsActive(active)
   }, [active])
 
@@ -34,10 +35,13 @@ export const MetaMaskProvider = ({ children }: any) => {
     console.log('Connecting to MetaMask...')
     setShouldDisable(true)
     try {
-      await activate(injected).then(() => {
-        setShouldDisable(false)
+      await activate(injected).then(async () => {
+        setShouldDisable(false);
+        if (account) {
+          await authUser(account!, 'Ethereum');
+        }
       })
-    } catch(error) {
+    } catch (error) {
       console.log('Error on connecting: ', error)
     }
   }
@@ -47,7 +51,7 @@ export const MetaMaskProvider = ({ children }: any) => {
     console.log('Disconnecting wallet from App...')
     try {
       await deactivate()
-    } catch(error) {
+    } catch (error) {
       console.log('Error on disconnnect: ', error)
     }
   }

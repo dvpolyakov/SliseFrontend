@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { Connection, PublicKey, clusterApiUrl } from "@solana/web3.js";
 import { Button } from '@mui/material';
+import { authUser } from '../utils/authUtils';
 
 
 type PhantomEvent = "disconnect" | "connect" | "accountChanged";
@@ -28,7 +29,6 @@ const Connect2Phantom: FC = () => {
   const [ provider, setProvider ] = useState<PhantomProvider | null>(null);
   const [ connected, setConnected ] = useState(false);
   const [ pubKey, setPubKey ] = useState<PublicKey | null>(null);
-
 
   useEffect( ()=>{
     if ("solana" in window) {
@@ -60,6 +60,10 @@ const Connect2Phantom: FC = () => {
   const connectHandler: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     console.log(`connect handler`);
     provider?.connect()
+      .then((data) => {
+        console.log(`public key ${data.publicKey}`);
+        authUser(data.publicKey, 'Solana');
+      })
       .catch((err) => { console.error("connect ERROR:", err); });
   }
 

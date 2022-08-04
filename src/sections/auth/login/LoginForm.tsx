@@ -18,6 +18,9 @@ import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hook-form';
 import Connect2Phantom from '../../../components/Connect2Phantom';
 import useMetaMask from '../../../hooks/useMetamask';
+import axiosInstance from '../../../utils/axios';
+import { BACKEND_URL } from '../../../utils/endpoints';
+import { setCookie } from 'cookies-next';
 
 // ----------------------------------------------------------------------
 
@@ -34,8 +37,6 @@ export default function LoginForm() {
   const { connect, disconnect, isActive, account, shouldDisable } = useMetaMask();
 
   const isMountedRef = useIsMountedRef();
-
-  const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
@@ -83,19 +84,19 @@ export default function LoginForm() {
 
       </Stack>
 
-    {/*  <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
+      {/*  <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
 
         <NextLink href={PATH_AUTH.resetPassword} passHref>
           <Link variant="subtitle2">Forgot password?</Link>
         </NextLink>
       </Stack>*/}
       <Button fullWidth variant="outlined" onClick={connect} disabled={shouldDisable}>
-        <img src="/assets/metamask.svg" alt="MetaMask" width="50" height="50" /> Connect to MetaMask
+        <img src="/assets/metamask.svg" alt="MetaMask" width="50" height="50"/> Connect to MetaMask
       </Button>
       {/*<div className="mt-2 mb-2">
         Connected Account: { isActive ? account : '' }
       </div>*/}
-     {/* <Button variant="contained" onClick={disconnect}>
+      {/* <Button variant="contained" onClick={disconnect}>
         Disconnect MetaMask<img src="/assets/disconnect_metamask.svg" width="50" height="50" />
       </Button>*/}
 
