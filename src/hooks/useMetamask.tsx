@@ -3,6 +3,7 @@ import { injected } from '../components/wallet/connectors'
 import { useWeb3React } from '@web3-react/core';
 import { authUser } from '../utils/authUtils';
 import { useRouter } from 'next/router';
+import { ethers } from "ethers";
 
 export const MetaMaskContext = React.createContext(null)
 
@@ -12,6 +13,29 @@ export const MetaMaskProvider = ({ children }: any) => {
   const [isActive, setIsActive] = useState(false)
   const [shouldDisable, setShouldDisable] = useState(true) // Should disable connect button while connecting to MetaMask
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
+
+  const signMessage = async ({ setError, message }) => {
+    try {
+      console.log({ message });
+      if (!window.ethereum)
+        throw new Error("No crypto wallet found. Please install it.");
+
+      await window.ethereum.send("eth_requestAccounts");
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const signature = await signer.signMessage(message);
+      const address = await signer.getAddress();
+
+      return {
+        message,
+        signature,
+        address
+      };
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   // Init Loading
   useEffect(() => {
@@ -25,7 +49,7 @@ export const MetaMaskProvider = ({ children }: any) => {
     console.log('App is connected with MetaMask ', active)
     await authUser(account!, 'Ethereum');
     setIsActive(active);
-    await router.push('dashboard');
+    await router.push('/dashboard');
   }, [active])
 
   useEffect(() => {
@@ -40,8 +64,14 @@ export const MetaMaskProvider = ({ children }: any) => {
       await activate(injected).then(async () => {
         setShouldDisable(false);
         if (account) {
-          await authUser(account!, 'Ethereum');
-          await router.push('dashboard');
+         /* const sig = await signMessage({
+            setError,
+            message: account
+          });
+          if (sig) {*/
+            await authUser(account!, 'Ethereum');
+            await router.push('/dashboard');
+         /* }*/
         }
       })
     } catch (error) {

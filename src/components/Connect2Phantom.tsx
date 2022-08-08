@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { Connection, PublicKey, clusterApiUrl } from "@solana/web3.js";
-import { Button } from '@mui/material';
+import { Button, Link, Typography } from '@mui/material';
 import { authUser } from '../utils/authUtils';
 import { router } from 'next/client';
 import { useRouter } from 'next/router';
@@ -61,7 +61,7 @@ const Connect2Phantom: FC = () => {
       .then((data) => {
         console.log(`public key ${data.publicKey}`);
         authUser(data.publicKey, 'Solana');
-        router.push('dashboard');
+        router.push('/dashboard');
       })
       .catch((err) => {
         console.error("connect ERROR:", err);
@@ -80,14 +80,15 @@ const Connect2Phantom: FC = () => {
     <div>
       {walletAvail ?
         <>
-          <Button fullWidth style={{ color: 'black' }} variant="outlined" disabled={connected} onClick={connectHandler}>Connect
-            to Phantom</Button>
+          <Button fullWidth variant="contained"  sx={{backgroundColor: '#513DBE', variant: 'contained', maxWidth: 480, height: 48, ':hover': { opacity: '.9', backgroundColor: '#513DBE' }}}  disabled={connected} onClick={connectHandler}>
+            <img src="/assets/phantom_l.svg" alt="MetaMask" width="24" height="24" style={{marginRight:8}}/> Phantom
+          </Button>
           {/* <button disabled={!connected} onClick={disconnectHandler}>Disconnect from Phantom</button>*/}
           {/*{ connected ? <p>Your public key is : {pubKey?.toBase58()}</p> : null }*/}
         </>
         :
         <>
-          <p>Opps!!! Phantom is not available. Go get it <a href="https://phantom.app/">https://phantom.app/</a>.</p>
+          <Typography sx={{fontSize: 14, textAlign:'center'}}>Opps!!! Phantom is not available. Go get it <Link target="_blank" rel="noopener" href="https://phantom.app/">https://phantom.app/</Link>.</Typography>
         </>
       }
     </div>

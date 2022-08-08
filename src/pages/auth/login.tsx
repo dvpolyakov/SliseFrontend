@@ -24,6 +24,7 @@ const RootStyle = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     display: 'flex',
   },
+  backgroundColor: '#E5E5E5'
 }));
 
 const HeaderStyle = styled('header')(({ theme }) => ({
@@ -48,11 +49,13 @@ const SectionStyle = styled(Card)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
+  color: '#F3F4EF',
+  backgroundColor: '#131F0F',
   margin: theme.spacing(2, 0, 2, 2),
 }));
 
 const ContentStyle = styled('div')(({ theme }) => ({
-  maxWidth: 480,
+  maxWidth: 444,
   margin: 'auto',
   minHeight: '100vh',
   display: 'flex',
@@ -77,43 +80,31 @@ export default function Login() {
         <RootStyle>
           <HeaderStyle>
             <Logo />
-            {/*{smUp && (
-              <Typography variant="body2" sx={{ mt: { md: -2 } }}>
-                Don’t have an account? {''}
-                <NextLink href={PATH_AUTH.register} passHref>
-                  <Link variant="subtitle2">Get started</Link>
-                </NextLink>
-              </Typography>
-            )}*/}
           </HeaderStyle>
 
-          {/*{mdUp && (
+          {mdUp && (
             <SectionStyle>
               <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-                Hi, Welcome Back
+                Manage the job
+                more effectively with Slise
               </Typography>
-              <Image
-                visibleByDefault
-                disabledEffect
-                src="/assets/illustrations/illustration_login.png"
-                alt="login"
-              />
+
             </SectionStyle>
-          )}*/}
+          )}
 
           <Container maxWidth="sm">
             <ContentStyle>
               <Stack direction="row" alignItems="center" sx={{ mb: 5 }}>
                 <Box sx={{ flexGrow: 1 }}>
                   <Typography variant="h4" gutterBottom>
-                    Login to Slise
+                    Get started absolutely free.
                   </Typography>
                   <Typography sx={{ color: 'text.secondary' }}>
-                    Choose how you want to connect.
+                    Free forever. No credit card needed.
                   </Typography>
                 </Box>
 
-                <Tooltip title={capitalCase(method)} placement="right">
+                {/*<Tooltip title={capitalCase(method)} placement="right">
                   <>
                     <Image
                       disabledEffect
@@ -122,23 +113,16 @@ export default function Login() {
                       sx={{ width: 32, height: 32 }}
                     />
                   </>
-                </Tooltip>
+                </Tooltip>*/}
               </Stack>
 
-              <Alert severity="info" sx={{ mb: 3 }}>
+              {/*<Alert severity="info" sx={{ mb: 3 }}>
                 Use email : <strong>demo@minimals.cc</strong> / password :<strong> demo1234</strong>
-              </Alert>
+              </Alert>*/}
 
               <LoginForm />
 
-              {!smUp && (
-                <Typography variant="body2" align="center" sx={{ mt: 3 }}>
-                  Don’t have an account?{' '}
-                  <NextLink href={PATH_AUTH.register} passHref>
-                    <Link variant="subtitle2">Get started</Link>
-                  </NextLink>
-                </Typography>
-              )}
+
             </ContentStyle>
           </Container>
         </RootStyle>

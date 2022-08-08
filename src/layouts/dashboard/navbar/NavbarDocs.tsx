@@ -54,8 +54,8 @@ export default function NavbarDocs() {
     >
       <Box textAlign="center">
 
-        <Button onClick={handleOpenConnectWallet} variant="contained" sx={{ color: 'black', backgroundColor: '#DDFF55', ':hover': { opacity: '.6', backgroundColor: '#DDFF55' } }}>Add Your Collection</Button>
-        <div></div>
+        {/*<Button onClick={handleOpenConnectWallet} variant="contained" sx={{ color: 'black', backgroundColor: '#DDFF55', ':hover': { opacity: '.6', backgroundColor: '#DDFF55' } }}>Add Your Collection</Button>
+        */}<div></div>
          <Modal
           open={open}
           onClose={handleCloseAddCollection}
