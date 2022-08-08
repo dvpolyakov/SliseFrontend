@@ -14,6 +14,8 @@ import useIsMountedRef from '../../../hooks/useIsMountedRef';
 import axiosInstance from '../../../utils/axios';
 import nft3 from 'src/assets/nft3.svg';
 import { BACKEND_URL } from '../../../utils/endpoints';
+import { getCookie } from 'cookies-next';
+import Cookies from 'cookies';
 
 // ----------------------------------------------------------------------
 
@@ -32,36 +34,19 @@ const RootStyle = styled('div')(({ theme }) => ({
 
 type Props = {
   isCollapse: boolean | undefined;
+  data: any;
 };
 
-export default function NavbarAccount({ isCollapse }: Props) {
+
+export default function NavbarAccount({data}) {
   const { user } = useAuth();
   const [whitelists, setWhitelists] = useState([]);
   const [whitelist, setWhitelist] = useState('');
   const color = '#F3F4EF';
   const isMountedRef = useIsMountedRef();
 
-  const getWhitelists = useCallback(async () => {
-    const response = await axiosInstance.get(`${BACKEND_URL}analytics/getWhitelists`);
-    if (isMountedRef.current) {
-      const stored = JSON.parse(localStorage.getItem('storedWhitelists')!);
-      if (stored) {
-        console.log(stored);
-        response.data.data.push(...stored.whitelists);
-      }
-      setWhitelists(response.data.data);
-      const existWhitelist = window.localStorage.getItem('whitelistId');
-      if (!existWhitelist) {
-        setWhitelist(response.data.data[0].name);
-        window.localStorage.setItem('whitelistId', response.data.data[0].id);
-      } else {
-        setWhitelist(findWhitelistById(response.data.data, existWhitelist));
-      }
-    }
-
-  }, [isMountedRef]);
   useEffect(() => {
-    getWhitelists();
+    //getWhitelists();
   }, [getWhitelists]);
 
   const findWhitelistId = (name: string) => {
@@ -96,13 +81,9 @@ export default function NavbarAccount({ isCollapse }: Props) {
     <NextLink href={PATH_DASHBOARD.user.account} passHref>
       <Link underline="none" color="inherit">
         <RootStyle
-          sx={{
-            ...(isCollapse && {
-              bgcolor: 'transparent',
-            }),
-          }}
+
         >
-          <MyAvatar />
+          <MyAvatar/>
 
           <Box
             sx={{
@@ -111,15 +92,12 @@ export default function NavbarAccount({ isCollapse }: Props) {
                 theme.transitions.create('width', {
                   duration: theme.transitions.duration.shorter,
                 }),
-              ...(isCollapse && {
-                ml: 0,
-                width: 0,
-              }),
+
             }}
           >
-            <Select sx={{ color: color, width:'150px' }}
-              value={whitelist}
-              onChange={handleChange}
+            <Select sx={{ color: color, width: '150px' }}
+                    value={whitelist}
+                    onChange={handleChange}
             >
               {whitelists.map((whitelist: any) => {
                 return (
@@ -130,10 +108,30 @@ export default function NavbarAccount({ isCollapse }: Props) {
               })}
 
             </Select>
-           
+
           </Box>
         </RootStyle>
       </Link>
     </NextLink>
   );
+}
+
+export async function getServerSideProps(context) {
+  const jwt = context.req.headers.cookies['jwt-token'];
+  console.log(1);
+  console.log(jwt);
+  const response = await getWhitelists(jwt as string);
+  const data = response;
+  return {
+    props: {data}
+  }
+}
+
+const getWhitelists = async (jwt: string) => {
+  const response = await axiosInstance.get(`${BACKEND_URL}analytics/whitelists`, {
+    headers: {
+      'Authorization': `Bearer ${jwt}`
+    }
+  });
+  console.log(response);
 }

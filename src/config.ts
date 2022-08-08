@@ -32,7 +32,7 @@ export const AUTH0_API = {
 export const MAPBOX_API = process.env.MAPBOX_API;
 
 // ROOT PATH AFTER LOGIN SUCCESSFUL
-export const PATH_AFTER_LOGIN = PATH_PAGE.app; // as '/dashboard/app'
+export const PATH_AFTER_LOGIN = PATH_PAGE.dashboard; // as '/dashboard/app'
 
 // LAYOUT
 // ----------------------------------------------------------------------

@@ -2,10 +2,12 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { injected } from '../components/wallet/connectors'
 import { useWeb3React } from '@web3-react/core';
 import { authUser } from '../utils/authUtils';
+import { useRouter } from 'next/router';
 
 export const MetaMaskContext = React.createContext(null)
 
 export const MetaMaskProvider = ({ children }: any) => {
+  const router = useRouter();
   const { activate, account, library, connector, active, deactivate } = useWeb3React()
   const [isActive, setIsActive] = useState(false)
   const [shouldDisable, setShouldDisable] = useState(true) // Should disable connect button while connecting to MetaMask
@@ -16,14 +18,14 @@ export const MetaMaskProvider = ({ children }: any) => {
     connect().then(val => {
       setIsLoading(false)
     });
-    console.log(`${account} aaadd`);
   }, [])
 
   // Check when App is Connected or Disconnected to MetaMask
   const handleIsActive = useCallback(async () => {
     console.log('App is connected with MetaMask ', active)
     await authUser(account!, 'Ethereum');
-    setIsActive(active)
+    setIsActive(active);
+    await router.push('dashboard');
   }, [active])
 
   useEffect(() => {
@@ -39,6 +41,7 @@ export const MetaMaskProvider = ({ children }: any) => {
         setShouldDisable(false);
         if (account) {
           await authUser(account!, 'Ethereum');
+          await router.push('dashboard');
         }
       })
     } catch (error) {

@@ -5,7 +5,6 @@ import { BACKEND_URL } from './endpoints';
 export const authUser = async (address: string, chainType: string) => {
   const jwt = getCookie('jwt-token');
   if (!jwt) {
-    console.log(11);
     const response = await axiosInstance.post(`${BACKEND_URL}auth/authUser`, {
       address: address,
       networkType: chainType
@@ -18,6 +17,7 @@ export const authUser = async (address: string, chainType: string) => {
     if (response.data.data) {
       setCookie('jwt-token', response.data.data.accessToken);
       setCookie('jwt-token-exp', response.data.data.expiresIn);
+      setCookie('current-chain', response.data.data.chainType);
     }
   }
 }

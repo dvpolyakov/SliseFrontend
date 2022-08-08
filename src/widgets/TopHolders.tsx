@@ -47,7 +47,6 @@ const labelVariantMap = {
 
 interface TopHolderRow {
   address: string;
-  whale: boolean;
   nfts: number;
   portfolio: number;
   holdingTimeLabel: string;
@@ -92,7 +91,7 @@ const TopHolders = ({ data = [] }: TopHolder) => {
               <TableRow key={row.address}>
                 <SBodyTableCell>
                   <Stack direction={'row'} alignItems="center" gap={0.25}>
-                    {row.whale && <img src={WhaleIcon.src} width={16} height={16} />}
+                    {row.portfolio > 2_000_000 && <img src={WhaleIcon.src} width={16} height={16} />}
                     {row.nfts > 10 && <img src={BluechipIcon.src} width={16} height={16} />}
                     <a
                       style={{ textDecoration: 'none', color: 'inherit' }}

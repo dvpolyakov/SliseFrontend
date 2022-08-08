@@ -34,7 +34,7 @@ const navConfig = [
     items: [
       {
         title: 'Dashboard',
-        path: PATH_PAGE.app,
+        path: PATH_PAGE.dashboard,
         icon: ICONS.dashboard,
       },
       { title: 'Mint List', path: PATH_PAGE.mintlist, icon: ICONS.analytics },

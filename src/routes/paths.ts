@@ -34,7 +34,7 @@ export const PATH_PAGE = {
   components: '/components',
 
 
-  app: '/app',
+  dashboard: '/dashboard',
   mintlist: '/mintlist',
   mutualholders: '/mutualholders',
   mltargeting: '/mltargeting',
