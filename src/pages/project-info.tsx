@@ -150,6 +150,29 @@ const ProjectInfo = () => {
           </Card>
         </Grid>
       </Grid>
+      <Card sx={{ mt: 3 }}>
+        <CardContent>
+          <Stack alignItems="center">
+            <Typography variant="subtitle2" mb={0.5}>
+              Import your existing collection for analysis
+            </Typography>
+            <Typography variant="body2" mb={2.5}>
+              You can import the list of wallets you collected as *.csv or a text file
+            </Typography>
+            <Button
+              variant="contained"
+              sx={{
+                color: 'white',
+                backgroundColor: '#131F0F',
+                ':hover': { opacity: '.6', backgroundColor: '#131F0F' },
+              }}
+              startIcon={<SvgIconStyle src={`/assets/icons/ic_upload.svg/`} sx={{ width: 20, height: 20 }} />}
+            >
+              Import from file
+            </Button>
+          </Stack>
+        </CardContent>
+      </Card>
     </Page>
   );
 };
