@@ -73,7 +73,7 @@ const MutualHolders = ({ data = [] }: any) => {
                     >
                       <Avatar
                         sx={{ width: 24, height: 24 }}
-                        alt={row?.name}
+                        alt={row?.contractName}
                         src={row?.holdings?.logo ?? 'https://i.ibb.co/WFD2Kj6/IMG.png'}
                       />
                     </a>
@@ -89,7 +89,7 @@ const MutualHolders = ({ data = [] }: any) => {
                         lineHeight={'22px'}
                         height={'22px'}
                       >
-                        {row.name}
+                        {row.contractName}
                       </Typography>
                     </a>
                   </Stack>

@@ -200,7 +200,7 @@ function SettingsProvider({ children, defaultSettings }: SettingsProviderProps) 
 
         // Color
         onChangeColor,
-        setColor: getColorPresets(settings.themeColorPresets),
+        setColor: getColorPresets('default'),
         colorOption: colorPresets.map((color) => ({
           name: color.name,
           value: color.main,

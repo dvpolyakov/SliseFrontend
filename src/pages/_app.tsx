@@ -64,6 +64,10 @@ import { AuthProvider } from '../contexts/JWTContext';
 import { Web3ReactProvider } from '@web3-react/core'
 import { MetaMaskProvider } from '../hooks/useMetamask'
 import Web3 from 'web3';
+import axiosInstance from '../utils/axios';
+import { BACKEND_URL } from '../utils/endpoints';
+import { getCookie, setCookies } from 'cookies-next';
+import { Whitelist } from '../models/models';
 // import { AuthProvider } from '../contexts/Auth0Context';
 // import { AuthProvider } from '../contexts/FirebaseContext';
 // import { AuthProvider } from '../contexts/AwsCognitoContext';
@@ -73,6 +77,7 @@ import Web3 from 'web3';
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
+
 
 interface MyAppProps extends AppProps {
   settings: SettingsValueProps;

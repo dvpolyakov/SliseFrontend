@@ -27,7 +27,7 @@ const TargetWallets = () => {
       <Typography variant="subtitle2" align="left" sx={{ opacity: 0.72 }} mb={'34px'}>
         Target wallets identified
       </Typography>
-      <Img src="https://i.ibb.co/k1GH2YF/Type-ML-dashboard.png" />
+      <Img src="/assets/TypeML_graph.svg" />
     </Root>
   );
 };

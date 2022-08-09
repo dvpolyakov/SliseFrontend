@@ -17,6 +17,7 @@ import Whales from 'src/widgets/Whales';
 import WhitelistSize from 'src/widgets/WhitelistSize';
 import { number } from 'yup/lib/locale';
 import { BACKEND_URL } from '../utils/endpoints';
+import { getCookie } from 'cookies-next';
 
 const CardsGrid = styled('div')(() => ({
   display: 'grid',
@@ -52,16 +53,26 @@ const DashboardIndex = () => {
   const [statistics, setStatistics] = useState<any>(null);
 
   const getWhitelistStatistics = useCallback(async () => {
+    const jwt = getCookie('jwt-token');
     const whitelistId = window.localStorage.getItem('whitelistId');
     if (whitelistId) {
       const response = await axiosInstance.get(
-        `${BACKEND_URL}analytics/getWhitelistStatistics?id=${whitelistId}`
+        `${BACKEND_URL}analytics/whitelistStatistics?whitelistId=${whitelistId}`, {
+          headers: {
+            'Authorization' : `Bearer ${jwt}`
+          }
+        }
       );
       window.localStorage.setItem('whitelistSize', response.data.data.whitelistSize);
       setStatistics(response.data.data);
     } else {
       const response = await axiosInstance.get(
-        `${BACKEND_URL}analytics/getWhitelistStatistics?id=afd7626f-388e-4f98-9f36-123d54688936`
+        `${BACKEND_URL}analytics/whitelistStatistics?whitelistId=fd7e555a-f2ea-4f72-9628-ecd39f132a6d`,
+        {
+          headers: {
+            'Authorization' : `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHg0RWQwOUZCMUY3NDdBM0YzNUNFQmI2NDBENTVCMjM1Y0E5OTBFNDRlIiwibmV0d29ya1R5cGUiOiJFdGhlcmV1bSIsImlhdCI6MTY2MDAwMDAwMCwiZXhwIjoxNjYyNTkyMDAwfQ.tmIRxxkrUjjkAWJJO1jF-fJo84HBzqAb6MGSesl_0GE`
+          }
+        }
       );
       window.localStorage.setItem('whitelistSize', response.data.data.whitelistSize);
       setStatistics(response.data.data);

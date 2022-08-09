@@ -1,8 +1,7 @@
 import {Avatar, Stack, Typography} from '@mui/material';
 import React from 'react';
 
-const OneAvatar = ({holdings, alt, index, children}: any) => {
-  console.log(holdings);
+const OneAvatar = ({logo, alt, index, children}: any) => {
   return (
     <div style={{position: 'relative', zIndex: 1000 - index, transform: `translateX(-${index * 4}px)`}}>
       <div
@@ -24,7 +23,7 @@ const OneAvatar = ({holdings, alt, index, children}: any) => {
           </Typography>
         </Avatar> :
         <Avatar sx={{width: 32, height: 32, zIndex: 1000 - index, bgcolor: '#DDFF55'}}
-                src={holdings?.logo || 'https://lh3.googleusercontent.com/Ju9CkWtV-1Okvf45wo8UctR-M9He2PjILP0oOvxE89AyiPPGtrR3gysu1Zgy0hjd2xKIgjJJtWIc0ybj4Vd7wv8t3pxDGHoJBzDB=s120'}
+                src={logo || 'https://lh3.googleusercontent.com/Ju9CkWtV-1Okvf45wo8UctR-M9He2PjILP0oOvxE89AyiPPGtrR3gysu1Zgy0hjd2xKIgjJJtWIc0ybj4Vd7wv8t3pxDGHoJBzDB=s120'}
                 alt={alt}>
           <Typography color="#131F0F" variant="caption">
             {children}
@@ -38,6 +37,7 @@ const OneAvatar = ({holdings, alt, index, children}: any) => {
 const NftStackCell = ({value, colDef} : any) => {
   const width = colDef.computedWidth - 20;
   const avatarImgCount = 3;
+  console.log(value);
 
   return (
     <Stack direction={'row'}>

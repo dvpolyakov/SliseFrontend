@@ -80,8 +80,8 @@ const {format: formatPercent} = new Intl.NumberFormat('en-US', {
 
 const MlPrediction = () => {
   const styles = useStyles();
-  const [priceSliderValue, setPriceSliderValue] = useState(0.01);
-  const [collectionSizeSliderValue, setCollectionSizeSliderValue] = useState(10);
+  const [priceSliderValue, setPriceSliderValue] = useState(0.3);
+  const [collectionSizeSliderValue, setCollectionSizeSliderValue] = useState(8000);
 
   function handlePriceChange(event: Event, value: number, activeThumb: number) {
     setPriceSliderValue(value);

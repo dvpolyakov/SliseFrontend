@@ -141,6 +141,10 @@ const Root = styled('div')((props) => ({
 
 // ----------------------------------------------------------------------
 
+type Addresses = {
+  address?: string[];
+}
+
 export default function GeneralBooking() {
   const isMountedRef = useIsMountedRef();
   const { themeStretch } = useSettings();
@@ -148,11 +152,11 @@ export default function GeneralBooking() {
   const [newSer, setnewSer] = useState(moveData(serOrig, 1));
   const [newView, setView] = useState(0);
   const [wallets, setWallets] = useState(0);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<string[]>([]);
   const handleChange = (event: any, newNumber: any) => {
 
     if (newNumber === 0) {
-      setWallets(0);
+      setWallets('0');
     }
     const number = newNumber / 10;
     const newVal = forceNumber(number);
@@ -182,11 +186,10 @@ export default function GeneralBooking() {
         .then((response) => {
 
 
-          if (value === 0) {
-            setWallets(0);
-          } else {
-            setWallets(response.data.data);
-          }
+
+            setWallets(response.data.data.data.total);
+            console.log(response.data.data.data.total);
+
           /*const mintShare = response.data;
           setView(mintShare);
           console.log(mintShare);

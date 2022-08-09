@@ -15,6 +15,7 @@ import MutualHoldersCard from 'src/widgets/MutualHoldersCard';
 import useIsMountedRef from '../hooks/useIsMountedRef';
 import axiosInstance from '../utils/axios';
 import { BACKEND_URL } from '../utils/endpoints';
+import { getCookie } from 'cookies-next';
 
 const Cards = styled('div')(() => ({
   display: 'grid',
@@ -60,7 +61,7 @@ const _mutualHolders = [...Array(36)].map((_, index) => ({
 
 const columns = [
   {
-    field: 'name',
+    field: 'contractName',
     headerName: 'Collection',
     flex: 2,
     align: 'left',
@@ -158,10 +159,16 @@ const MutualHolders = () => {
   const [mutualHolders, setMutualHolders] = useState([]);
 
   const getMutualHolders = useCallback(async () => {
+    const jwt = getCookie('jwt-token');
     const whitelistId = window.localStorage.getItem('whitelistId');
     if (whitelistId) {
       const response = await axiosInstance.get(
-        `${BACKEND_URL}analytics/getMutualHoldings?id=${whitelistId}`
+        `${BACKEND_URL}analytics/mutualHoldings?whitelistId=${whitelistId}`,
+        {
+          headers: {
+            'Authorization' : `Bearer ${jwt}`
+          }
+        }
       );
       response.data.data.map((holding: any) => {
         holding.id = Math.floor(Math.random() * 1000).toString(16);
@@ -174,7 +181,12 @@ const MutualHolders = () => {
       setMutualHolders(response.data.data);
     } else {
       const response = await axiosInstance.get(
-        `${BACKEND_URL}analytics/getMutualHoldings?id=afd7626f-388e-4f98-9f36-123d54688936`
+        `${BACKEND_URL}analytics/mutualHoldings?whitelistId=fd7e555a-f2ea-4f72-9628-ecd39f132a6d`,
+        {
+          headers: {
+            'Authorization' : `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHg0RWQwOUZCMUY3NDdBM0YzNUNFQmI2NDBENTVCMjM1Y0E5OTBFNDRlIiwibmV0d29ya1R5cGUiOiJFdGhlcmV1bSIsImlhdCI6MTY2MDAwMDAwMCwiZXhwIjoxNjYyNTkyMDAwfQ.tmIRxxkrUjjkAWJJO1jF-fJo84HBzqAb6MGSesl_0GE`
+          }
+        }
       );
       response.data.data.map((holding: any) => {
         holding.id = Math.floor(Math.random() * 1000).toString(16);
@@ -207,17 +219,17 @@ const MutualHolders = () => {
         <Cards>
           <MutualHoldersCard
             image={mutualHolders[0]?.holdings?.logo ?? nft1.image}
-            title={mutualHolders[0]?.name ?? null}
+            title={mutualHolders[0]?.contractName ?? null}
             value={mutualHolders[0]?.totalholdings ?? null}
           />
           <MutualHoldersCard
             image={mutualHolders[1]?.holdings?.logo ?? nft2.image}
-            title={mutualHolders[1]?.name ?? null}
+            title={mutualHolders[1]?.contractName ?? null}
             value={mutualHolders[1]?.totalholdings ?? null}
           />
           <MutualHoldersCard
             image={mutualHolders[2]?.holdings?.logo ?? nft3.image}
-            title={mutualHolders[2]?.name ?? null}
+            title={mutualHolders[2]?.contractName ?? null}
             value={mutualHolders[2]?.totalholdings ?? null}
           />
         </Cards>

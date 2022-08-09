@@ -16,6 +16,7 @@ import nft3 from 'src/assets/nft3.svg';
 import { BACKEND_URL } from '../../../utils/endpoints';
 import { getCookie } from 'cookies-next';
 import Cookies from 'cookies';
+import { Whitelist } from '../../../models/models';
 
 // ----------------------------------------------------------------------
 
@@ -37,16 +38,43 @@ type Props = {
   data: any;
 };
 
-
-export default function NavbarAccount({data}) {
+export default function NavbarAccount() {
   const { user } = useAuth();
-  const [whitelists, setWhitelists] = useState([]);
+  const [whitelists, setWhitelists] = useState<Whitelist[]>([]);
   const [whitelist, setWhitelist] = useState('');
   const color = '#F3F4EF';
   const isMountedRef = useIsMountedRef();
 
+  const fetchWhitelists = async (jwt: string): Promise<Whitelist[]> => {
+    const response = await axiosInstance.get(`${BACKEND_URL}analytics/whitelists`, {
+      headers: {
+        'Authorization': `Bearer ${jwt}`
+      }
+    });
+    console.log(1);
+    const wls:Whitelist[] =  response.data.data;
+    return wls;
+  }
+
+  const getWhitelists  = useCallback(async () => {
+    const existsWl = getCookie('whitelists');
+    let whitelists: Whitelist[]
+    if(existsWl)
+       whitelists = JSON.parse(existsWl.toString());
+    else {
+      const jwt = getCookie('jwt-token');
+      whitelists = await fetchWhitelists(jwt as string);
+    }
+    console.log(11);
+    setWhitelists(whitelists);
+    setWhitelist(findWhitelistById(whitelists, whitelists[0].id));
+    window.localStorage.setItem('whitelistId', whitelists[0].id);
+  }, [isMountedRef]);
+
+
+
   useEffect(() => {
-    //getWhitelists();
+    getWhitelists();
   }, [getWhitelists]);
 
   const findWhitelistId = (name: string) => {
@@ -123,15 +151,7 @@ export async function getServerSideProps(context) {
   const response = await getWhitelists(jwt as string);
   const data = response;
   return {
-    props: {data}
+    props: { data }
   }
 }
 
-const getWhitelists = async (jwt: string) => {
-  const response = await axiosInstance.get(`${BACKEND_URL}analytics/whitelists`, {
-    headers: {
-      'Authorization': `Bearer ${jwt}`
-    }
-  });
-  console.log(response);
-}

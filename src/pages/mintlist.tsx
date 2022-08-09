@@ -21,6 +21,7 @@ import nft3 from 'src/assets/nft3.svg';
 import axiosInstance from '../utils/axios';
 import useIsMountedRef from '../hooks/useIsMountedRef';
 import { BACKEND_URL } from '../utils/endpoints';
+import { getCookie } from 'cookies-next';
 
 const Cards = styled('div')(() => ({
   display: 'grid',
@@ -186,10 +187,16 @@ const MintList = () => {
   const [size, setSize] = useState(0);
 
   const getTopHolders = useCallback(async () => {
+    const jwt = getCookie('jwt-token');
     const whitelistId = window.localStorage.getItem('whitelistId');
     if (whitelistId) {
       const response = await axiosInstance.get(
-        `${BACKEND_URL}analytics/getTopHolders?id=${whitelistId}`
+        `${BACKEND_URL}analytics/topHolders?whitelistId=${whitelistId}`,
+        {
+          headers: {
+            'Authorization' : `Bearer ${jwt}`
+          }
+        }
       );
      /* response.data.data.map((holding) => {
         holding.id = Math.floor(Math.random() * 1000).toString(16);
@@ -214,7 +221,12 @@ const MintList = () => {
       setSize(response.data.data.size);
     } else {
       const response = await axiosInstance.get(
-        `${BACKEND_URL}analytics/getTopHolders?id=afd7626f-388e-4f98-9f36-123d54688936`
+        `${BACKEND_URL}analytics/topHolders?whitelistId=fd7e555a-f2ea-4f72-9628-ecd39f132a6d`,
+        {
+          headers: {
+            'Authorization' : `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHg0RWQwOUZCMUY3NDdBM0YzNUNFQmI2NDBENTVCMjM1Y0E5OTBFNDRlIiwibmV0d29ya1R5cGUiOiJFdGhlcmV1bSIsImlhdCI6MTY2MDAwMDAwMCwiZXhwIjoxNjYyNTkyMDAwfQ.tmIRxxkrUjjkAWJJO1jF-fJo84HBzqAb6MGSesl_0GE`
+          }
+        }
       );
      /* response.data.data.map((holding) => {
         holding.id = Math.floor(Math.random() * 1000).toString(16);
