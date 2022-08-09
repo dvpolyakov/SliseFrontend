@@ -16,6 +16,8 @@ import useIsMountedRef from '../hooks/useIsMountedRef';
 import axiosInstance from '../utils/axios';
 import { BACKEND_URL } from '../utils/endpoints';
 import { getCookie } from 'cookies-next';
+import { mockIds } from '../samples/whitelist-mapper';
+import { BAYC } from '../samples/BAYC';
 
 const Cards = styled('div')(() => ({
   display: 'grid',
@@ -156,12 +158,12 @@ function Grid(props: any) {
 
 const MutualHolders = () => {
   const isMountedRef = useIsMountedRef();
-  const [mutualHolders, setMutualHolders] = useState([]);
+  const [mutualHolders, setMutualHolders] = useState<any[]>([]);
 
   const getMutualHolders = useCallback(async () => {
     const jwt = getCookie('jwt-token');
     const whitelistId = window.localStorage.getItem('whitelistId');
-    if (whitelistId) {
+    if (whitelistId && !mockIds.includes(whitelistId)) {
       const response = await axiosInstance.get(
         `${BACKEND_URL}analytics/mutualHoldings?whitelistId=${whitelistId}`,
         {
@@ -180,23 +182,17 @@ const MutualHolders = () => {
       });
       setMutualHolders(response.data.data);
     } else {
-      const response = await axiosInstance.get(
-        `${BACKEND_URL}analytics/mutualHoldings?whitelistId=fd7e555a-f2ea-4f72-9628-ecd39f132a6d`,
-        {
-          headers: {
-            'Authorization' : `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHg0RWQwOUZCMUY3NDdBM0YzNUNFQmI2NDBENTVCMjM1Y0E5OTBFNDRlIiwibmV0d29ya1R5cGUiOiJFdGhlcmV1bSIsImlhdCI6MTY2MDAwMDAwMCwiZXhwIjoxNjYyNTkyMDAwfQ.tmIRxxkrUjjkAWJJO1jF-fJo84HBzqAb6MGSesl_0GE`
-          }
-        }
-      );
-      response.data.data.map((holding: any) => {
+      const mockWl = BAYC;
+      mockWl.data.mutualHoldings.map((holding: any) => {
         holding.id = Math.floor(Math.random() * 1000).toString(16);
-        holding.totalSupply = holding.holdings.totalSupply ?? (Math.random() * 100).toFixed(2);
-        holding.floorPrice = holding.holdings.stats?.floor.toFixed(2) ?? (Math.random() * 100).toFixed(2);
-        holding.mintPrice = holding.holdings.stats?.mintPrice.toFixed(4) ?? (Math.random() * 100).toFixed(2);
+        holding.totalSupply = holding.holdings?.totalSupply ?? (Math.random() * 100).toFixed(2);
+        holding.floorPrice = holding.holdings?.stats?.floor.toFixed(2) ?? (Math.random() * 100).toFixed(2);
+        holding.mintPrice = holding.holdings?.stats?.mintPrice.toFixed(4) ?? (Math.random() * 100).toFixed(2);
         holding.twitterFollowers = (Math.random() * 100000).toFixed(2);
         holding.totalHolders = holding.totalSupply !== undefined ? holding.totalSupply / 2 * 1.5 : (Math.random() * 100).toFixed(2);
+
       });
-      setMutualHolders(response.data.data);
+      setMutualHolders(mockWl.data.mutualHoldings);
     }
   }, [isMountedRef]);
 

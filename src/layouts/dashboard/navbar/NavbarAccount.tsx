@@ -15,8 +15,9 @@ import axiosInstance from '../../../utils/axios';
 import nft3 from 'src/assets/nft3.svg';
 import { BACKEND_URL } from '../../../utils/endpoints';
 import { getCookie } from 'cookies-next';
-import Cookies from 'cookies';
+
 import { Whitelist } from '../../../models/models';
+import { sampleWlIds } from '../../../samples/whitelist-mapper';
 
 // ----------------------------------------------------------------------
 
@@ -38,7 +39,7 @@ type Props = {
   data: any;
 };
 
-export default function NavbarAccount() {
+export default function NavbarAccount({isCollapse, data}: Props) {
   const { user } = useAuth();
   const [whitelists, setWhitelists] = useState<Whitelist[]>([]);
   const [whitelist, setWhitelist] = useState('');
@@ -46,29 +47,40 @@ export default function NavbarAccount() {
   const isMountedRef = useIsMountedRef();
 
   const fetchWhitelists = async (jwt: string): Promise<Whitelist[]> => {
-    const response = await axiosInstance.get(`${BACKEND_URL}analytics/whitelists`, {
-      headers: {
-        'Authorization': `Bearer ${jwt}`
-      }
-    });
-    console.log(1);
-    const wls:Whitelist[] =  response.data.data;
+    let wls:Whitelist[] = [];
+    try{
+      const response = await axiosInstance.get(`${BACKEND_URL}analytics/whitelists`, {
+        headers: {
+          'Authorization': `Bearer ${jwt}`
+        }
+      });
+      console.log(1);
+      wls =  response.data.data;
+    }
+    catch {
+
+    }
+
     return wls;
   }
 
   const getWhitelists  = useCallback(async () => {
+    const sampleWls = sampleWlIds;
     const existsWl = getCookie('whitelists');
     let whitelists: Whitelist[]
     if(existsWl)
        whitelists = JSON.parse(existsWl.toString());
     else {
       const jwt = getCookie('jwt-token');
-      whitelists = await fetchWhitelists(jwt as string);
+      if(jwt)
+        whitelists = await fetchWhitelists(jwt as string);
+      else
+        whitelists = [];
     }
-    console.log(11);
-    setWhitelists(whitelists);
-    setWhitelist(findWhitelistById(whitelists, whitelists[0].id));
-    window.localStorage.setItem('whitelistId', whitelists[0].id);
+    sampleWls.push(...whitelists);
+    setWhitelists(sampleWls);
+    setWhitelist(findWhitelistById(sampleWls, sampleWls[0].id));
+    window.localStorage.setItem('whitelistId', sampleWls[0].id);
   }, [isMountedRef]);
 
 
@@ -96,9 +108,6 @@ export default function NavbarAccount() {
   }
 
   const handleChange = (event: any) => {
-    /*  const sep = event.target.value.lastIndexOf(':');
-      const name = event.target.value.substring(event.target.value, sep);
-      const id = event.target.value.substring(sep,event.target.value.length);*/
     const wl: any = findWhitelistId(event.target.value);
     setWhitelist(event.target.value);
     window.localStorage.setItem('whitelistId', wl);
@@ -144,14 +153,4 @@ export default function NavbarAccount() {
   );
 }
 
-export async function getServerSideProps(context) {
-  const jwt = context.req.headers.cookies['jwt-token'];
-  console.log(1);
-  console.log(jwt);
-  const response = await getWhitelists(jwt as string);
-  const data = response;
-  return {
-    props: { data }
-  }
-}
 

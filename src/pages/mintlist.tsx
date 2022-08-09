@@ -22,6 +22,8 @@ import axiosInstance from '../utils/axios';
 import useIsMountedRef from '../hooks/useIsMountedRef';
 import { BACKEND_URL } from '../utils/endpoints';
 import { getCookie } from 'cookies-next';
+import { mockIds } from '../samples/whitelist-mapper';
+import { BAYC } from '../samples/BAYC';
 
 const Cards = styled('div')(() => ({
   display: 'grid',
@@ -179,7 +181,7 @@ const MintList = () => {
   const [botsFilter, setBotsFilter] = useState(true);
   const toggleMlWallets = () => setMlWallets((s) => !s);
   const toggleBotsFilter = () => setBotsFilter((s) => !s);
-  const [topHolders, setTopHolders] = useState([]);
+  const [topHolders, setTopHolders] = useState<any[]>([]);
   const [bots, setBots] = useState(0);
   const [whales, setWhales] = useState(0);
   const [bluechip, setBluechips] = useState(0);
@@ -189,7 +191,7 @@ const MintList = () => {
   const getTopHolders = useCallback(async () => {
     const jwt = getCookie('jwt-token');
     const whitelistId = window.localStorage.getItem('whitelistId');
-    if (whitelistId) {
+    if (whitelistId && !mockIds.includes(whitelistId)) {
       const response = await axiosInstance.get(
         `${BACKEND_URL}analytics/topHolders?whitelistId=${whitelistId}`,
         {
@@ -211,7 +213,7 @@ const MintList = () => {
         holding.holdings = holding.alsoHold;
         holding.avgNftPrice = holding.avgNFTPrice ?? (Math.random() * 100).toFixed(2);
         holding.balance = holding.nftsTotalPrice ?? (Math.random() * 100).toFixed(2);
-        holding.holdingTime = holding.label;
+        holding.holdingTime = holding.holdingTimeLabel;
         holding.totalHolders = holding.totalSupply !== undefined ? holding.totalSupply / 2 * 1.5 : (Math.random() * 100).toFixed(2);
       });
       setTopHolders(response.data.data.topHolders);
@@ -220,35 +222,20 @@ const MintList = () => {
       setBluechips(response.data.data.bluechipHolders);
       setSize(response.data.data.size);
     } else {
-      const response = await axiosInstance.get(
-        `${BACKEND_URL}analytics/topHolders?whitelistId=fd7e555a-f2ea-4f72-9628-ecd39f132a6d`,
-        {
-          headers: {
-            'Authorization' : `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHg0RWQwOUZCMUY3NDdBM0YzNUNFQmI2NDBENTVCMjM1Y0E5OTBFNDRlIiwibmV0d29ya1R5cGUiOiJFdGhlcmV1bSIsImlhdCI6MTY2MDAwMDAwMCwiZXhwIjoxNjYyNTkyMDAwfQ.tmIRxxkrUjjkAWJJO1jF-fJo84HBzqAb6MGSesl_0GE`
-          }
-        }
-      );
-     /* response.data.data.map((holding) => {
-        holding.id = Math.floor(Math.random() * 1000).toString(16);
-        holding.totalSupply = holding.holdings.totalSupply ?? (Math.random() * 100).toFixed(2);
-        holding.floorPrice = holding.holdings.stats?.floor.toFixed(2) ?? (Math.random() * 100).toFixed(2);
-        holding.mintPrice = holding.holdings.stats?.mintPrice.toFixed(4) ?? (Math.random() * 100).toFixed(2);
-        holding.twitterFollowers = (Math.random() * 100000).toFixed(2);
-        holding.totalHolders = holding.totalSupply !== undefined ? holding.totalSupply / 2 * 1.5 : (Math.random() * 100).toFixed(2);
-      });*/
-      response.data.data.topHolders.map((holding: any) => {
+      const mockWl = BAYC;
+      mockWl.data.topHolders.map((holding: any) => {
         holding.id = Math.floor(Math.random() * 1000).toString(16);
         holding.holdings = holding.alsoHold;
         holding.avgNftPrice = holding.avgNFTPrice ?? (Math.random() * 100).toFixed(2);
         holding.balance = holding.nftsTotalPrice ?? (Math.random() * 100).toFixed(2);
-        holding.holdingTime = holding.label;
+        holding.holdingTime = holding.holdingTimeLabel;
         holding.totalHolders = holding.totalSupply !== undefined ? holding.totalSupply / 2 * 1.5 : (Math.random() * 100).toFixed(2);
       });
-      setTopHolders(response.data.data.topHolders);
-      setBots(response.data.data.bots);
-      setWhales(response.data.data.whales);
-      setBluechips(response.data.data.bluechipHolders);
-      setSize(response.data.data.size);
+      setTopHolders(mockWl.data.topHolders);
+      setBots(mockWl.data.bots);
+      setWhales(mockWl.data.whales);
+      setBluechips(mockWl.data.bluechipHolders);
+      setSize(mockWl.data.whitelistSize);
     }
   }, [isMountedRef]);
 

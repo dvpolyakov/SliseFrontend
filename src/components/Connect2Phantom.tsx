@@ -60,7 +60,7 @@ const Connect2Phantom: FC = () => {
     provider?.connect()
       .then((data) => {
         console.log(`public key ${data.publicKey}`);
-        authUser(data.publicKey, 'Solana');
+        authUser(data.publicKey, 'Solana', true);
         router.push('/dashboard');
       })
       .catch((err) => {

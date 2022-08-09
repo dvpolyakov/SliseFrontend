@@ -20,6 +20,8 @@ import navConfig from './NavConfig';
 import NavbarDocs from './NavbarDocs';
 import NavbarAccount from './NavbarAccount';
 import CollapseButton from './CollapseButton';
+import ContactsPopover from '../header/ContactsPopover';
+import WhitelistsPopover from '../header/WhitelistsPopover';
 
 // ----------------------------------------------------------------------
 
@@ -81,6 +83,7 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }: Props)
           )}
         </Stack>
 
+        {/*<WhitelistsPopover />*/}
         <NavbarAccount isCollapse={isCollapse} />
       </Stack>
 
