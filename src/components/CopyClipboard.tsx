@@ -5,14 +5,16 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Tooltip, TextField, IconButton, InputAdornment } from '@mui/material';
 //
 import Iconify from './Iconify';
+import SvgIconStyle from './SvgIconStyle';
 
 // ----------------------------------------------------------------------
 
 type Props = {
   value: string;
+  label: string;
 };
 
-export default function CopyClipboard({ value, ...other }: Props) {
+export default function CopyClipboard({ value, label, ...other }: Props) {
   const { enqueueSnackbar } = useSnackbar();
   const [state, setState] = useState({
     value,
@@ -32,16 +34,18 @@ export default function CopyClipboard({ value, ...other }: Props) {
 
   return (
     <TextField
+      label={label}
       fullWidth
       value={state.value}
       onChange={handleChange}
       InputProps={{
+        readOnly: true,
         endAdornment: (
           <InputAdornment position="end">
             <CopyToClipboard text={state.value} onCopy={onCopy}>
               <Tooltip title="Copy">
-                <IconButton>
-                  <Iconify icon={'eva:copy-fill'} width={24} height={24} />
+                <IconButton sx={{ width: 40, height: 40, padding: 1 }} size="large">
+                  <SvgIconStyle src={`/assets/icons/ic_copy.svg/`} sx={{ width: 1, height: 1 }} />
                 </IconButton>
               </Tooltip>
             </CopyToClipboard>

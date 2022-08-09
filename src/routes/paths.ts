@@ -33,13 +33,15 @@ export const PATH_PAGE = {
   page500: '/500',
   components: '/components',
 
+  projectInfo: '/project-info',
+  requirements: 'requirements',
 
   dashboard: '/dashboard',
   mintlist: '/mintlist',
   mutualholders: '/mutualholders',
   mltargeting: '/mltargeting',
   upload: '/upload',
-  socialdata:'/socialdata'
+  socialdata: '/socialdata',
 };
 
 export const PATH_DASHBOARD = {

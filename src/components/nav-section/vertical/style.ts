@@ -80,20 +80,19 @@ export const ListItemIconStyle = styled(ListItemIcon)({
   alignItems: 'center',
   justifyContent: 'center',
   '& svg': { width: '100%', height: '100%' },
-  color:'#F3F4EF',
+  color: '#F3F4EF',
 });
 
 // ----------------------------------------------------------------------
 
 export const ListSubheaderStyle = styled(ListSubheader)(({ theme }) => ({
   ...theme.typography.overline,
-  borderRadius: theme.shape.borderRadius,
   paddingTop: theme.spacing(3),
   paddingLeft: theme.spacing(2),
   paddingBottom: theme.spacing(1),
-  color: theme.palette.text.primary,
   transition: theme.transitions.create('opacity', {
     duration: theme.transitions.duration.shorter,
   }),
-  ...cssStyles(theme).bgBlur(),
+  background: 'transparent',
+  color: '#fff',
 }));

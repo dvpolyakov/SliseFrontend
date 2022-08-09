@@ -8,7 +8,7 @@ import SvgIconStyle from '../../../components/SvgIconStyle';
 // ----------------------------------------------------------------------
 
 const getIcon = (name: string) => (
-  <SvgIconStyle src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />
+  <SvgIconStyle src={`/assets/icons/navbar/${name}.svg/`} sx={{ width: 1, height: 1 }} />
 );
 
 const ICONS = {
@@ -26,11 +26,19 @@ const ICONS = {
   booking: getIcon('ic_booking'),
   social: getIcon('ic_animate'),
   components: getIcon('ic_components'),
+  settings: getIcon('ic_settings'),
 };
-
 
 const navConfig = [
   {
+    subheader: 'Registration',
+    items: [
+      { title: 'Project Info', path: PATH_PAGE.projectInfo, icon: ICONS.kanban },
+      { title: 'Requirements', path: PATH_PAGE.requirements, icon: ICONS.settings },
+    ],
+  },
+  {
+    subheader: 'Analytics',
     items: [
       {
         title: 'Dashboard',
@@ -40,7 +48,7 @@ const navConfig = [
       { title: 'Mint List', path: PATH_PAGE.mintlist, icon: ICONS.analytics },
       { title: 'Social Data', path: PATH_PAGE.socialdata, icon: ICONS.chat },
       { title: 'Mutual Holders', path: PATH_PAGE.mutualholders, icon: ICONS.social },
-/*      { title: 'Community Insights', path: PATH_DASHBOARD.general.booking, icon: ICONS.user },*/
+      /*      { title: 'Community Insights', path: PATH_DASHBOARD.general.booking, icon: ICONS.user },*/
       { title: 'ML Targeting', path: PATH_PAGE.mltargeting, icon: ICONS.components },
     ],
   },
