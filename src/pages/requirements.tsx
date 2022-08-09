@@ -190,7 +190,7 @@ const Requirements = () => {
                 max={100}
                 onChange={(_, v) => setBalanceValue(v as number)}
                 valueLabelDisplay="off"
-                marks
+                marks={false} // Very slow
                 classes={{
                   rail: styles.rail,
                   track: styles.track,
