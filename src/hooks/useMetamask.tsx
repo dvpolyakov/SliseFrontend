@@ -49,7 +49,6 @@ export const MetaMaskProvider = ({ children }: any) => {
     console.log('App is connected with MetaMask ', active)
     await authUser(account!, 'Ethereum', true);
     setIsActive(active);
-    await router.push('/dashboard');
   }, [active])
 
   useEffect(() => {

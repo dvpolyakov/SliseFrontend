@@ -64,7 +64,8 @@ const ArrowStyle = styled('span')<ArrowStyleProps>(({ arrow, theme }) => {
       display: 'block',
       position: 'absolute',
       transform: 'rotate(-135deg)',
-      background: theme.palette.background.paper,
+      background: '#131F0F',
+      boxShadow: 'none'
     },
     // Top
     ...(arrow === 'top-left' && { ...topStyle, left: 20 }),
@@ -94,7 +95,7 @@ interface Props extends PopoverProps {
 
 export default function MenuPopover({
   children,
-  arrow = 'top-right',
+  arrow = 'top-left',
   disabledArrow,
   sx,
   ...other
@@ -108,6 +109,7 @@ export default function MenuPopover({
           p: 1,
           width: 200,
           overflow: 'inherit',
+          backgroundColor: '#131F0F',
           ...sx,
         },
       }}

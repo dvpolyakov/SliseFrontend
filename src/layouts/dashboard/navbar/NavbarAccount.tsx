@@ -2,22 +2,13 @@
 import NextLink from 'next/link';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Box, Link, ListItemIcon, MenuItem, Select, Typography } from '@mui/material';
+import { Box, Link, Typography } from '@mui/material';
 // hooks
 import useAuth from '../../../hooks/useAuth';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
 import MyAvatar from '../../../components/MyAvatar';
-import { useCallback, useEffect, useState } from 'react';
-import useIsMountedRef from '../../../hooks/useIsMountedRef';
-import axiosInstance from '../../../utils/axios';
-import nft3 from 'src/assets/nft3.svg';
-import { BACKEND_URL } from '../../../utils/endpoints';
-import { getCookie } from 'cookies-next';
-
-import { Whitelist } from '../../../models/models';
-import { sampleWlIds } from '../../../samples/whitelist-mapper';
 
 // ----------------------------------------------------------------------
 
@@ -36,91 +27,22 @@ const RootStyle = styled('div')(({ theme }) => ({
 
 type Props = {
   isCollapse: boolean | undefined;
-  data: any;
 };
 
-export default function NavbarAccount({isCollapse, data}: Props) {
+export default function NavbarAccount({ isCollapse }: Props) {
   const { user } = useAuth();
-  const [whitelists, setWhitelists] = useState<Whitelist[]>([]);
-  const [whitelist, setWhitelist] = useState('');
-  const color = '#F3F4EF';
-  const isMountedRef = useIsMountedRef();
-
-  const fetchWhitelists = async (jwt: string): Promise<Whitelist[]> => {
-    let wls:Whitelist[] = [];
-    try{
-      const response = await axiosInstance.get(`${BACKEND_URL}analytics/whitelists`, {
-        headers: {
-          'Authorization': `Bearer ${jwt}`
-        }
-      });
-      console.log(1);
-      wls =  response.data.data;
-    }
-    catch {
-
-    }
-
-    return wls;
-  }
-
-  const getWhitelists  = useCallback(async () => {
-    const sampleWls = sampleWlIds;
-    const existsWl = getCookie('whitelists');
-    let whitelists: Whitelist[]
-    if(existsWl)
-       whitelists = JSON.parse(existsWl.toString());
-    else {
-      const jwt = getCookie('jwt-token');
-      if(jwt)
-        whitelists = await fetchWhitelists(jwt as string);
-      else
-        whitelists = [];
-    }
-    sampleWls.push(...whitelists);
-    setWhitelists(sampleWls);
-    setWhitelist(findWhitelistById(sampleWls, sampleWls[0].id));
-    window.localStorage.setItem('whitelistId', sampleWls[0].id);
-  }, [isMountedRef]);
-
-
-
-  useEffect(() => {
-    getWhitelists();
-  }, [getWhitelists]);
-
-  const findWhitelistId = (name: string) => {
-    let id;
-    whitelists.map((list: any) => {
-      if (list.name === name)
-        id = list.id;
-    });
-    return id;
-  }
-
-  const findWhitelistById = (data: any, id: any) => {
-    let wl;
-    data.map((list: any) => {
-      if (list.id === id)
-        wl = list.name;
-    });
-    return wl || '';
-  }
-
-  const handleChange = (event: any) => {
-    const wl: any = findWhitelistId(event.target.value);
-    setWhitelist(event.target.value);
-    window.localStorage.setItem('whitelistId', wl);
-    window.location.reload();
-  };
 
   return (
     <NextLink href={PATH_DASHBOARD.user.account} passHref>
       <Link underline="none" color="inherit">
         <RootStyle
-
+          sx={{
+            ...(isCollapse && {
+              bgcolor: 'transparent',
+            }),
+          }}
         >
-          <MyAvatar/>
+          <MyAvatar />
 
           <Box
             sx={{
@@ -129,28 +51,21 @@ export default function NavbarAccount({isCollapse, data}: Props) {
                 theme.transitions.create('width', {
                   duration: theme.transitions.duration.shorter,
                 }),
-
+              ...(isCollapse && {
+                ml: 0,
+                width: 0,
+              }),
             }}
           >
-            <Select sx={{ color: color, width: '150px' }}
-                    value={whitelist}
-                    onChange={handleChange}
-            >
-              {whitelists.map((whitelist: any) => {
-                return (
-                  <MenuItem color={color} key={whitelist.id} value={whitelist.name}>
-                    {whitelist.name}
-                  </MenuItem>
-                )
-              })}
-
-            </Select>
-
+            <Typography variant="subtitle2" noWrap>
+              {user?.displayName}
+            </Typography>
+            <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
+              {user?.role}
+            </Typography>
           </Box>
         </RootStyle>
       </Link>
     </NextLink>
   );
 }
-
-

@@ -83,8 +83,8 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }: Props)
           )}
         </Stack>
 
-        {/*<WhitelistsPopover />*/}
-        <NavbarAccount isCollapse={isCollapse} />
+        <WhitelistsPopover />
+        {/*<NavbarAccount isCollapse={isCollapse} />*/}
       </Stack>
 
       <NavSectionVertical navConfig={navConfig} isCollapse={isCollapse} />

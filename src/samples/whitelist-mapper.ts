@@ -17,7 +17,8 @@ export const sampleWlIds: Whitelist[] = [
   {
     id: '1',
     name: 'BAYC',
-    networkType: 'Ethereum'
+    networkType: 'Ethereum',
+    logo: 'https://ik.imagekit.io/bayc/assets/bayc-footer.png'
   }
 ]
 

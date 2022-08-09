@@ -1,7 +1,7 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 // @mui
 import { alpha, styled } from '@mui/material/styles';
-import { Avatar, Typography, ListItemText, ListItemAvatar, MenuItem, Box, Select } from '@mui/material';
+import { Avatar, Typography, ListItemText, ListItemAvatar, MenuItem, Box, Select, Link } from '@mui/material';
 // utils
 import { fToNow } from '../../../utils/formatTime';
 // _mock_
@@ -19,13 +19,17 @@ import { BACKEND_URL } from '../../../utils/endpoints';
 import { sampleWlIds } from '../../../samples/whitelist-mapper';
 import { getCookie } from 'cookies-next';
 import MyAvatar from '../../../components/MyAvatar';
+import { PATH_DASHBOARD } from '../../../routes/paths';
+import NextLink from 'next/link';
+import CollectionAvatar from '../../../components/CollectionAvatar';
 
 // ----------------------------------------------------------------------
 
-const ITEM_HEIGHT = 64;
+const ITEM_HEIGHT = 80;
 const RootStyle = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
+  marginTop: 5,
   padding: theme.spacing(2, 2.5),
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
   backgroundColor: theme.palette.grey[500_12],
@@ -35,23 +39,26 @@ const RootStyle = styled('div')(({ theme }) => ({
 }));
 
 // ----------------------------------------------------------------------
-
-export default function WhitelistsPopover() {
+type Props = {
+  isCollapse: boolean | undefined;
+};
+export default function WhitelistsPopover({ isCollapse }: Props) {
   const [open, setOpen] = useState<HTMLElement | null>(null);
   const [whitelists, setWhitelists] = useState<Whitelist[]>([]);
-  const [whitelist, setWhitelist] = useState('');
+  const [whitelist, setWhitelist] = useState<Whitelist>({ logo: '', networkType: 'Ethereum', name: 'BAYC', id: '1' });
   const isMountedRef = useIsMountedRef();
   const color = '#F3F4EF';
 
-  const getWhitelists  = useCallback(async () => {
+  const getWhitelists = useCallback(async () => {
+    console.log('fetching');
     const sampleWls = sampleWlIds;
     const existsWl = getCookie('whitelists');
     let whitelists: Whitelist[]
-    if(existsWl)
+    if (existsWl)
       whitelists = JSON.parse(existsWl.toString());
     else {
       const jwt = getCookie('jwt-token');
-      if(jwt)
+      if (jwt)
         whitelists = await fetchWhitelists(jwt as string);
       else
         whitelists = [];
@@ -60,6 +67,7 @@ export default function WhitelistsPopover() {
     setWhitelists(sampleWls);
     setWhitelist(findWhitelistById(sampleWls, sampleWls[0].id));
     window.localStorage.setItem('whitelistId', sampleWls[0].id);
+    console.log(sampleWls.length);
   }, [isMountedRef]);
 
   const findWhitelistId = (name: string) => {
@@ -71,27 +79,31 @@ export default function WhitelistsPopover() {
     return id;
   }
 
-  const findWhitelistById = (data: any, id: any) => {
-    let wl;
+  const findWhitelistById = (data: Whitelist[], id: any): Whitelist => {
+    let wl: Whitelist = {
+      name: 'BAYC',
+      networkType: 'Ethereum',
+      id: '1',
+      logo: ''
+    };
     data.map((list: any) => {
       if (list.id === id)
-        wl = list.name;
+        wl = list
     });
-    return wl || '';
+    return wl;
   }
 
   const fetchWhitelists = async (jwt: string): Promise<Whitelist[]> => {
-    let wls:Whitelist[] = [];
-    try{
+    let wls: Whitelist[] = [];
+    try {
       const response = await axiosInstance.get(`${BACKEND_URL}analytics/whitelists`, {
         headers: {
           'Authorization': `Bearer ${jwt}`
         }
       });
       console.log(1);
-      wls =  response.data.data;
-    }
-    catch {
+      wls = response.data.data;
+    } catch {
 
     }
 
@@ -113,32 +125,55 @@ export default function WhitelistsPopover() {
     window.location.reload();
   };
 
+  useEffect(() => {
+    getWhitelists();
+  }, [getWhitelists]);
 
   return (
     <>
-      <IconButtonAnimate
-        color={open ? 'primary' : 'default'}
-        onClick={handleOpen}
-        sx={{
-          width: 40,
-          height: 40,
-          ...(open && {
-            bgcolor: (theme) =>
-              alpha(theme.palette.primary.main, theme.palette.action.focusOpacity),
-          }),
-        }}
-      >
-        <Iconify icon={'eva:people-fill'} width={20} height={20} />
-      </IconButtonAnimate>
+      <Link onClick={handleOpen} underline="none" color="inherit">
+        <RootStyle
+          sx={{
+            ...(isCollapse && {
+              bgcolor: '#F3F4EF',
+            }),
+          }}
+        >
+          <CollectionAvatar logo={whitelist.logo}/>
+
+          <Box
+            sx={{
+              ml: 2,
+              transition: (theme) =>
+                theme.transitions.create('width', {
+                  duration: theme.transitions.duration.shorter,
+                }),
+              ...(isCollapse && {
+                ml: 0,
+                width: 0,
+              }),
+            }}
+          >
+            <Typography variant="subtitle2" sx={{ color: '#FFFFFF' }} noWrap>
+              {whitelist?.name}
+            </Typography>
+            <Typography variant="body2" noWrap sx={{ color: '#919EAB' }}>
+              {whitelist?.networkType}
+            </Typography>
+          </Box>
+        </RootStyle>
+      </Link>
 
       <MenuPopover
         open={Boolean(open)}
         anchorEl={open}
         onClose={handleClose}
+        color={color}
         sx={{
+          color: '#131F0F',
           mt: 1.5,
           ml: 0.75,
-          width: 320,
+          width: 240,
           '& .MuiMenuItem-root': {
             px: 1.5,
             height: ITEM_HEIGHT,
@@ -146,17 +181,11 @@ export default function WhitelistsPopover() {
           },
         }}
       >
-        <Typography variant="h6" sx={{ p: 1.5 }}>
-          Contacts <Typography component="span">({_contacts.length})</Typography>
-        </Typography>
-
-        <Scrollbar sx={{ height: ITEM_HEIGHT * 6 }}>
-          {_contacts.map((contact) => (
+        <Scrollbar sx={{ height: ITEM_HEIGHT * whitelists.length, color: '#F3F4EF' }}>
+          {whitelists.map((wl) => (
             <RootStyle
-
             >
-              <MyAvatar/>
-
+              <CollectionAvatar logo={wl.logo}/>
               <Box
                 sx={{
                   ml: 2,
@@ -164,23 +193,18 @@ export default function WhitelistsPopover() {
                     theme.transitions.create('width', {
                       duration: theme.transitions.duration.shorter,
                     }),
-
+                  ...(isCollapse && {
+                    ml: 0,
+                    width: 0,
+                  }),
                 }}
               >
-                <Select sx={{ color: color, width: '150px' }}
-                        value={whitelist}
-                        onChange={handleChange}
-                >
-                  {whitelists.map((whitelist: any) => {
-                    return (
-                      <MenuItem color={color} key={whitelist.id} value={whitelist.name}>
-                        {whitelist.name}
-                      </MenuItem>
-                    )
-                  })}
-
-                </Select>
-
+                <Typography variant="subtitle2" sx={{ color: '#FFFFFF' }} noWrap>
+                  {wl?.name}
+                </Typography>
+                <Typography variant="body2" noWrap sx={{ color: '#919EAB' }}>
+                  {wl?.networkType}
+                </Typography>
               </Box>
             </RootStyle>
           ))}
