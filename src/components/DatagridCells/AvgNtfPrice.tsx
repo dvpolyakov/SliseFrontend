@@ -31,6 +31,7 @@ const Bar = styled('div')((props) => ({
 }));
 
 const AvgNtfPrice = ({ value, row }: any) => {
+  console.log(row);
   const percent = (value / row.maxNftPrice) * 100;
   return (
     <Root>

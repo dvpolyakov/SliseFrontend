@@ -16,13 +16,14 @@ import useIsMountedRef from '../../../hooks/useIsMountedRef';
 // components
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hook-form';
-import Connect2Phantom from '../../../components/Connect2Phantom';
+import Connect2Phantom from '../../../components/PhantomProvider';
 import useMetaMask from '../../../hooks/useMetamask';
 import axiosInstance from '../../../utils/axios';
 import { BACKEND_URL } from '../../../utils/endpoints';
 import { setCookie } from 'cookies-next';
 import { styled } from '@mui/material/styles';
 import NavItem from '../../../components/nav-section/horizontal/NavItem';
+import usePhantom from '../../../components/PhantomProvider';
 
 // ----------------------------------------------------------------------
 
@@ -48,7 +49,15 @@ const MetaMaskStyle = styled('button')(({ theme }) => ({
 export default function LoginForm() {
   const { login } = useAuth();
   // @ts-ignore
-  const { connect, disconnect, isActive, account, shouldDisable } = useMetaMask();
+  const { connect, disconnect, isActive, account, shouldDisable, clickConnect } = useMetaMask();
+  const {
+    walletAvail,
+    provider,
+    connected,
+    pubKey,
+    connectHandler,
+    disconnectHandler
+  } = usePhantom();
 
   const isMountedRef = useIsMountedRef();
 
@@ -60,8 +69,6 @@ export default function LoginForm() {
   const methods = useForm<FormValuesProps>({
     resolver: yupResolver(LoginSchema),
   });
-
-
 
   const {
     reset,
@@ -90,18 +97,59 @@ export default function LoginForm() {
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
 
         {typeof window.ethereum !== 'undefined' ?
-          <Button fullWidth variant='contained' sx={{backgroundColor: '#1098FC', variant: 'contained', maxWidth: 480, height: 48, ':hover': { opacity: '.9', backgroundColor: '#1098FC' }}}  onClick={connect} disabled={shouldDisable}>
-            <img src="/assets/metamask_l.svg" alt="MetaMask" width="24" height="24" style={{marginRight:8}} /> Metamask
+          <Button fullWidth variant='contained' sx={{
+            backgroundColor: '#1098FC',
+            variant: 'contained',
+            maxWidth: 480,
+            height: 48,
+            ':hover': { opacity: '.9', backgroundColor: '#1098FC' }
+          }} onClick={clickConnect} disabled={shouldDisable}>
+            <img src="/assets/metamask_l.svg" alt="MetaMask" width="24" height="24"
+                 style={{ marginRight: 8 }}/> Metamask
           </Button>
           :
-          <Typography sx={{fontSize: 14, textAlign:'center'}}>Opps!!! MetaMask is not available. Go get it <Link target="_blank" rel="noopener" href="https://metamask.io/">https://metamask.io/</Link>.</Typography>
+          <Typography sx={{ fontSize: 14, textAlign: 'center' }}>Opps!!! MetaMask is not available. Go get it <Link
+            target="_blank" rel="noopener" href="https://metamask.io/">https://metamask.io/</Link>.</Typography>
         }
         <Divider><Typography color={'#637381'}>OR</Typography></Divider>
-        <Connect2Phantom/>
-        <Typography sx={{ color: '#637381', fontSize:14, textAlign:'center'}}>
+        {walletAvail ?
+          <>
+            {pubKey !== null ?
+              <Button fullWidth variant="contained" sx={{
+                backgroundColor: '#513DBE',
+                variant: 'contained',
+                maxWidth: 480,
+                height: 48,
+                ':hover': { opacity: '.9', backgroundColor: '#513DBE' }
+              }} disabled={!connected} onClick={disconnectHandler}>
+                <img src="/assets/phantom_l.svg" alt="MetaMask" width="24" height="24"
+                     style={{ marginRight: 8 }}/> Disconnect from Phantom</Button>
+              :
+              <Button fullWidth variant="contained" sx={{
+                backgroundColor: '#513DBE',
+                variant: 'contained',
+                maxWidth: 480,
+                height: 48,
+                ':hover': { opacity: '.9', backgroundColor: '#513DBE' }
+              }} disabled={connected} onClick={connectHandler}>
+                <img src="/assets/phantom_l.svg" alt="MetaMask" width="24" height="24"
+                     style={{ marginRight: 8 }}/> Phantom
+              </Button>
+            }
+
+
+            {/*{connected ? <p>Your public key is : {pubKey?.toBase58()}</p> : null}*/}
+          </>
+          :
+          <>
+            <Typography sx={{ fontSize: 14, textAlign: 'center' }}>Opps!!! Phantom is not available. Go get it <Link
+              target="_blank" rel="noopener" href="https://phantom.app/">https://phantom.app/</Link>.</Typography>
+          </>
+        }
+        <Typography sx={{ color: '#637381', fontSize: 14, textAlign: 'center' }}>
           By signing up, I agree to Slise <Link color='#212B36' target="_blank" rel="noopener" underline="always">
-            Terms of Service
-          </Link> and <Link color='#212B36' target="_blank" rel="noopener"  underline="always">
+          Terms of Service
+        </Link> and <Link color='#212B36' target="_blank" rel="noopener" underline="always">
           Privacy Policy
         </Link>.
         </Typography>

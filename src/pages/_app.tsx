@@ -68,6 +68,7 @@ import axiosInstance from '../utils/axios';
 import { BACKEND_URL } from '../utils/endpoints';
 import { getCookie, setCookies } from 'cookies-next';
 import { Whitelist } from '../models/models';
+import { PhantomProvider } from '../components/PhantomProvider';
 // import { AuthProvider } from '../contexts/Auth0Context';
 // import { AuthProvider } from '../contexts/FirebaseContext';
 // import { AuthProvider } from '../contexts/AwsCognitoContext';
@@ -106,6 +107,7 @@ export default function MyApp(props: MyAppProps) {
                 <MotionLazyContainer>
                   <ThemeProvider>
                     <Web3ReactProvider getLibrary={getLibrary}>
+                      <PhantomProvider>
                       <MetaMaskProvider>
                     {/* <ThemeSettings> */}
                       <NotistackProvider>
@@ -115,6 +117,7 @@ export default function MyApp(props: MyAppProps) {
                       </NotistackProvider>
                     {/* </ThemeSettings> */}
                       </MetaMaskProvider>
+                      </PhantomProvider>
                     </Web3ReactProvider>
                   </ThemeProvider>
                 </MotionLazyContainer>

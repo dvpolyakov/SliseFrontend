@@ -16,7 +16,7 @@ export const whitelistMapper = (id: string): any => {
 export const sampleWlIds: Whitelist[] = [
   {
     id: '1',
-    name: 'BAYC',
+    name: 'Bored Ape Yacht Club',
     networkType: 'Ethereum',
     logo: 'https://ik.imagekit.io/bayc/assets/bayc-footer.png'
   }

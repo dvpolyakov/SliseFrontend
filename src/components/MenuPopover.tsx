@@ -64,7 +64,7 @@ const ArrowStyle = styled('span')<ArrowStyleProps>(({ arrow, theme }) => {
       display: 'block',
       position: 'absolute',
       transform: 'rotate(-135deg)',
-      background: '#131F0F',
+      background: '#1D291B',
       boxShadow: 'none'
     },
     // Top
@@ -108,8 +108,8 @@ export default function MenuPopover({
         sx: {
           p: 1,
           width: 200,
-          overflow: 'inherit',
-          backgroundColor: '#131F0F',
+/*          overflow: 'inherit',*/
+          backgroundColor: '#1D291B',
           ...sx,
         },
       }}

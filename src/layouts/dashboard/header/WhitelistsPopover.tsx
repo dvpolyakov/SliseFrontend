@@ -25,14 +25,28 @@ import CollectionAvatar from '../../../components/CollectionAvatar';
 
 // ----------------------------------------------------------------------
 
-const ITEM_HEIGHT = 80;
+const ITEM_HEIGHT = 70;
 const RootStyle = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   marginTop: 5,
   padding: theme.spacing(2, 2.5),
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
-  backgroundColor: theme.palette.grey[500_12],
+  backgroundColor: '#1D291B',
+  color:'#1D291B',
+  transition: theme.transitions.create('opacity', {
+    duration: theme.transitions.duration.shorter,
+  }),
+}));
+
+const RootStyle2 = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  marginTop: 5,
+  padding: theme.spacing(2, 2.5),
+  borderRadius: Number(theme.shape.borderRadius) * 1.5,
+  backgroundColor: '#293228',
+  color:'#293228',
   transition: theme.transitions.create('opacity', {
     duration: theme.transitions.duration.shorter,
   }),
@@ -47,7 +61,7 @@ export default function WhitelistsPopover({ isCollapse }: Props) {
   const [whitelists, setWhitelists] = useState<Whitelist[]>([]);
   const [whitelist, setWhitelist] = useState<Whitelist>({ logo: '', networkType: 'Ethereum', name: 'BAYC', id: '1' });
   const isMountedRef = useIsMountedRef();
-  const color = '#F3F4EF';
+  const color = '#1D291B';
 
   const getWhitelists = useCallback(async () => {
     console.log('fetching');
@@ -135,7 +149,8 @@ export default function WhitelistsPopover({ isCollapse }: Props) {
         <RootStyle
           sx={{
             ...(isCollapse && {
-              bgcolor: '#F3F4EF',
+              bgcolor: '#1D291B',
+              backgroundColor: 'black',
             }),
           }}
         >
@@ -170,9 +185,9 @@ export default function WhitelistsPopover({ isCollapse }: Props) {
         onClose={handleClose}
         color={color}
         sx={{
-          color: '#131F0F',
+          color: '#1D291B',
           mt: 1.5,
-          ml: 0.75,
+       /*   ml: 0.75,*/
           width: 240,
           '& .MuiMenuItem-root': {
             px: 1.5,
@@ -181,14 +196,69 @@ export default function WhitelistsPopover({ isCollapse }: Props) {
           },
         }}
       >
-        <Scrollbar sx={{ height: ITEM_HEIGHT * whitelists.length, color: '#F3F4EF' }}>
-          {whitelists.map((wl) => (
+          <Scrollbar sx={{ height: ITEM_HEIGHT * (whitelists.length + 1), backgroundColor: '#1D291B' }}>
+            {whitelists.map((wl, idx) => (
+              idx == 0 ?
+              <RootStyle2
+              >
+                <CollectionAvatar logo={wl.logo}/>
+                <Box
+                  sx={{
+                    ml: 2,
+                    color:'#1D291B',
+                    transition: (theme) =>
+                      theme.transitions.create('width', {
+                        duration: theme.transitions.duration.shorter,
+                      }),
+                    ...(isCollapse && {
+                      ml: 0,
+                      width: 0,
+                    }),
+                  }}
+                >
+                  <Typography variant="subtitle2" sx={{ color: '#FFFFFF' }} noWrap>
+                    {wl?.name}
+                  </Typography>
+                  {/* <Typography variant="body2" noWrap sx={{ color: '#919EAB' }}>
+                  {wl?.networkType}
+                </Typography>*/}
+                </Box>
+              </RootStyle2>
+                :
+                <RootStyle
+                >
+                  <CollectionAvatar logo={wl.logo}/>
+                  <Box
+                    sx={{
+                      ml: 2,
+                      color:'#1D291B',
+                      transition: (theme) =>
+                        theme.transitions.create('width', {
+                          duration: theme.transitions.duration.shorter,
+                        }),
+                      ...(isCollapse && {
+                        ml: 0,
+                        width: 0,
+                      }),
+                    }}
+                  >
+                    <Typography variant="subtitle2" sx={{ color: '#FFFFFF' }} noWrap>
+                      {wl?.name}
+                    </Typography>
+                    {/* <Typography variant="body2" noWrap sx={{ color: '#919EAB' }}>
+                  {wl?.networkType}
+                </Typography>*/}
+                  </Box>
+                </RootStyle>
+            ))}
+
             <RootStyle
             >
-              <CollectionAvatar logo={wl.logo}/>
+              <img src="/assets/plus.svg" alt="Add yours" width="20" height="20" style={{marginRight:8}} />
               <Box
                 sx={{
                   ml: 2,
+                  color:'#1D291B',
                   transition: (theme) =>
                     theme.transitions.create('width', {
                       duration: theme.transitions.duration.shorter,
@@ -200,15 +270,14 @@ export default function WhitelistsPopover({ isCollapse }: Props) {
                 }}
               >
                 <Typography variant="subtitle2" sx={{ color: '#FFFFFF' }} noWrap>
-                  {wl?.name}
+                 Add Yours
                 </Typography>
-                <Typography variant="body2" noWrap sx={{ color: '#919EAB' }}>
+                {/* <Typography variant="body2" noWrap sx={{ color: '#919EAB' }}>
                   {wl?.networkType}
-                </Typography>
+                </Typography>*/}
               </Box>
             </RootStyle>
-          ))}
-        </Scrollbar>
+          </Scrollbar>
       </MenuPopover>
     </>
   );

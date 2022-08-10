@@ -16,12 +16,14 @@ import Logo from '../../../components/Logo';
 import Scrollbar from '../../../components/Scrollbar';
 import { NavSectionVertical } from '../../../components/nav-section';
 //
-import navConfig from './NavConfig';
+import navConfigBase from './NavConfigBase';
 import NavbarDocs from './NavbarDocs';
 import NavbarAccount from './NavbarAccount';
 import CollapseButton from './CollapseButton';
 import ContactsPopover from '../header/ContactsPopover';
 import WhitelistsPopover from '../header/WhitelistsPopover';
+import { getCookie } from 'cookies-next';
+import navConfigRegistered from './NavConfigRegistered';
 
 // ----------------------------------------------------------------------
 
@@ -43,6 +45,9 @@ type Props = {
 
 export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }: Props) {
   const theme = useTheme();
+  const jwt = getCookie('jwt-token');
+  console.log(jwt);
+
 
   const { pathname } = useRouter();
 
@@ -76,22 +81,26 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }: Props)
         }}
       >
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Logo />
+          <Logo/>
 
-          {isDesktop && !isCollapse && (
+          {/*{isDesktop && !isCollapse && (
             <CollapseButton onToggleCollapse={onToggleCollapse} collapseClick={collapseClick} />
-          )}
+          )}*/}
         </Stack>
 
-        <WhitelistsPopover />
+        <WhitelistsPopover/>
         {/*<NavbarAccount isCollapse={isCollapse} />*/}
       </Stack>
 
-      <NavSectionVertical navConfig={navConfig} isCollapse={isCollapse} />
+      {jwt !== undefined ?
+        <NavSectionVertical navConfig={navConfigRegistered} isCollapse={isCollapse}/>
+        :
+        <NavSectionVertical navConfig={navConfigBase} isCollapse={isCollapse}/>}
 
-      <Box sx={{ flexGrow: 1 }} />
 
-      {!isCollapse && <NavbarDocs />}
+      <Box sx={{ flexGrow: 1 }}/>
+
+      {!isCollapse && <NavbarDocs/>}
     </Scrollbar>
   );
 

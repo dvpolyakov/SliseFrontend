@@ -99,7 +99,7 @@ const columns = [
   {
     field: 'nfts',
     headerName: 'NFTs',
-    // width: 35,
+    width: 25,
     flex: 1,
     align: 'right',
     headerAlign: 'right',
@@ -112,7 +112,7 @@ const columns = [
   {
     field: 'avgNftPrice',
     headerName: 'Avg. NFT Price',
-    // width: 128,
+    width: 128,
     flex: 1,
     align: 'center',
     headerAlign: 'center',
@@ -223,15 +223,20 @@ const MintList = () => {
       setSize(response.data.data.size);
     } else {
       const mockWl = BAYC;
-      mockWl.data.topHolders.map((holding: any) => {
+      const arr = [...mockWl.data.topHolders];
+      arr.sort((a, b) => {
+        return b.avgNFTPrice - a.avgNFTPrice;
+      });
+
+      arr.map((holding: any) => {
         holding.id = Math.floor(Math.random() * 1000).toString(16);
         holding.holdings = holding.alsoHold;
-        holding.avgNftPrice = holding.avgNFTPrice ?? (Math.random() * 100).toFixed(2);
+        holding.avgNftPrice = holding.avgNFTPrice;
         holding.balance = holding.nftsTotalPrice ?? (Math.random() * 100).toFixed(2);
         holding.holdingTime = holding.holdingTimeLabel;
         holding.totalHolders = holding.totalSupply !== undefined ? holding.totalSupply / 2 * 1.5 : (Math.random() * 100).toFixed(2);
       });
-      setTopHolders(mockWl.data.topHolders);
+      setTopHolders(arr);
       setBots(mockWl.data.bots);
       setWhales(mockWl.data.whales);
       setBluechips(mockWl.data.bluechipHolders);

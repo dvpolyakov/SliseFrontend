@@ -3,8 +3,8 @@ import axiosInstance from './axios';
 import { BACKEND_URL } from './endpoints';
 
 export const authUser = async (address: string, chainType: string, off?: any) => {
+  console.log('auth requested');
   const jwt = getCookie('jwt-token');
-  if(off !== true){
     if (!jwt) {
       const response = await axiosInstance.post(`${BACKEND_URL}auth/authUser`, {
         address: address,
@@ -21,6 +21,5 @@ export const authUser = async (address: string, chainType: string, off?: any) =>
         setCookie('current-chain', response.data.data.chainType);
       }
     }
-  }
 }
 

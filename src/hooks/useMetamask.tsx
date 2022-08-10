@@ -39,7 +39,7 @@ export const MetaMaskProvider = ({ children }: any) => {
 
   // Init Loading
   useEffect(() => {
-    connect(true).then(val => {
+    connect().then(val => {
       setIsLoading(false)
     });
   }, [])
@@ -47,7 +47,7 @@ export const MetaMaskProvider = ({ children }: any) => {
   // Check when App is Connected or Disconnected to MetaMask
   const handleIsActive = useCallback(async () => {
     console.log('App is connected with MetaMask ', active)
-    await authUser(account!, 'Ethereum', true);
+    //await authUser(account!, 'Ethereum', true);
     setIsActive(active);
   }, [active])
 
@@ -55,8 +55,15 @@ export const MetaMaskProvider = ({ children }: any) => {
     handleIsActive()
   }, [handleIsActive])
 
+  const clickConnect = async () => {
+    await connect().then(async(res) => {
+      await authUser(account!, 'Ethereum');
+      window.location = '/dashboard';
+    })
+  }
+
   // Connect to MetaMask wallet
-  const connect = async (firstLoad: boolean) => {
+  const connect = async () => {
     console.log('Connecting to MetaMask...')
     setShouldDisable(true)
     try {
@@ -68,10 +75,10 @@ export const MetaMaskProvider = ({ children }: any) => {
             message: account
           });
           if (sig) {*/
-          if(!firstLoad){
-            await authUser(account!, 'Ethereum', true);
-            await router.push('/dashboard');
-          }
+
+           /* await authUser(account!, 'Ethereum', true);
+            await router.push('/dashboard');*/
+
          /* }*/
         }
       })
@@ -97,7 +104,8 @@ export const MetaMaskProvider = ({ children }: any) => {
       isLoading,
       connect,
       disconnect,
-      shouldDisable
+      shouldDisable,
+      clickConnect
     }),
     [isActive, isLoading, shouldDisable, account]
   )

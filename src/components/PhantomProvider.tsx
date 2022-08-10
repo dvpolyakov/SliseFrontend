@@ -1,9 +1,11 @@
-import { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
 import { Connection, PublicKey, clusterApiUrl } from "@solana/web3.js";
 import { Button, Link, Typography } from '@mui/material';
 import { authUser } from '../utils/authUtils';
 import { router } from 'next/client';
 import { useRouter } from 'next/router';
+import { MetaMaskContext } from '../hooks/useMetamask';
+import { deleteCookie } from 'cookies-next';
 
 type PhantomEvent = "disconnect" | "connect" | "accountChanged";
 
@@ -21,8 +23,9 @@ interface PhantomProvider {
 type WindowWithSolana = Window & {
   solana?: PhantomProvider;
 }
+export const PhantomContext = React.createContext(null)
 
-const Connect2Phantom: FC = () => {
+export const PhantomProvider = ({ children }: any) => {
   const router = useRouter();
   const [walletAvail, setWalletAvail] = useState(false);
   const [provider, setProvider] = useState<PhantomProvider | null>(null);
@@ -74,25 +77,48 @@ const Connect2Phantom: FC = () => {
       .catch((err) => {
         console.error("disconnect ERROR:", err);
       });
+    deleteCookie('jwt-token');
+    deleteCookie('jwt-token-exp');
+    deleteCookie('current-chain');
+    setPubKey(null);
+
+  }
+  const values = useMemo(
+    () => ({
+      walletAvail,
+      provider,
+      connected,
+      pubKey,
+      connectHandler,
+      disconnectHandler,
+    }),
+    [walletAvail, provider, connected, pubKey]
+  )
+
+  return <PhantomContext.Provider value={values}>{children}</PhantomContext.Provider>
+}
+// <div>
+//   {walletAvail ?
+//     <>
+//       <Button fullWidth variant="contained"  sx={{backgroundColor: '#513DBE', variant: 'contained', maxWidth: 480, height: 48, ':hover': { opacity: '.9', backgroundColor: '#513DBE' }}}  disabled={connected} onClick={connectHandler}>
+//         <img src="/assets/phantom_l.svg" alt="MetaMask" width="24" height="24" style={{marginRight:8}}/> Phantom
+//       </Button>
+//       {/* <button disabled={!connected} onClick={disconnectHandler}>Disconnect from Phantom</button>*/}
+//       {/*{ connected ? <p>Your public key is : {pubKey?.toBase58()}</p> : null }*/}
+//     </>
+//     :
+//     <>
+//       <Typography sx={{fontSize: 14, textAlign:'center'}}>Opps!!! Phantom is not available. Go get it <Link target="_blank" rel="noopener" href="https://phantom.app/">https://phantom.app/</Link>.</Typography>
+//     </>
+//   }
+// </div>
+
+export default function usePhantom() {
+  const context = React.useContext(PhantomContext)
+
+  if (context === undefined) {
+    throw new Error('usePhantom hook must be used with a MetaMaskProvider component')
   }
 
-  return (
-    <div>
-      {walletAvail ?
-        <>
-          <Button fullWidth variant="contained"  sx={{backgroundColor: '#513DBE', variant: 'contained', maxWidth: 480, height: 48, ':hover': { opacity: '.9', backgroundColor: '#513DBE' }}}  disabled={connected} onClick={connectHandler}>
-            <img src="/assets/phantom_l.svg" alt="MetaMask" width="24" height="24" style={{marginRight:8}}/> Phantom
-          </Button>
-          {/* <button disabled={!connected} onClick={disconnectHandler}>Disconnect from Phantom</button>*/}
-          {/*{ connected ? <p>Your public key is : {pubKey?.toBase58()}</p> : null }*/}
-        </>
-        :
-        <>
-          <Typography sx={{fontSize: 14, textAlign:'center'}}>Opps!!! Phantom is not available. Go get it <Link target="_blank" rel="noopener" href="https://phantom.app/">https://phantom.app/</Link>.</Typography>
-        </>
-      }
-    </div>
-  );
+  return context
 }
-
-export default Connect2Phantom;

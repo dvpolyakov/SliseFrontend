@@ -29,14 +29,14 @@ const ICONS = {
   settings: getIcon('ic_settings'),
 };
 
-const navConfig = [
-  {
+const navConfigBase = [
+  /*{
     subheader: 'Registration',
     items: [
       { title: 'Project Info', path: PATH_PAGE.projectInfo, icon: ICONS.kanban },
       { title: 'Requirements', path: PATH_PAGE.requirements, icon: ICONS.settings },
     ],
-  },
+  },*/
   {
     subheader: 'Analytics',
     items: [
@@ -202,4 +202,4 @@ const navConfig = [
   // },
 ];
 
-export default navConfig;
+export default navConfigBase;
