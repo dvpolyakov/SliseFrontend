@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, Grid, Stack, styled, Typography, useTheme } from '@mui/material';
+import { Box, Card, CardContent, Grid, Stack, styled, Typography, useTheme } from '@mui/material';
 import React from 'react';
 import Page from 'src/components/Page';
 import TwitterIcon from 'src/widgets/img/twitter.svg';
@@ -6,18 +6,15 @@ import DiscordIcon from 'src/widgets/img/discord.svg';
 import WaveLayer from './layer.svg';
 import Image from 'next/image';
 import SvgIconStyle from 'src/components/SvgIconStyle';
+import { RegistrationDiscord } from 'src/widgets/collection/registration-discord';
+import { RegistrationTwitter } from 'src/widgets/collection/registration-twitter';
+import { RegistrationWallet } from 'src/widgets/collection/registration-wallet';
 
 const Header = styled('div')(({ theme }) => ({
   background: '#131F0F',
   width: '100%',
   height: 166,
 }));
-
-const getIcon = (name: string) => <SvgIconStyle src={`/assets/icons/${name}.svg/`} sx={{ width: 1, height: 1 }} />;
-
-const ICONS = {
-  user: getIcon('ic_user'),
-};
 
 function PublicPage() {
   const theme = useTheme();
@@ -139,139 +136,9 @@ function PublicPage() {
               <Typography mb={2} variant="body2">
                 You must meet the requirements below to be able to register to the Mint List
               </Typography>
-              <Box
-                sx={{
-                  mb: 2,
-                  display: 'grid',
-                  alignItems: 'center',
-                  gridTemplateColumns: '20px 1fr 120px',
-                  gap: 1,
-                  border: '1px solid #E5E8EB',
-                  padding: theme.spacing(2.5, 2),
-                  borderRadius: 2,
-                }}
-              >
-                <Image {...TwitterIcon} />
-                <Typography variant="body2">
-                  Follow{' '}
-                  <Typography
-                    component="a"
-                    suppressHydrationWarning
-                    href="twitter.com/trash_"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    variant="body2"
-                    sx={{
-                      textDecoration: 'none',
-                      color: 'CaptionText',
-                    }}
-                  >
-                    @trash_
-                  </Typography>{' '}
-                  on Twitter
-                </Typography>
-                <Button
-                  variant="contained"
-                  size="small"
-                  sx={{
-                    padding: theme.spacing(0.5, 1),
-                    color: '#fff',
-                    backgroundColor: '#131F0F',
-                    boxShadow: 'none',
-                    ':hover': { opacity: '.6', backgroundColor: '#131F0F', boxShadow: 'none' },
-                  }}
-                >
-                  Connect Twitter
-                </Button>
-              </Box>
-              <Box
-                sx={{
-                  mb: 2,
-                  display: 'grid',
-                  alignItems: 'center',
-                  gridTemplateColumns: '20px 1fr 120px',
-                  gap: 1,
-                  border: '1px solid #E5E8EB',
-                  padding: theme.spacing(2.5, 2),
-                  borderRadius: 2,
-                }}
-              >
-                <Image {...DiscordIcon} />
-                <Typography variant="body2">
-                  Join{' '}
-                  <Typography
-                    component="a"
-                    suppressHydrationWarning
-                    href="discord.com/trash_"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    variant="body2"
-                    sx={{
-                      textDecoration: 'none',
-                      color: 'CaptionText',
-                    }}
-                  >
-                    trash
-                  </Typography>{' '}
-                  Discord
-                </Typography>
-                <Button
-                  variant="contained"
-                  size="small"
-                  sx={{
-                    padding: theme.spacing(0.5, 1),
-                    color: '#fff',
-                    backgroundColor: '#131F0F',
-                    boxShadow: 'none',
-                    ':hover': { opacity: '.6', backgroundColor: '#131F0F', boxShadow: 'none' },
-                  }}
-                >
-                  Connect Discord
-                </Button>
-              </Box>
-              <Box
-                sx={{
-                  mb: 2,
-                  display: 'grid',
-                  alignItems: 'center',
-                  gridTemplateColumns: '20px 1fr 120px',
-                  gap: 1,
-                  border: '1px solid #E5E8EB',
-                  padding: theme.spacing(2.5, 2),
-                  borderRadius: 2,
-                }}
-              >
-                {ICONS.user}
-                <Typography variant="body2">Connect your mint wallet</Typography>
-                <Button
-                  variant="contained"
-                  size="small"
-                  sx={{
-                    padding: theme.spacing(0.5, 1),
-                    color: '#fff',
-                    backgroundColor: '#131F0F',
-                    boxShadow: 'none',
-                    ':hover': { opacity: '.6', backgroundColor: '#131F0F', boxShadow: 'none' },
-                  }}
-                >
-                  Connect Wallet
-                </Button>
-              </Box>
-              <Box
-                sx={{
-                  mb: 2,
-                  display: 'grid',
-                  alignItems: 'center',
-                  gridTemplateColumns: '20px 1fr',
-                  gap: 1,
-                  border: '1px solid #E5E8EB',
-                  padding: theme.spacing(2.5, 2),
-                  borderRadius: 2,
-                }}
-              >
-                <Typography variant="h6">💵</Typography>
-                <Typography variant="body2">The minimum balance of 5 ETH is required</Typography>
-              </Box>
+              <RegistrationTwitter />
+              <RegistrationDiscord />
+              <RegistrationWallet />
             </CardContent>
           </Card>
         </Grid>
