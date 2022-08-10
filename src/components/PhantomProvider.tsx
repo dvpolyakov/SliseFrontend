@@ -64,7 +64,7 @@ export const PhantomProvider = ({ children }: any) => {
       .then((data) => {
         console.log(`public key ${data.publicKey}`);
         authUser(data.publicKey, 'Solana', true);
-        router.push('/dashboard');
+        router.push('/app');
       })
       .catch((err) => {
         console.error("connect ERROR:", err);
