@@ -1,14 +1,23 @@
-import { Box, Button, Typography, useTheme } from '@mui/material';
+import { Box, Button, Chip, Typography, useTheme } from '@mui/material';
 import React, { useState } from 'react';
 import SvgIconStyle from 'src/components/SvgIconStyle';
 
-export function RegistrationWallet() {
+type Props = {
+  onDone: (value: boolean) => void;
+};
+export function RegistrationWallet({ onDone }: Props) {
   const theme = useTheme();
   const [done, setDone] = useState(false);
   const handleClick = () => {
     setTimeout(() => {
       setDone(true);
+      onDone(true);
     }, 1000);
+  };
+
+  const handleDelete = () => {
+    setDone(false);
+    onDone(false);
   };
 
   return (
@@ -35,24 +44,27 @@ export function RegistrationWallet() {
         <Typography variant="body2" color={done ? '#229A16' : '#131F0F'}>
           Connect your mint wallet
         </Typography>
-        <Button
-          onClick={handleClick}
-          variant="contained"
-          size="small"
-          sx={{
-            padding: theme.spacing(0.5, 1),
-            color: '#fff',
-            backgroundColor: '#131F0F',
-            boxShadow: 'none',
-            ':hover': { opacity: '.6', backgroundColor: '#131F0F', boxShadow: 'none' },
-          }}
-        >
-          Connect Wallet
-        </Button>
+        {done ? (
+          <Chip sx={{ background: '#fff' }} label={'0x123..6b1'} onDelete={handleDelete} />
+        ) : (
+          <Button
+            onClick={handleClick}
+            variant="contained"
+            size="small"
+            sx={{
+              padding: theme.spacing(0.5, 1),
+              color: '#fff',
+              backgroundColor: '#131F0F',
+              boxShadow: 'none',
+              ':hover': { opacity: '.6', backgroundColor: '#131F0F', boxShadow: 'none' },
+            }}
+          >
+            Connect Wallet
+          </Button>
+        )}
       </Box>
       <Box
         sx={{
-          mb: 2,
           display: 'grid',
           alignItems: 'center',
           gridTemplateColumns: '20px 1fr',

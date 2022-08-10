@@ -1,5 +1,5 @@
-import { Box, Card, CardContent, Grid, Stack, styled, Typography, useTheme } from '@mui/material';
-import React from 'react';
+import { Box, Button, Card, CardContent, Grid, Stack, styled, Typography, useTheme } from '@mui/material';
+import React, { useState } from 'react';
 import Page from 'src/components/Page';
 import TwitterIcon from 'src/widgets/img/twitter.svg';
 import DiscordIcon from 'src/widgets/img/discord.svg';
@@ -18,6 +18,22 @@ const Header = styled('div')(({ theme }) => ({
 
 function PublicPage() {
   const theme = useTheme();
+  const [registrationTwitterDone, setRegistrationTwitterDone] = useState(false);
+  const [registrationDiscordDone, setRegistrationDiscordDone] = useState(false);
+  const [registrationWalletDone, setRegistrationWalletDone] = useState(false);
+
+  const handleRegistrationTwitterDone = (value: boolean) => {
+    setRegistrationTwitterDone(value);
+  };
+  const handleRegistrationDiscordDone = (value: boolean) => {
+    setRegistrationDiscordDone(value);
+  };
+  const handleRegistrationWalletDone = (value: boolean) => {
+    setRegistrationWalletDone(value);
+  };
+
+  const allDone = registrationTwitterDone && registrationDiscordDone && registrationWalletDone;
+
   return (
     <Page suppressHydrationWarning title="Trash Collection" sx={{ backgroundColor: '#fff' }}>
       <Header />
@@ -136,9 +152,25 @@ function PublicPage() {
               <Typography mb={2} variant="body2">
                 You must meet the requirements below to be able to register to the Mint List
               </Typography>
-              <RegistrationTwitter />
-              <RegistrationDiscord />
-              <RegistrationWallet />
+              <RegistrationTwitter onDone={handleRegistrationTwitterDone} />
+              <RegistrationDiscord onDone={handleRegistrationDiscordDone} />
+              <RegistrationWallet onDone={handleRegistrationWalletDone} />
+              {allDone && (
+                <Button
+                  variant="contained"
+                  size="large"
+                  fullWidth
+                  sx={{
+                    mt: 4.25,
+                    color: 'black',
+                    backgroundColor: '#DDFF55',
+                    boxShadow: 'none',
+                    ':hover': { opacity: '.6', backgroundColor: '#DDFF55' },
+                  }}
+                >
+                  Register
+                </Button>
+              )}
             </CardContent>
           </Card>
         </Grid>

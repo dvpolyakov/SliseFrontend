@@ -1,16 +1,25 @@
-import { Box, Button, Typography, useTheme } from '@mui/material';
+import { Box, Button, Chip, Typography, useTheme } from '@mui/material';
 import React, { useState } from 'react';
 import DiscordIcon from 'src/widgets/img/discord.svg';
 import Image from 'next/image';
 import SvgIconStyle from 'src/components/SvgIconStyle';
 
-export function RegistrationDiscord() {
+type Props = {
+  onDone: (v: boolean) => void;
+};
+export function RegistrationDiscord({ onDone }: Props) {
   const theme = useTheme();
   const [done, setDone] = useState(false);
   const handleClick = () => {
     setTimeout(() => {
       setDone(true);
+      onDone(true);
     }, 1000);
+  };
+
+  const handleDelete = () => {
+    setDone(false);
+    onDone(false);
   };
 
   return (
@@ -51,20 +60,24 @@ export function RegistrationDiscord() {
         </Typography>{' '}
         Discord
       </Typography>
-      <Button
-        variant="contained"
-        size="small"
-        onClick={handleClick}
-        sx={{
-          padding: theme.spacing(0.5, 1),
-          color: '#fff',
-          backgroundColor: '#131F0F',
-          boxShadow: 'none',
-          ':hover': { opacity: '.6', backgroundColor: '#131F0F', boxShadow: 'none' },
-        }}
-      >
-        Connect Discord
-      </Button>
+      {done ? (
+        <Chip sx={{ background: '#fff' }} label={'dariaodaria1234'} onDelete={handleDelete} />
+      ) : (
+        <Button
+          variant="contained"
+          size="small"
+          onClick={handleClick}
+          sx={{
+            padding: theme.spacing(0.5, 1),
+            color: '#fff',
+            backgroundColor: '#131F0F',
+            boxShadow: 'none',
+            ':hover': { opacity: '.6', backgroundColor: '#131F0F', boxShadow: 'none' },
+          }}
+        >
+          Connect Discord
+        </Button>
+      )}
     </Box>
   );
 }

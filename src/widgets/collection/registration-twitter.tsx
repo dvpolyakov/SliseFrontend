@@ -1,16 +1,25 @@
-import { Box, Button, Typography, useTheme } from '@mui/material';
+import { Box, Button, Chip, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
 import React, { ReactNode, useState } from 'react';
 import SvgIconStyle from 'src/components/SvgIconStyle';
 import TwitterIcon from 'src/widgets/img/twitter.svg';
 
-export function RegistrationTwitter() {
+type Props = {
+  onDone: (value: boolean) => void;
+};
+export function RegistrationTwitter({ onDone }: Props) {
   const theme = useTheme();
   const [done, setDone] = useState(false);
   const handleClick = () => {
     setTimeout(() => {
       setDone(true);
+      onDone(true);
     }, 1000);
+  };
+
+  const handleDelete = () => {
+    setDone(false);
+    onDone(false);
   };
 
   return (
@@ -52,20 +61,24 @@ export function RegistrationTwitter() {
         </Typography>{' '}
         on Twitter
       </Typography>
-      <Button
-        onClick={handleClick}
-        variant="contained"
-        size="small"
-        sx={{
-          padding: theme.spacing(0.5, 1),
-          color: '#fff',
-          backgroundColor: '#131F0F',
-          boxShadow: 'none',
-          ':hover': { opacity: '.6', backgroundColor: '#131F0F', boxShadow: 'none' },
-        }}
-      >
-        Connect Twitter
-      </Button>
+      {done ? (
+        <Chip sx={{ background: '#fff' }} label={'@dariaodaria'} onDelete={handleDelete} />
+      ) : (
+        <Button
+          onClick={handleClick}
+          variant="contained"
+          size="small"
+          sx={{
+            padding: theme.spacing(0.5, 1),
+            color: '#fff',
+            backgroundColor: '#131F0F',
+            boxShadow: 'none',
+            ':hover': { opacity: '.6', backgroundColor: '#131F0F', boxShadow: 'none' },
+          }}
+        >
+          Connect Twitter
+        </Button>
+      )}
     </Box>
   );
 }
