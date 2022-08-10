@@ -36,7 +36,7 @@ export const PATH_PAGE = {
   projectInfo: '/project-info',
   requirements: 'requirements',
 
-  dashboard: '/dashboard',
+  dashboard: '/app',
   mintlist: '/mintlist',
   mutualholders: '/mutualholders',
   mltargeting: '/mltargeting',
