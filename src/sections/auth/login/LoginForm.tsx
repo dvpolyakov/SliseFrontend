@@ -24,7 +24,6 @@ import { setCookie } from 'cookies-next';
 import { styled } from '@mui/material/styles';
 import NavItem from '../../../components/nav-section/horizontal/NavItem';
 import usePhantom from '../../../components/PhantomProvider';
-import { useMetamask } from "use-metamask";
 import { ethers } from 'ethers';
 import { authUser } from '../../../utils/authUtils';
 import { useRouter } from 'next/router';
