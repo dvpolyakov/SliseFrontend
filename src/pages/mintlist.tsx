@@ -25,6 +25,7 @@ import { getCookie } from 'cookies-next';
 import { mockIds } from '../samples/whitelist-mapper';
 import { BAYC } from '../samples/BAYC';
 import useWindowDimensions from '../utils/windowSize';
+import { IKIGAI } from '../samples/IKIGAI';
 
 const Cards = styled('div')(() => ({
   display: 'grid',
@@ -224,7 +225,7 @@ const MintList = () => {
       setBluechips(response.data.data.bluechipHolders);
       setSize(response.data.data.size);
     } else {
-      const mockWl = BAYC;
+      const mockWl = IKIGAI;
       const arr = [...mockWl.data.topHolders];
       const newArr = arr.sort((a, b) => {
         return b.avgNFTPrice - a.avgNFTPrice;

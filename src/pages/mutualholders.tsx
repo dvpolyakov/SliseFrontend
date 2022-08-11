@@ -19,6 +19,7 @@ import { getCookie } from 'cookies-next';
 import { mockIds } from '../samples/whitelist-mapper';
 import { BAYC } from '../samples/BAYC';
 import useWindowDimensions from '../utils/windowSize';
+import { IKIGAI } from '../samples/IKIGAI';
 
 const Cards = styled('div')(() => ({
   display: 'grid',
@@ -184,7 +185,7 @@ const MutualHolders = () => {
       });
       setMutualHolders(response.data.data);
     } else {
-      const mockWl = BAYC;
+      const mockWl = IKIGAI;
       mockWl.data.mutualHoldings.map((holding: any) => {
         holding.id = Math.floor(Math.random() * 1000).toString(16);
         if(holding.holdings?.totalSupply < 1)

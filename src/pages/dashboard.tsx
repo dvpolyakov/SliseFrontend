@@ -21,6 +21,7 @@ import { getCookie } from 'cookies-next';
 import { BAYC } from '../samples/BAYC';
 import { mockIds } from '../samples/whitelist-mapper';
 import useWindowDimensions from '../utils/windowSize';
+import { IKIGAI } from '../samples/IKIGAI';
 
 const CardsGrid = styled('div')(() => ({
   display: 'grid',
@@ -70,7 +71,7 @@ const DashboardIndex = () => {
       window.localStorage.setItem('whitelistSize', response.data.data.whitelistSize);
       setStatistics(response.data.data);
     } else {
-      const mockWl = BAYC;
+      const mockWl = IKIGAI;
       window.localStorage.setItem('whitelistSize', mockWl.data.whitelistSize.toString());
       setStatistics(mockWl.data);
     }
