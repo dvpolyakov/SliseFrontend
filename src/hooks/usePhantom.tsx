@@ -63,15 +63,18 @@ export const PhantomProvider = ({ children }: any) => {
     provider?.connect()
       .then(async (data) => {
         console.log(`public key ${data.publicKey}`);
-        const { signature, publicKey } = window
-          .solana
+        window.solana
           .signMessage(
             new TextEncoder().encode(data.publicKey),
             'utf8'
-          )
+          ).then(async (sign) => {
+          if(sign.signature){
+            console.log('test');
+            await authUser(data.publicKey, 'Solana', true);
+            await router.push('/dashboard');
+          }
+        })
 
-        await authUser(data.publicKey, 'Solana', true);
-        await router.push('/dashboard');
       })
       .catch((err) => {
         console.error("connect ERROR:", err);
