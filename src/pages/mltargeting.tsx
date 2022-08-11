@@ -1,5 +1,5 @@
 // @mui
-import { Box, Button, Card, Container, Grid, Slider, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, Container, Grid, Slider, Stack, Typography } from '@mui/material';
 import axiosInstance from 'src/utils/axios';
 import { ExportJsonCsv } from 'react-export-json-csv';
 // hooks
@@ -15,6 +15,7 @@ import { styled } from '@mui/system';
 import useIsMountedRef from '../hooks/useIsMountedRef';
 import { BACKEND_URL } from '../utils/endpoints';
 import useWindowDimensions from '../utils/windowSize';
+import { useTheme } from '@mui/material';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -139,12 +140,11 @@ const Root = styled('div')((props) => ({
   gap: 13,
 }));
 
-
 // ----------------------------------------------------------------------
 
 type Addresses = {
   address?: string[];
-}
+};
 
 export default function GeneralBooking() {
   const isMountedRef = useIsMountedRef();
@@ -155,6 +155,7 @@ export default function GeneralBooking() {
   const [wallets, setWallets] = useState(0);
   const [data, setData] = useState<string[]>([]);
   const windowSize = useWindowDimensions();
+  const theme = useTheme();
 
   const handleChange = (event: any, newNumber: any) => {
     if (newNumber === 0) {
@@ -172,25 +173,19 @@ export default function GeneralBooking() {
     {
       key: 'address',
       name: 'Address',
-    }
-  ]
+    },
+  ];
   useEffect(() => {
     const getData = setTimeout(() => {
       axiosInstance
-        .get(
-          `${BACKEND_URL}analytics/getTargets?vector=${+newView / 100}`,
-          {
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-            },
-          }
-        )
+        .get(`${BACKEND_URL}analytics/getTargets?vector=${+newView / 100}`, {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          },
+        })
         .then((response) => {
-
-
-
-            setWallets(response.data.data.data.total);
-            console.log(response.data.data.data.total);
+          setWallets(response.data.data.data.total);
+          console.log(response.data.data.data.total);
 
           /*const mintShare = response.data;
           setView(mintShare);
@@ -203,22 +198,19 @@ export default function GeneralBooking() {
             setSharePredict('??');
           }
           setError('');*/
-        }).catch((error) => {
+        })
+        .catch((error) => {
           /*setError(error.message);
           setOpen(true);*/
-        }
-        );
+        });
       axiosInstance
-        .get(
-          `${BACKEND_URL}analytics/getExport?vector=${+newView / 100}`,
-          {
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-            },
-          }
-        )
+        .get(`${BACKEND_URL}analytics/getExport?vector=${+newView / 100}`, {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          },
+        })
         .then((response) => {
-          setData(response.data.data.address)
+          setData(response.data.data.address);
         });
     }, 2000);
     return () => clearTimeout(getData);
@@ -259,7 +251,6 @@ export default function GeneralBooking() {
           Oops! We don't support mobile devices yet :(
         </Typography>
       </Grid>
-
     );
 
   return (
@@ -267,73 +258,80 @@ export default function GeneralBooking() {
       sx={{
         height: 'calc(100vh - 60px)',
         display: 'grid',
-        gridTemplateRows: 'min-content min-content 1fr',
+        gridTemplateRows: 'min-content 1fr',
+        gap: '14px',
       }}
-      title="Dashboard"
+      title="ML Targeting"
     >
-      <Typography align="left" variant="h3" mb={'14px'}>
+      <Typography align="left" variant="h3">
         ML Targeting
       </Typography>
-      <Container
-        maxWidth={themeStretch ? false : 'xl'}
-        sx={{ backgroundColor: '#F3F4EF' }}
-      >
-        <Grid container spacing={2} alignItems="stretch" sx={{ paddingRight: '20px', }}>
-          <Grid item sm={12} md={8} lg={8}>
-            <Card sx={{ backgroundColor: 'white', height: '671px', padding: '30px' }}>
-              <Typography variant="h6">Search space visualization</Typography>
-              <Chart style={{ marginTop: '100px' }} options={options} series={newSer} type="scatter" />
+      <Container maxWidth={themeStretch ? false : 'xl'} sx={{ backgroundColor: '#F3F4EF', padding: '0 !important' }}>
+        <Grid container spacing={3} alignItems="stretch" sx={{ height: '100%' }}>
+          <Grid item sm={12} md={8} lg={8} sx={{ height: '100%' }}>
+            <Card sx={{ height: '100%' }}>
+              <CardContent>
+                <Typography variant="h6">Search space visualization</Typography>
+                <Chart style={{ marginTop: '100px' }} options={options} series={newSer} type="scatter" />
+              </CardContent>
             </Card>
           </Grid>
           <Grid item sm={12} md={4} lg={4}>
-            <Card sx={{ backgroundColor: 'white', height: '671px' }}>
-              <Typography variant="h6" sx={{ padding: '25px' }}>
-                Find similar wallets to your whitelist
-              </Typography>
-              <Typography variant="subtitle2" sx={{ marginLeft: '25px', paddingBottom: '15px' }}>
-                SIMILARITY THRESHOLD
-              </Typography>
-              <Typography variant="h6" sx={{ marginLeft: '25px' }}>
-                {newView + '%'}
-              </Typography>
-              <Box sx={{ marginRight: '25px', marginLeft: '25px', marginBottom: '250px' }}>
-                <Slider
-                  sx={{ color: 'black' }}
-                  value={newView}
-                  min={0}
-                  step={1}
-                  defaultValue={1}
-                  max={100}
-                  onChange={handleChange}
-                  valueLabelDisplay="auto"
-                  aria-labelledby="non-linear-slider"
-                />
-              </Box>
-              <Typography variant="h2" align="center">
-                {wallets}
-              </Typography>
-              <Typography variant="subtitle1" align="center" sx={{ opacity: '.72', marginBottom: '50px' }}>
-                Target wallets identified
-              </Typography>
+            <Card sx={{ height: '100%' }}>
+              <CardContent sx={{ height: '100%' }}>
+                <Stack alignItems={'stretch'} sx={{ height: '100%' }}>
+                  <Typography variant="h6" mt={1} mb={4}>
+                    Find similar wallets to your whitelist
+                  </Typography>
+                  <Typography variant="subtitle2" mb={1}>
+                    SIMILARITY THRESHOLD
+                  </Typography>
+                  <Typography variant="h6" mb={1}>
+                    {newView + '%'}
+                  </Typography>
+                  <Slider
+                    sx={{ color: 'black' }}
+                    value={newView}
+                    min={0}
+                    step={1}
+                    defaultValue={1}
+                    max={100}
+                    onChange={handleChange}
+                    valueLabelDisplay="auto"
+                    aria-labelledby="non-linear-slider"
+                  />
 
-              <ExportJsonCsv style={{
-                backgroundColor: '#DDFF55',
-                color: 'black',
-                width: '90%',
-                marginLeft: '5%',
-                marginBottom: '25px',
-                fontSize: '16px',
-                fontWeight: 'bold',
-                height: '8%',
-                ':hover': { opacity: '.6', backgroundColor: '#DDFF55' },
-                border: 'none !important',
-                borderRight: 'none',
-                borderLeft: 'none',
-                borderTop: 'none',
-                borderBottom: 'none',
-                font: 'Public Sans',
-                borderRadius: '10px'
-              }} headers={headers} items={data}>Export Wallets</ExportJsonCsv>
+                  <Box mt="auto">
+                    <Typography variant="h2" align="center">
+                      {wallets}
+                    </Typography>
+                    <Typography variant="subtitle1" align="center" sx={{ opacity: '.72' }} mb={5.75}>
+                      Target wallets identified
+                    </Typography>
+
+                    <ExportJsonCsv
+                      style={{
+                        display: 'block',
+                        backgroundColor: '#DDFF55',
+                        color: 'black',
+                        width: '100%',
+                        fontSize: '16px',
+                        fontWeight: 'bold',
+                        height: '48px',
+                        ':hover': { opacity: '.6', backgroundColor: '#DDFF55' },
+                        borderColor: 'transparent',
+                        font: 'Public Sans',
+                        borderRadius: '10px',
+                        cursor: 'pointer',
+                      }}
+                      headers={headers}
+                      items={data}
+                    >
+                      Export Wallets
+                    </ExportJsonCsv>
+                  </Box>
+                </Stack>
+              </CardContent>
             </Card>
           </Grid>
         </Grid>

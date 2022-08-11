@@ -7,8 +7,9 @@ export default function Button(theme: Theme) {
     MuiButton: {
       styleOverrides: {
         root: {
+          boxShadow: 'none !important',
           '&:hover': {
-            boxShadow: 'none',
+            boxShadow: 'none !important',
           },
         },
         sizeLarge: {
@@ -17,37 +18,40 @@ export default function Button(theme: Theme) {
         // contained
         containedInherit: {
           color: theme.palette.grey[800],
-          boxShadow: theme.customShadows.z8,
+          boxShadow: 'none !important',
           '&:hover': {
+            boxShadow: 'none !important',
             backgroundColor: theme.palette.grey[400],
           },
         },
         containedPrimary: {
-          boxShadow: theme.customShadows.primary,
+          boxShadow: 'none !important',
         },
         containedSecondary: {
-          boxShadow: theme.customShadows.secondary,
+          boxShadow: 'none !important',
         },
         containedInfo: {
-          boxShadow: theme.customShadows.info,
+          boxShadow: 'none !important',
         },
         containedSuccess: {
-          boxShadow: theme.customShadows.success,
+          boxShadow: 'none !important',
         },
         containedWarning: {
-          boxShadow: theme.customShadows.warning,
+          boxShadow: 'none !important',
         },
         containedError: {
-          boxShadow: theme.customShadows.error,
+          boxShadow: 'none !important',
         },
         // outlined
         outlinedInherit: {
           border: `1px solid ${theme.palette.grey[500_32]}`,
+          boxShadow: 'none !important',
           '&:hover': {
             backgroundColor: theme.palette.action.hover,
           },
         },
         textInherit: {
+          boxShadow: 'none !important',
           '&:hover': {
             backgroundColor: theme.palette.action.hover,
           },
