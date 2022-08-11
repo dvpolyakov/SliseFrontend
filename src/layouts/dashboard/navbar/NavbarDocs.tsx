@@ -13,7 +13,7 @@ import { ethers } from 'ethers';
 import Web3 from 'web3';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
 import { useRouter } from 'next/router';
-import Connect2Phantom from '../../../components/PhantomProvider';
+import Connect2Phantom from '../../../hooks/usePhantom';
 import { deleteCookie, getCookie } from 'cookies-next';
 
 // ----------------------------------------------------------------------

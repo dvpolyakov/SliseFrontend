@@ -4,7 +4,7 @@ import { Button, Link, Typography } from '@mui/material';
 import { authUser } from '../utils/authUtils';
 import { router } from 'next/client';
 import { useRouter } from 'next/router';
-import { MetaMaskContext } from '../hooks/useMetamask';
+import { MetaMaskContext } from './useMetamask';
 import { deleteCookie } from 'cookies-next';
 
 type PhantomEvent = "disconnect" | "connect" | "accountChanged";
@@ -13,7 +13,7 @@ interface ConnectOpts {
   onlyIfTrusted: boolean;
 }
 
-interface PhantomProvider {
+interface UsePhantom {
   connect: (opts?: Partial<ConnectOpts>) => Promise<{ publicKey: PublicKey }>;
   disconnect: () => Promise<void>;
   on: (event: PhantomEvent, callback: (args: any) => void) => void;
@@ -21,14 +21,14 @@ interface PhantomProvider {
 }
 
 type WindowWithSolana = Window & {
-  solana?: PhantomProvider;
+  solana?: UsePhantom;
 }
 export const PhantomContext = React.createContext(null)
 
 export const PhantomProvider = ({ children }: any) => {
   const router = useRouter();
   const [walletAvail, setWalletAvail] = useState(false);
-  const [provider, setProvider] = useState<PhantomProvider | null>(null);
+  const [provider, setProvider] = useState<UsePhantom | null>(null);
   const [connected, setConnected] = useState(false);
   const [pubKey, setPubKey] = useState<PublicKey | null>(null);
 
@@ -61,10 +61,17 @@ export const PhantomProvider = ({ children }: any) => {
   const connectHandler: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     console.log(`connect handler`);
     provider?.connect()
-      .then((data) => {
+      .then(async (data) => {
         console.log(`public key ${data.publicKey}`);
-        authUser(data.publicKey, 'Solana', true);
-        router.push('/dashboard');
+        const { signature, publicKey } = window
+          .solana
+          .signMessage(
+            new TextEncoder().encode(data.publicKey),
+            'utf8'
+          )
+
+        await authUser(data.publicKey, 'Solana', true);
+        await router.push('/dashboard');
       })
       .catch((err) => {
         console.error("connect ERROR:", err);

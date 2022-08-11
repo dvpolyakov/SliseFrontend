@@ -68,7 +68,7 @@ import axiosInstance from '../utils/axios';
 import { BACKEND_URL } from '../utils/endpoints';
 import { getCookie, setCookies } from 'cookies-next';
 import { Whitelist } from '../models/models';
-import { PhantomProvider } from '../components/PhantomProvider';
+import { PhantomProvider } from '../hooks/usePhantom';
 // import { AuthProvider } from '../contexts/Auth0Context';
 // import { AuthProvider } from '../contexts/FirebaseContext';
 // import { AuthProvider } from '../contexts/AwsCognitoContext';

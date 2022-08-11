@@ -16,14 +16,14 @@ import useIsMountedRef from '../../../hooks/useIsMountedRef';
 // components
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hook-form';
-import Connect2Phantom from '../../../components/PhantomProvider';
+import Connect2Phantom from '../../../hooks/usePhantom';
 import useMetaMask from '../../../hooks/useMetamask';
 import axiosInstance from '../../../utils/axios';
 import { BACKEND_URL } from '../../../utils/endpoints';
 import { setCookie } from 'cookies-next';
 import { styled } from '@mui/material/styles';
 import NavItem from '../../../components/nav-section/horizontal/NavItem';
-import usePhantom from '../../../components/PhantomProvider';
+import usePhantom from '../../../hooks/usePhantom';
 import { ethers } from 'ethers';
 import { authUser } from '../../../utils/authUtils';
 import { useRouter } from 'next/router';
