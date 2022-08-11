@@ -104,7 +104,11 @@ export default function LoginForm() {
       const signer = provider.getSigner();
       const signature = await signer.signMessage(message);
       const address = await signer.getAddress();
-      await authUser(message, 'Ethereum');
+      const whitelistId = await authUser(message, 'Ethereum');
+      if(whitelistId) {
+        localStorage.setItem('whitelistId', whitelistId);
+        await router.push('/project-info');
+      }
       await router.push('/dashboard');
 
       return {

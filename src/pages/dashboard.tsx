@@ -60,7 +60,7 @@ const DashboardIndex = () => {
   const getWhitelistStatistics = useCallback(async () => {
     const jwt = getCookie('jwt-token');
     const whitelistId = window.localStorage.getItem('whitelistId');
-    if (whitelistId && !mockIds.includes(whitelistId)) {
+    if (jwt) {
       const response = await axiosInstance.get(
         `${BACKEND_URL}analytics/whitelistStatistics?whitelistId=${whitelistId}`, {
           headers: {

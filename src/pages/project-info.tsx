@@ -39,11 +39,42 @@ import TwitterFollowers from 'src/widgets/TwitterFollowers';
 import Whales from 'src/widgets/Whales';
 import WhitelistSize from 'src/widgets/WhitelistSize';
 import { number } from 'yup/lib/locale';
+import { getCookie } from 'cookies-next';
+import { BACKEND_URL } from '../utils/endpoints';
+
+interface WhitelistSettings {
+  discordVerification: boolean
+  minWalletBalance: number
+  totalSize: number
+  minTwitterFollowers: number
+  registrationActive: boolean
+  twitterVerification: boolean
+}
 
 const ProjectInfo = () => {
   const [file, setFile] = useState<File | null>(null);
   const [value, setValue] = useState<Date | null>(null);
+  const [whitelistSettings, setWhitelistSettings] = useState<WhitelistSettings | null>(null);
   const isMountedRef = useIsMountedRef();
+
+  const getProjectSettings = useCallback(async () => {
+    const jwt = getCookie('jwt-token');
+    if (jwt) {
+      const currentWl = localStorage.getItem('whitelistId');
+      const response = await axiosInstance.get(`${BACKEND_URL}analytics/whitelistSettings?whitelistId=${currentWl}`, {
+        headers: {
+          'Authorization': `Bearer ${jwt}`
+        }
+      });
+      if (response.data.data) {
+        setWhitelistSettings(response.data.data);
+      }
+    }
+  }, [whitelistSettings]);
+
+  useEffect(() => {
+    getProjectSettings();
+  }, [getProjectSettings]);
 
   return (
     <Page
@@ -59,7 +90,7 @@ const ProjectInfo = () => {
       </Typography>
       <Grid container spacing={3}>
         <Grid item md={4}>
-          <SwitchCard title="Registration is closed" />
+          <SwitchCard title="Registration is closed"/>
           <Card sx={{ mt: 4.25 }}>
             <CardContent sx={{ padding: 4.5 }}>
               <UploadAvatar
@@ -68,7 +99,7 @@ const ProjectInfo = () => {
                 helperText={
                   <Typography component="p" sx={{ mt: 3, textAlign: 'center' }} color="GrayText" variant="caption">
                     Allowed *.jpeg, *.jpg, *.png, *.gif
-                    <br />
+                    <br/>
                     Max size of 3.1 MB
                   </Typography>
                 }
@@ -92,7 +123,7 @@ const ProjectInfo = () => {
           </Card>
           <Card sx={{ mt: 4 }}>
             <CardContent>
-              <CopyClipboard value="https://app.slise.xyz/creeptures../12" label="Public link" />
+              <CopyClipboard value="https://app.slise.xyz/creeptures../12" label="Public link"/>
             </CardContent>
           </Card>
         </Grid>
@@ -101,7 +132,7 @@ const ProjectInfo = () => {
             <CardContent>
               <Grid container spacing={2}>
                 <Grid mb={3} item md={6}>
-                  <TextField fullWidth label="Collection Name" />
+                  <TextField fullWidth label="Collection Name"/>
                 </Grid>
                 <Grid mb={3} item md={6}>
                   <DatePicker
@@ -110,20 +141,20 @@ const ProjectInfo = () => {
                     onChange={(newValue) => {
                       setValue(newValue);
                     }}
-                    renderInput={(params) => <TextField {...params} fullWidth />}
+                    renderInput={(params) => <TextField {...params} fullWidth/>}
                   />
                 </Grid>
                 <Grid mb={3} item md={6}>
-                  <TextField fullWidth label="Official Twitter" />
+                  <TextField fullWidth label="Official Twitter"/>
                 </Grid>
                 <Grid mb={3} item md={6}>
-                  <TextField fullWidth label="Official Discord Channel" />
+                  <TextField fullWidth label="Official Discord Channel"/>
                 </Grid>
                 <Grid mb={3} item md={6}>
-                  <TextField fullWidth label="Mint Price" />
+                  <TextField fullWidth label="Mint Price"/>
                 </Grid>
                 <Grid mb={3} item md={6}>
-                  <TextField fullWidth label="Total Supply" />
+                  <TextField fullWidth label="Total Supply"/>
                 </Grid>
               </Grid>
               <Typography variant="subtitle2" mb={0.75}>
@@ -131,7 +162,7 @@ const ProjectInfo = () => {
               </Typography>
               <NoSsr defer>
                 <Suspense fallback="loading">
-                  <Editor simple sx={{ mb: 3 }} />
+                  <Editor simple sx={{ mb: 3 }}/>
                 </Suspense>
               </NoSsr>
               <Stack direction="row" alignItems="center" justifyContent="flex-end">
@@ -166,7 +197,7 @@ const ProjectInfo = () => {
                 backgroundColor: '#131F0F',
                 ':hover': { opacity: '.6', backgroundColor: '#131F0F' },
               }}
-              startIcon={<SvgIconStyle src={`/assets/icons/ic_upload.svg/`} sx={{ width: 20, height: 20 }} />}
+              startIcon={<SvgIconStyle src={`/assets/icons/ic_upload.svg/`} sx={{ width: 20, height: 20 }}/>}
             >
               Import from file
             </Button>

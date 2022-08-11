@@ -68,9 +68,13 @@ export const PhantomProvider = ({ children }: any) => {
             new TextEncoder().encode(data.publicKey),
             'utf8'
           ).then(async (sign) => {
-          if(sign.signature){
+          if (sign.signature) {
             console.log('test');
-            await authUser(data.publicKey, 'Solana', true);
+            const whitelistId = await authUser(data.publicKey, 'Solana', true);
+            if (whitelistId) {
+              localStorage.setItem('whitelistId', whitelistId);
+              await router.push('/project-info');
+            }
             await router.push('/dashboard');
           }
         })

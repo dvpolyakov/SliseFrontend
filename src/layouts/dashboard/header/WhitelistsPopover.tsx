@@ -33,7 +33,7 @@ const RootStyle = styled('div')(({ theme }) => ({
   padding: theme.spacing(2, 2.5),
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
   backgroundColor: '#1D291B',
-  color:'#1D291B',
+  color: '#1D291B',
   transition: theme.transitions.create('opacity', {
     duration: theme.transitions.duration.shorter,
   }),
@@ -46,7 +46,7 @@ const RootStyle2 = styled('div')(({ theme }) => ({
   padding: theme.spacing(2, 2.5),
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
   backgroundColor: '#293228',
-  color:'#293228',
+  color: '#293228',
   transition: theme.transitions.create('opacity', {
     duration: theme.transitions.duration.shorter,
   }),
@@ -59,29 +59,24 @@ type Props = {
 export default function WhitelistsPopover({ isCollapse }: Props) {
   const [open, setOpen] = useState<HTMLElement | null>(null);
   const [whitelists, setWhitelists] = useState<Whitelist[]>([]);
-  const [whitelist, setWhitelist] = useState<Whitelist>({ logo: 'https://nftcalendar.io/storage/uploads/2022/05/18/red_0518202219120762854507cfef1.jpg', networkType: 'Ethereum', name: 'IKIGAI', id: '1' });
+  const [whitelist, setWhitelist] = useState<Whitelist | null>(null);
+  const jwt = getCookie('jwt-token');
   const isMountedRef = useIsMountedRef();
   const color = '#1D291B';
 
   const getWhitelists = useCallback(async () => {
     console.log('fetching');
     const sampleWls = sampleWlIds;
-    const existsWl = getCookie('whitelists');
     let whitelists: Whitelist[]
-    if (existsWl)
-      whitelists = JSON.parse(existsWl.toString());
-    else {
-      const jwt = getCookie('jwt-token');
-      if (jwt)
-        whitelists = await fetchWhitelists(jwt as string);
-      else
-        whitelists = [];
-    }
-    sampleWls.push(...whitelists);
-    setWhitelists(sampleWls);
-    setWhitelist(findWhitelistById(sampleWls, sampleWls[0].id));
-    window.localStorage.setItem('whitelistId', sampleWls[0].id);
-    console.log(sampleWls.length);
+    const jwt = getCookie('jwt-token');
+    if (jwt)
+      whitelists = await fetchWhitelists(jwt as string);
+    else
+      whitelists = sampleWls;
+
+    setWhitelists(whitelists);
+    setWhitelist(findWhitelistById(whitelists, whitelists[0].id));
+    window.localStorage.setItem('whitelistId', whitelists[0].id);
   }, [isMountedRef]);
 
   const findWhitelistId = (name: string) => {
@@ -154,7 +149,7 @@ export default function WhitelistsPopover({ isCollapse }: Props) {
             }),
           }}
         >
-          <CollectionAvatar logo={whitelist.logo}/>
+          <CollectionAvatar logo={whitelist?.logo}/>
 
           <Box
             sx={{
@@ -187,7 +182,7 @@ export default function WhitelistsPopover({ isCollapse }: Props) {
         sx={{
           color: '#1D291B',
           mt: 1.5,
-       /*   ml: 0.75,*/
+          /*   ml: 0.75,*/
           width: 240,
           '& .MuiMenuItem-root': {
             px: 1.5,
@@ -196,16 +191,41 @@ export default function WhitelistsPopover({ isCollapse }: Props) {
           },
         }}
       >
-          <Scrollbar sx={{ height: ITEM_HEIGHT * (whitelists.length + 1), backgroundColor: '#1D291B' }}>
-            {whitelists.map((wl, idx) => (
-              idx == 0 ?
+        <RootStyle2
+        >
+          <CollectionAvatar logo={whitelist?.logo}/>
+          <Box
+            sx={{
+              ml: 2,
+              color: '#1D291B',
+              transition: (theme) =>
+                theme.transitions.create('width', {
+                  duration: theme.transitions.duration.shorter,
+                }),
+              ...(isCollapse && {
+                ml: 0,
+                width: 0,
+              }),
+            }}
+          >
+            <Typography variant="subtitle2" sx={{ color: '#FFFFFF' }} noWrap>
+              {whitelist?.name}
+            </Typography>
+            <Typography variant="body2" noWrap sx={{ color: '#919EAB' }}>
+              {whitelist?.networkType}
+            </Typography>
+          </Box>
+        </RootStyle2>
+        <Scrollbar sx={{ height: ITEM_HEIGHT * (jwt == undefined ? 1 : 0.5), backgroundColor: '#1D291B' }}>
+          {/*{whitelists.map((wl, idx) => (
+            idx == 0 ?
               <RootStyle2
               >
-                <CollectionAvatar logo={wl.logo}/>
+                <CollectionAvatar logo={wl?.logo}/>
                 <Box
                   sx={{
                     ml: 2,
-                    color:'#1D291B',
+                    color: '#1D291B',
                     transition: (theme) =>
                       theme.transitions.create('width', {
                         duration: theme.transitions.duration.shorter,
@@ -219,46 +239,47 @@ export default function WhitelistsPopover({ isCollapse }: Props) {
                   <Typography variant="subtitle2" sx={{ color: '#FFFFFF' }} noWrap>
                     {wl?.name}
                   </Typography>
-                  {/* <Typography variant="body2" noWrap sx={{ color: '#919EAB' }}>
+                   <Typography variant="body2" noWrap sx={{ color: '#919EAB' }}>
                   {wl?.networkType}
-                </Typography>*/}
+                </Typography>
                 </Box>
               </RootStyle2>
-                :
-                <RootStyle
-                >
-                  <CollectionAvatar logo={wl.logo}/>
-                  <Box
-                    sx={{
-                      ml: 2,
-                      color:'#1D291B',
-                      transition: (theme) =>
-                        theme.transitions.create('width', {
-                          duration: theme.transitions.duration.shorter,
-                        }),
-                      ...(isCollapse && {
-                        ml: 0,
-                        width: 0,
+              :
+              <RootStyle
+              >
+                <CollectionAvatar logo={wl?.logo}/>
+                <Box
+                  sx={{
+                    ml: 2,
+                    color: '#1D291B',
+                    transition: (theme) =>
+                      theme.transitions.create('width', {
+                        duration: theme.transitions.duration.shorter,
                       }),
-                    }}
-                  >
-                    <Typography variant="subtitle2" sx={{ color: '#FFFFFF' }} noWrap>
-                      {wl?.name}
-                    </Typography>
-                    {/* <Typography variant="body2" noWrap sx={{ color: '#919EAB' }}>
+                    ...(isCollapse && {
+                      ml: 0,
+                      width: 0,
+                    }),
+                  }}
+                >
+                  <Typography variant="subtitle2" sx={{ color: '#FFFFFF' }} noWrap>
+                    {wl?.name}
+                  </Typography>
+                   <Typography variant="body2" noWrap sx={{ color: '#919EAB' }}>
                   {wl?.networkType}
-                </Typography>*/}
-                  </Box>
-                </RootStyle>
-            ))}
+                </Typography>
+                </Box>
+              </RootStyle>
+          ))}*/}
 
+          {jwt == undefined ?
             <RootStyle
             >
-              <img src="/assets/plus.svg" alt="Add yours" width="20" height="20" style={{marginRight:8}} />
+              <img src="/assets/plus.svg" alt="Add yours" width="20" height="20" style={{ marginRight: 8 }}/>
               <Box
                 sx={{
                   ml: 2,
-                  color:'#1D291B',
+                  color: '#1D291B',
                   transition: (theme) =>
                     theme.transitions.create('width', {
                       duration: theme.transitions.duration.shorter,
@@ -270,14 +291,17 @@ export default function WhitelistsPopover({ isCollapse }: Props) {
                 }}
               >
                 <Typography variant="subtitle2" sx={{ color: '#FFFFFF' }} noWrap>
-                 Add Yours
+                  Add Yours
                 </Typography>
                 {/* <Typography variant="body2" noWrap sx={{ color: '#919EAB' }}>
                   {wl?.networkType}
                 </Typography>*/}
               </Box>
             </RootStyle>
-          </Scrollbar>
+            :
+            <></>}
+
+        </Scrollbar>
       </MenuPopover>
     </>
   );
