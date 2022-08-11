@@ -80,7 +80,6 @@ export const ListItemIconStyle = styled(ListItemIcon)({
   alignItems: 'center',
   justifyContent: 'center',
   '& svg': { width: '100%', height: '100%' },
-  color: '#F3F4EF',
 });
 
 // ----------------------------------------------------------------------

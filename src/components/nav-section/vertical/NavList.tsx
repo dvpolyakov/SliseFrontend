@@ -16,12 +16,7 @@ type NavListRootProps = {
   isCollapse?: boolean;
 };
 
-export default function NavList({
-  data,
-  depth,
-  hasChildren,
-  isCollapse = false,
-}: NavListRootProps) {
+export default function NavList({ data, depth, hasChildren, isCollapse = false }: NavListRootProps) {
   const { pathname, asPath, push } = useRouter();
 
   const active = getActive(data.path, pathname, asPath);
@@ -74,12 +69,7 @@ function NavSubList({ data, depth }: NavListSubProps) {
   return (
     <>
       {data.map((list) => (
-        <NavList
-          key={list.title + list.path}
-          data={list}
-          depth={depth + 1}
-          hasChildren={!!list.children}
-        />
+        <NavList key={list.title + list.path} data={list} depth={depth + 1} hasChildren={!!list.children} />
       ))}
     </>
   );
