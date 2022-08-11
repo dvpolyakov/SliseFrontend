@@ -65,8 +65,12 @@ export const MetaMaskProvider = ({ children }: any) => {
 
   const clickConnect = async () => {
     await connect().then(async (res) => {
-      await authUser(account!, 'Ethereum');
-      window.location = '/dashboard';
+      const whitelistId = await authUser(account!, 'Ethereum');
+      if (whitelistId) {
+        localStorage.setItem('whitelistId', whitelistId);
+        await router.push('/project-info');
+      }
+      await router.push('/dashboard');
     })
   }
 
