@@ -1,52 +1,53 @@
 import { Box, Button, Chip, Typography, useTheme } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import SvgIconStyle from 'src/components/SvgIconStyle';
 
+type Status = 'fail' | 'success' | 'initial';
 type Props = {
-  onDone: (value: boolean) => void;
+  onChange: (v: Status) => void;
+  status: Status;
 };
-export function RegistrationWallet({ onDone }: Props) {
+
+export function RegistrationWallet({ onChange, status }: Props) {
   const theme = useTheme();
-  const [done, setDone] = useState(false);
-  const handleClick = () => {
+
+  const handleClick = useCallback(() => {
     setTimeout(() => {
-      setDone(true);
-      onDone(true);
+      onChange('success');
     }, 1000);
-  };
+  }, [onChange]);
 
-  const handleDelete = () => {
-    setDone(false);
-    onDone(false);
-  };
+  const handleDelete = useCallback(() => {
+    onChange('initial');
+  }, [onChange]);
 
-  return (
-    <>
-      <Box
-        sx={{
-          mb: 2,
-          display: 'grid',
-          alignItems: 'center',
-          gridTemplateColumns: '20px 1fr 120px',
-          gap: 1,
-          border: '1px solid',
-          borderColor: done ? '#54D62C7A' : '#E5E8EB',
-          backgroundColor: done ? '#54D62C14' : '#fff',
-          padding: theme.spacing(2.5, 2),
-          borderRadius: 2,
-        }}
-      >
-        {done ? (
-          <SvgIconStyle src={`/assets/icons/ic_check.svg?1=1`} sx={{ width: 1, height: 1, bgcolor: '#229A16' }} />
-        ) : (
-          <SvgIconStyle src={`/assets/icons/ic_user.svg/`} sx={{ width: 1, height: 1 }} />
-        )}
-        <Typography variant="body2" color={done ? '#229A16' : '#131F0F'}>
-          Connect your mint wallet
-        </Typography>
-        {done ? (
-          <Chip sx={{ background: '#fff' }} label={'0x123..6b1'} onDelete={handleDelete} />
-        ) : (
+  const mapping = useMemo(
+    () => ({
+      fail: {
+        borderColor: '#FF48427A',
+        backgroundColor: '#FF484214',
+        color: '#B72136',
+        icon1: <SvgIconStyle src={`/assets/icons/ic_check.svg/`} sx={{ width: 1, height: 1, bgcolor: '#B72136' }} />,
+        icon2: <SvgIconStyle src={`/assets/icons/ic_check.svg/`} sx={{ width: 1, height: 1, bgcolor: '#B72136' }} />,
+        button1: <Chip sx={{ background: '#fff' }} label={'0x123..6b1'} onDelete={handleDelete} />,
+        size: 'min-content',
+      },
+      success: {
+        borderColor: '#54D62C7A',
+        backgroundColor: '#54D62C14',
+        color: '#229A16',
+        icon1: <SvgIconStyle src={`/assets/icons/ic_check.svg/`} sx={{ width: 1, height: 1, bgcolor: '#229A16' }} />,
+        icon2: <SvgIconStyle src={`/assets/icons/ic_check.svg/`} sx={{ width: 1, height: 1, bgcolor: '#229A16' }} />,
+        button1: <Chip sx={{ background: '#fff' }} label={'0x123..6b1'} onDelete={handleDelete} />,
+        size: 'min-content',
+      },
+      initial: {
+        borderColor: '#E5E8EB',
+        backgroundColor: '#fff',
+        color: '#131F0F',
+        icon1: <SvgIconStyle src={`/assets/icons/ic_user.svg/`} sx={{ width: 1, height: 1 }} />,
+        icon2: <Typography variant="h6">💵</Typography>,
+        button1: (
           <Button
             onClick={handleClick}
             variant="contained"
@@ -61,29 +62,65 @@ export function RegistrationWallet({ onDone }: Props) {
           >
             Connect Wallet
           </Button>
-        )}
-      </Box>
+        ),
+        size: '120px',
+      },
+    }),
+    [handleClick, handleDelete, theme]
+  );
+
+  return (
+    <>
       <Box
         sx={{
-          display: 'grid',
-          alignItems: 'center',
-          gridTemplateColumns: '20px 1fr',
-          gap: 1,
+          mb: 2,
           border: '1px solid',
-          borderColor: done ? '#54D62C7A' : '#E5E8EB',
-          backgroundColor: done ? '#54D62C14' : '#fff',
+          borderColor: mapping[status].borderColor,
+          backgroundColor: mapping[status].backgroundColor,
           padding: theme.spacing(2.5, 2),
           borderRadius: 2,
         }}
       >
-        {done ? (
-          <SvgIconStyle src={`/assets/icons/ic_check.svg?1=1`} sx={{ width: 1, height: 1, bgcolor: '#229A16' }} />
-        ) : (
-          <Typography variant="h6">💵</Typography>
+        <Box
+          sx={{
+            display: 'grid',
+            alignItems: 'center',
+            gridTemplateColumns: `20px 1fr ${mapping[status].size}`,
+            gap: 1,
+          }}
+        >
+          {mapping[status].icon1}
+          <Typography variant="body2" color={mapping[status].color}>
+            Connect your mint wallet
+          </Typography>
+          {mapping[status].button1}
+        </Box>
+        {status === 'fail' && (
+          <Typography ml={3.25} variant="caption" color={mapping[status].color}>
+            The requirement is not met
+          </Typography>
         )}
-        <Typography variant="body2" color={done ? '#229A16' : '#131F0F'}>
-          The minimum balance of 5 ETH is required
-        </Typography>
+      </Box>
+      <Box
+        sx={{
+          border: '1px solid',
+          borderColor: mapping[status].borderColor,
+          backgroundColor: mapping[status].backgroundColor,
+          padding: theme.spacing(2.5, 2),
+          borderRadius: 2,
+        }}
+      >
+        <Box sx={{ display: 'grid', alignItems: 'center', gridTemplateColumns: '20px 1fr', gap: 1 }}>
+          {mapping[status].icon2}
+          <Typography variant="body2" color={mapping[status].color}>
+            The minimum balance of 5 ETH is required
+          </Typography>
+        </Box>
+        {status === 'fail' && (
+          <Typography ml={3.25} variant="caption" color={mapping[status].color}>
+            The requirement is not met
+          </Typography>
+        )}
       </Box>
     </>
   );

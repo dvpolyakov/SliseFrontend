@@ -9,6 +9,7 @@ import SvgIconStyle from 'src/components/SvgIconStyle';
 import { RegistrationDiscord } from 'src/widgets/collection/registration-discord';
 import { RegistrationTwitter } from 'src/widgets/collection/registration-twitter';
 import { RegistrationWallet } from 'src/widgets/collection/registration-wallet';
+import Logo from 'src/components/Logo';
 
 const Header = styled('div')(({ theme }) => ({
   background: '#131F0F',
@@ -16,27 +17,40 @@ const Header = styled('div')(({ theme }) => ({
   height: 166,
 }));
 
+type Status = 'fail' | 'success' | 'initial';
+
 function PublicPage() {
   const theme = useTheme();
-  const [registrationTwitterDone, setRegistrationTwitterDone] = useState(false);
-  const [registrationDiscordDone, setRegistrationDiscordDone] = useState(false);
-  const [registrationWalletDone, setRegistrationWalletDone] = useState(false);
+  const [registrationTwitterStatus, setRegistrationTwitterStatus] = useState<Status>('initial');
+  const [registrationDiscordStatus, setRegistrationDiscordStatus] = useState<Status>('initial');
+  const [registrationWalletStatus, setRegistrationWalletStatus] = useState<Status>('initial');
 
-  const handleRegistrationTwitterDone = (value: boolean) => {
-    setRegistrationTwitterDone(value);
+  const handleRegistrationTwitterStatus = (status: Status) => {
+    setRegistrationTwitterStatus(status);
   };
-  const handleRegistrationDiscordDone = (value: boolean) => {
-    setRegistrationDiscordDone(value);
+  const handleRegistrationDiscordStatus = (status: Status) => {
+    setRegistrationDiscordStatus(status);
   };
-  const handleRegistrationWalletDone = (value: boolean) => {
-    setRegistrationWalletDone(value);
+  const handleRegistrationWalletStatus = (status: Status) => {
+    setRegistrationWalletStatus(status);
   };
 
-  const allDone = registrationTwitterDone && registrationDiscordDone && registrationWalletDone;
+  const allDone = [registrationTwitterStatus, registrationDiscordStatus, registrationWalletStatus].every(
+    (item) => item === 'success'
+  );
+
+  const [finished, setFinished] = useState(false);
+  const handleSubmit = () => {
+    setFinished(true);
+  };
 
   return (
     <Page suppressHydrationWarning title="Trash Collection" sx={{ backgroundColor: '#fff' }}>
-      <Header />
+      <Header>
+        <Box sx={{ padding: theme.spacing(0, 3) }}>
+          <Logo />
+        </Box>
+      </Header>
       <Grid maxWidth={1280} margin="0 auto" container>
         <Grid item md={1}></Grid>
         <Grid item md={6} sx={{ transform: 'translateY(-88px)' }}>
@@ -144,35 +158,60 @@ function PublicPage() {
           </Typography>
         </Grid>
         <Grid item md={4}>
-          <Card sx={{ transform: 'translateY(-37px)' }}>
-            <CardContent>
-              <Typography mb={1} variant="h5">
-                Registration
-              </Typography>
-              <Typography mb={2} variant="body2">
-                You must meet the requirements below to be able to register to the Mint List
-              </Typography>
-              <RegistrationTwitter onDone={handleRegistrationTwitterDone} />
-              <RegistrationDiscord onDone={handleRegistrationDiscordDone} />
-              <RegistrationWallet onDone={handleRegistrationWalletDone} />
-              {allDone && (
-                <Button
-                  variant="contained"
-                  size="large"
-                  fullWidth
+          {finished ? (
+            <Card sx={{ transform: 'translateY(-37px)' }}>
+              <Box sx={{ padding: theme.spacing(10, 3) }}>
+                <Typography variant="h4" mb={3} textAlign={'center'}>
+                  🎉
+                </Typography>
+                <Typography variant="h5" mb={3} textAlign={'center'}>
+                  Congratulations
+                </Typography>
+                <Box
+                  padding={2.5}
                   sx={{
-                    mt: 4.25,
-                    color: 'black',
-                    backgroundColor: '#DDFF55',
-                    boxShadow: 'none',
-                    ':hover': { opacity: '.6', backgroundColor: '#DDFF55' },
+                    borderRadius: 2,
+                    border: '1px solid #E5E8EB',
                   }}
                 >
-                  Register
-                </Button>
-              )}
-            </CardContent>
-          </Card>
+                  <Typography textAlign={'center'} variant="body2">
+                    Your entry has been recorded
+                  </Typography>
+                </Box>
+              </Box>
+            </Card>
+          ) : (
+            <Card sx={{ transform: 'translateY(-37px)' }}>
+              <CardContent>
+                <Typography mb={1} variant="h5">
+                  Registration
+                </Typography>
+                <Typography mb={2} variant="body2">
+                  You must meet the requirements below to be able to register to the Mint List
+                </Typography>
+                <RegistrationTwitter status={registrationTwitterStatus} onChange={handleRegistrationTwitterStatus} />
+                <RegistrationDiscord status={registrationDiscordStatus} onChange={handleRegistrationDiscordStatus} />
+                <RegistrationWallet status={registrationWalletStatus} onChange={handleRegistrationWalletStatus} />
+                {allDone && (
+                  <Button
+                    variant="contained"
+                    size="large"
+                    fullWidth
+                    onClick={handleSubmit}
+                    sx={{
+                      mt: 4.25,
+                      color: 'black',
+                      backgroundColor: '#DDFF55',
+                      boxShadow: 'none',
+                      ':hover': { opacity: '.6', backgroundColor: '#DDFF55' },
+                    }}
+                  >
+                    Register
+                  </Button>
+                )}
+              </CardContent>
+            </Card>
+          )}
         </Grid>
         <Grid item md={1}></Grid>
       </Grid>
