@@ -8,7 +8,7 @@ const AddressCell = ({ row }: any) => {
   return (
     <Stack direction={'row'} gap={0.25} alignItems="center">
       {row.whale && <img src={WhaleIcon.src} width={16} height={16} />}
-      {row.bluechipHolder && <img src={BluechipIcon.src} width={16} height={16} />}
+      {row.nfts > 10 && <img src={BluechipIcon.src} width={16} height={16} />}
       <Typography variant="body2">{address}</Typography>
     </Stack>
   );

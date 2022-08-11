@@ -18,6 +18,7 @@ import { BACKEND_URL } from '../utils/endpoints';
 import { getCookie } from 'cookies-next';
 import { mockIds } from '../samples/whitelist-mapper';
 import { BAYC } from '../samples/BAYC';
+import useWindowDimensions from '../utils/windowSize';
 
 const Cards = styled('div')(() => ({
   display: 'grid',
@@ -159,6 +160,7 @@ function Grid(props: any) {
 const MutualHolders = () => {
   const isMountedRef = useIsMountedRef();
   const [mutualHolders, setMutualHolders] = useState<any[]>([]);
+  const windowSize = useWindowDimensions();
 
   const getMutualHolders = useCallback(async () => {
     const jwt = getCookie('jwt-token');
@@ -186,10 +188,10 @@ const MutualHolders = () => {
       mockWl.data.mutualHoldings.map((holding: any) => {
         holding.id = Math.floor(Math.random() * 1000).toString(16);
         holding.totalSupply = holding.holdings?.totalSupply ?? (Math.random() * 100).toFixed(2);
-        holding.floorPrice = holding.holdings?.stats?.floor.toFixed(2) ?? (Math.random() * 100).toFixed(2);
+        holding.floorPrice = holding.holdings?.floorPrice?.toFixed(2) ?? (Math.random() * 100).toFixed(2);
         holding.mintPrice = holding.holdings?.stats?.mintPrice.toFixed(4) ?? (Math.random() * 100).toFixed(2);
         holding.twitterFollowers = (Math.random() * 100000).toFixed(2);
-        holding.totalHolders = holding.totalSupply !== undefined ? holding.totalSupply / 2 * 1.5 : (Math.random() * 100).toFixed(2);
+        holding.totalHolders = holding.holdings?.numOwners ?? (Math.random() * 100).toFixed(2);
 
       });
       setMutualHolders(mockWl.data.mutualHoldings);
@@ -199,6 +201,24 @@ const MutualHolders = () => {
   useEffect(() => {
     getMutualHolders();
   }, [getMutualHolders]);
+
+  if (windowSize.width!! <= 480)
+    return (
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        style={{ minHeight: '100vh' }}
+        title="Mint List"
+      >
+        <Typography align="center" variant="h3" mb={'14px'}>
+          Oops! We don't support mobile devices yet :(
+        </Typography>
+      </Grid>
+
+    );
 
   if (mutualHolders) {
     return (

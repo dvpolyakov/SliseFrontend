@@ -20,6 +20,7 @@ import { BACKEND_URL } from '../utils/endpoints';
 import { getCookie } from 'cookies-next';
 import { BAYC } from '../samples/BAYC';
 import { mockIds } from '../samples/whitelist-mapper';
+import useWindowDimensions from '../utils/windowSize';
 
 const CardsGrid = styled('div')(() => ({
   display: 'grid',
@@ -53,6 +54,7 @@ const BigCardsGrid = styled('div')(() => ({
 const DashboardIndex = () => {
   const isMountedRef = useIsMountedRef();
   const [statistics, setStatistics] = useState<any>(null);
+  const windowSize = useWindowDimensions();
 
   const getWhitelistStatistics = useCallback(async () => {
     const jwt = getCookie('jwt-token');
@@ -71,13 +73,31 @@ const DashboardIndex = () => {
       const mockWl = BAYC;
       window.localStorage.setItem('whitelistSize', mockWl.data.whitelistSize.toString());
       setStatistics(mockWl.data);
-      console.log(mockWl);
     }
   }, [isMountedRef]);
 
   useEffect(() => {
+
     getWhitelistStatistics();
   }, [getWhitelistStatistics]);
+
+  if (windowSize.width!! <= 480)
+    return (
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        style={{ minHeight: '100vh' }}
+        title="Mint List"
+      >
+        <Typography align="center" variant="h3" mb={'14px'}>
+          Oops! We don't support mobile devices yet :(
+        </Typography>
+      </Grid>
+
+    );
 
   if (!statistics) {
     return (

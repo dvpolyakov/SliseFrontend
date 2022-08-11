@@ -2,6 +2,7 @@ import { Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import React from 'react';
 import { formatNumber } from 'src/widgets/utils';
+import { NAVBAR } from '../../config';
 
 const Root = styled('div')(() => ({
   display: 'grid',
@@ -13,10 +14,15 @@ const Root = styled('div')(() => ({
   paddingRight: 10,
 }));
 
-const Wrapper = styled('div')(() => ({
+type Props = {
+  maxPercent: number
+}
+
+const Wrapper = styled('div')((props) => ({
   height: 6,
   background: '#DDFF55',
   borderRadius: 10,
+ /* width: `calc(100% - ${props.maxPercent * 2}px)`,*/
   position: 'relative',
   overflow: 'hidden',
 }));
@@ -25,18 +31,15 @@ const Bar = styled('div')((props) => ({
   height: 6,
   background: '#131F0F',
   borderRadius: 2,
-
   left: 0,
   top: 0,
 }));
 
 const AvgNtfPrice = ({ value, row }: any) => {
-  console.log(row);
-  const percent = (value / row.maxNftPrice) * 100;
   return (
     <Root>
-      <Wrapper>
-        <Bar sx={{ width: `${percent}%` }} />
+      <Wrapper >
+        <Bar sx={{ width: `${row.percent}%` }} />
       </Wrapper>
       <Typography variant="body2">${formatNumber(value,0)}</Typography>
     </Root>

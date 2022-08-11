@@ -1,6 +1,6 @@
-import { Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Page from 'src/components/Page';
 import Layout from 'src/layouts';
 import CirclePercentageCard from 'src/widgets/CirclePercentageCard';
@@ -24,6 +24,7 @@ import { BACKEND_URL } from '../utils/endpoints';
 import { getCookie } from 'cookies-next';
 import { mockIds } from '../samples/whitelist-mapper';
 import { BAYC } from '../samples/BAYC';
+import useWindowDimensions from '../utils/windowSize';
 
 const Cards = styled('div')(() => ({
   display: 'grid',
@@ -100,20 +101,20 @@ const columns = [
     field: 'nfts',
     headerName: 'NFTs',
     width: 25,
-    flex: 1,
+    flex: 0.7,
     align: 'right',
     headerAlign: 'right',
     sortable: false,
     resizable: false,
     disableColumnMenu: true,
     disableReorder: true,
-    valueFormatter: ({ value }: any) => formatNumber(value,0),
+    valueFormatter: ({ value }: any) => formatNumber(value, 0),
   },
   {
     field: 'avgNftPrice',
     headerName: 'Avg. NFT Price',
     width: 128,
-    flex: 1,
+    flex: 1.5,
     align: 'center',
     headerAlign: 'center',
     sortable: false,
@@ -133,7 +134,7 @@ const columns = [
     resizable: false,
     disableColumnMenu: true,
     disableReorder: true,
-    valueFormatter: ({ value }: any) => `$${formatNumber(value,0)}`,
+    valueFormatter: ({ value }: any) => `$${formatNumber(value, 0)}`,
   },
   {
     field: 'portfolio',
@@ -187,6 +188,7 @@ const MintList = () => {
   const [bluechip, setBluechips] = useState(0);
   const isMountedRef = useIsMountedRef();
   const [size, setSize] = useState(0);
+  const windowSize = useWindowDimensions();
 
   const getTopHolders = useCallback(async () => {
     const jwt = getCookie('jwt-token');
@@ -196,18 +198,18 @@ const MintList = () => {
         `${BACKEND_URL}analytics/topHolders?whitelistId=${whitelistId}`,
         {
           headers: {
-            'Authorization' : `Bearer ${jwt}`
+            'Authorization': `Bearer ${jwt}`
           }
         }
       );
-     /* response.data.data.map((holding) => {
-        holding.id = Math.floor(Math.random() * 1000).toString(16);
-        holding.totalSupply = holding.holdings.totalSupply ?? (Math.random() * 100).toFixed(2);
-        holding.floorPrice = holding.holdings.stats?.floor.toFixed(4) ?? (Math.random() * 100).toFixed(2);
-        holding.mintPrice = holding.holdings.stats?.mintPrice.toFixed(4) ?? (Math.random() * 100).toFixed(2);
-        holding.twitterFollowers = (Math.random() * 100000).toFixed(2);
-        holding.totalHolders = holding.totalSupply !== undefined ? holding.totalSupply / 2 * 1.5 : (Math.random() * 100).toFixed(2);
-      });*/
+      /* response.data.data.map((holding) => {
+         holding.id = Math.floor(Math.random() * 1000).toString(16);
+         holding.totalSupply = holding.holdings.totalSupply ?? (Math.random() * 100).toFixed(2);
+         holding.floorPrice = holding.holdings.stats?.floor.toFixed(4) ?? (Math.random() * 100).toFixed(2);
+         holding.mintPrice = holding.holdings.stats?.mintPrice.toFixed(4) ?? (Math.random() * 100).toFixed(2);
+         holding.twitterFollowers = (Math.random() * 100000).toFixed(2);
+         holding.totalHolders = holding.totalSupply !== undefined ? holding.totalSupply / 2 * 1.5 : (Math.random() * 100).toFixed(2);
+       });*/
       response.data.data.topHolders.map((holding: any) => {
         holding.id = Math.floor(Math.random() * 1000).toString(16);
         holding.holdings = holding.alsoHold;
@@ -224,11 +226,11 @@ const MintList = () => {
     } else {
       const mockWl = BAYC;
       const arr = [...mockWl.data.topHolders];
-      arr.sort((a, b) => {
+      const newArr = arr.sort((a, b) => {
         return b.avgNFTPrice - a.avgNFTPrice;
       });
 
-      arr.map((holding: any) => {
+      newArr.map((holding: any) => {
         holding.id = Math.floor(Math.random() * 1000).toString(16);
         holding.holdings = holding.alsoHold;
         holding.avgNftPrice = holding.avgNFTPrice;
@@ -248,6 +250,24 @@ const MintList = () => {
     getTopHolders();
   }, [getTopHolders]);
 
+  if (windowSize.width!! <= 480)
+    return (
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        style={{ minHeight: '100vh' }}
+        title="Mint List"
+      >
+        <Typography align="center" variant="h3" mb={'14px'}>
+          Oops! We don't support mobile devices yet :(
+        </Typography>
+      </Grid>
+
+    );
+
   return (
     <Page
       sx={{
@@ -260,9 +280,11 @@ const MintList = () => {
         Mint List
       </Typography>
       <Cards>
-        <CirclePercentageCard percent={((bluechip) / size).toFixed(1)} count={bluechip} title="Blue Chip Holders" bg={BluechipBg.src} />
-        <CirclePercentageCard percent={((whales) / size).toFixed(1)} count={whales} title="Whales" bg={WhaleBg.src} />
-        <CirclePercentageCard percent={((bots)  / size).toFixed(1)} count={bots} title="Bots" bg={BotBg.src} />
+        <CirclePercentageCard percent={((bluechip) / size).toFixed(1)} count={bluechip} title="Blue Chip Holders"
+                              bg={BluechipBg.src}/>
+        <CirclePercentageCard percent={((whales) / size).toFixed(1)} count={whales} title="Whales"
+                              bg={WhaleBg.src}/>
+        <CirclePercentageCard percent={((bots) / size).toFixed(1)} count={bots} title="Bots" bg={BotBg.src}/>
       </Cards>
       <SwitchCards>
         <SwitchCard
@@ -270,10 +292,10 @@ const MintList = () => {
           value={mlWallets}
           onChange={toggleMlWallets}
         />
-        <SwitchCard title="Filter out wallets identified as bots" value={botsFilter} onChange={toggleBotsFilter} />
+        <SwitchCard title="Filter out wallets identified as bots" value={botsFilter} onChange={toggleBotsFilter}/>
       </SwitchCards>
       <TableCard>
-        <Datagrid columns={columns} rows={topHolders} />
+        <Datagrid columns={columns} rows={topHolders}/>
       </TableCard>
     </Page>
   );

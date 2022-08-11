@@ -37,7 +37,6 @@ const OneAvatar = ({logo, alt, index, children}: any) => {
 const NftStackCell = ({value, colDef} : any) => {
   const width = colDef.computedWidth - 20;
   const avatarImgCount = 3;
-  console.log(value);
 
   return (
     <Stack direction={'row'}>

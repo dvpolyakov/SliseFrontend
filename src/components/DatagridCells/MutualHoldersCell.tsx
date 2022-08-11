@@ -24,7 +24,6 @@ const Bar = styled('div')((props) => ({
   height: 6,
   background: '#131F0F',
   borderRadius: 2,
-
   left: 0,
   top: 0,
 }));

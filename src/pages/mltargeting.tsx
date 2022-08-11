@@ -14,6 +14,7 @@ import Layout from 'src/layouts';
 import { styled } from '@mui/system';
 import useIsMountedRef from '../hooks/useIsMountedRef';
 import { BACKEND_URL } from '../utils/endpoints';
+import useWindowDimensions from '../utils/windowSize';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -153,8 +154,9 @@ export default function GeneralBooking() {
   const [newView, setView] = useState(0);
   const [wallets, setWallets] = useState(0);
   const [data, setData] = useState<string[]>([]);
-  const handleChange = (event: any, newNumber: any) => {
+  const windowSize = useWindowDimensions();
 
+  const handleChange = (event: any, newNumber: any) => {
     if (newNumber === 0) {
       setWallets('0');
     }
@@ -241,6 +243,24 @@ export default function GeneralBooking() {
      }
 
    }, [isMountedRef]);*/
+
+  if (windowSize.width!! <= 480)
+    return (
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        style={{ minHeight: '100vh' }}
+        title="Mint List"
+      >
+        <Typography align="center" variant="h3" mb={'14px'}>
+          Oops! We don't support mobile devices yet :(
+        </Typography>
+      </Grid>
+
+    );
 
   return (
     <Page
