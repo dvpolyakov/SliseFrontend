@@ -59,7 +59,7 @@ type Props = {
 export default function WhitelistsPopover({ isCollapse }: Props) {
   const [open, setOpen] = useState<HTMLElement | null>(null);
   const [whitelists, setWhitelists] = useState<Whitelist[]>([]);
-  const [whitelist, setWhitelist] = useState<Whitelist>({ logo: '', networkType: 'Ethereum', name: 'BAYC', id: '1' });
+  const [whitelist, setWhitelist] = useState<Whitelist>({ logo: 'https://nftcalendar.io/storage/uploads/2022/05/18/red_0518202219120762854507cfef1.jpg', networkType: 'Ethereum', name: 'IKIGAI', id: '1' });
   const isMountedRef = useIsMountedRef();
   const color = '#1D291B';
 
