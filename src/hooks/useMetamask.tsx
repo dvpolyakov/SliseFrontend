@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { injected } from '../components/wallet/connectors'
 import { useWeb3React } from '@web3-react/core';
 import { authUser } from '../utils/authUtils';
 import { useRouter } from 'next/router';
 import { ethers } from "ethers";
+import useIsMountedRef from './useIsMountedRef';
 
 export const MetaMaskContext = React.createContext(null)
 
@@ -14,6 +15,7 @@ export const MetaMaskProvider = ({ children }: any) => {
   const [shouldDisable, setShouldDisable] = useState(true) // Should disable connect button while connecting to MetaMask
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
+  const _isMounted = useRef(true);
 
   const signMessage = async ({ setError, message }) => {
     try {
@@ -39,9 +41,15 @@ export const MetaMaskProvider = ({ children }: any) => {
 
   // Init Loading
   useEffect(() => {
-    connect().then(val => {
-      setIsLoading(false)
-    });
+    return () => {
+      setIsActive(active);
+      setShouldDisable(false);
+      /*setIsLoading(false);*/
+      _isMounted.current = false;
+    }
+    // connect().then(val => {
+    //   setIsLoading(false)
+    // });
   }, [])
 
   // Check when App is Connected or Disconnected to MetaMask
@@ -56,7 +64,7 @@ export const MetaMaskProvider = ({ children }: any) => {
   }, [handleIsActive])
 
   const clickConnect = async () => {
-    await connect().then(async(res) => {
+    await connect().then(async (res) => {
       await authUser(account!, 'Ethereum');
       window.location = '/dashboard';
     })
@@ -70,16 +78,16 @@ export const MetaMaskProvider = ({ children }: any) => {
       await activate(injected).then(async () => {
         setShouldDisable(false);
         if (account) {
-         /* const sig = await signMessage({
-            setError,
-            message: account
-          });
-          if (sig) {*/
+          /* const sig = await signMessage({
+             setError,
+             message: account
+           });
+           if (sig) {*/
 
-           /* await authUser(account!, 'Ethereum', true);
-            await router.push('/dashboard');*/
+          /* await authUser(account!, 'Ethereum', true);
+           await router.push('/dashboard');*/
 
-         /* }*/
+          /* }*/
         }
       })
     } catch (error) {

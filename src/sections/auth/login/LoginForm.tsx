@@ -24,6 +24,10 @@ import { setCookie } from 'cookies-next';
 import { styled } from '@mui/material/styles';
 import NavItem from '../../../components/nav-section/horizontal/NavItem';
 import usePhantom from '../../../components/PhantomProvider';
+import { useMetamask } from "use-metamask";
+import { ethers } from 'ethers';
+import { authUser } from '../../../utils/authUtils';
+import { useRouter } from 'next/router';
 
 // ----------------------------------------------------------------------
 
@@ -48,8 +52,82 @@ const MetaMaskStyle = styled('button')(({ theme }) => ({
 
 export default function LoginForm() {
   const { login } = useAuth();
-  // @ts-ignore
-  const { connect, disconnect, isActive, account, shouldDisable, clickConnect } = useMetaMask();
+  const router = useRouter();
+  const [data, setdata] = useState({
+    address: "",
+    Balance: null,
+  });
+
+  // Button handler button for handling a
+  // request event for metamask
+  const btnhandler = () => {
+
+    // Asking if metamask is already present or not
+    if (window.ethereum) {
+
+      // res[0] for fetching a first wallet
+      window.ethereum
+        .request({ method: "eth_requestAccounts" })
+        .then(async (res) => {
+          const sig = await signMessage({
+            setError,
+            message: res[0]
+          });
+          accountChangeHandler(res[0]);
+        });
+    } else {
+    }
+  };
+  const getbalance = (address) => {
+
+    // Requesting balance method
+    window.ethereum
+      .request({
+        method: "eth_getBalance",
+        params: [address, "latest"]
+      })
+      .then((balance) => {
+        // Setting balance
+        setdata({
+          Balance: ethers.utils.formatEther(balance),
+        });
+      });
+  };
+
+  const signMessage = async ({ setError, message }) => {
+    try {
+      console.log({ message });
+      if (!window.ethereum)
+        throw new Error("No crypto wallet found. Please install it.");
+
+      await window.ethereum.send("eth_requestAccounts");
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const signature = await signer.signMessage(message);
+      const address = await signer.getAddress();
+      await authUser(message, 'Ethereum');
+      await router.push('/dashboard');
+
+      return {
+        message,
+        signature,
+        address
+      };
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  // Function for getting handling all events
+  const accountChangeHandler = (account) => {
+    // Setting an address data
+    setdata({
+      address: account,
+    });
+
+    // Setting a balance
+    getbalance(account);
+  };
   const {
     walletAvail,
     provider,
@@ -103,7 +181,7 @@ export default function LoginForm() {
             maxWidth: 480,
             height: 48,
             ':hover': { opacity: '.9', backgroundColor: '#1098FC' }
-          }} onClick={clickConnect} disabled={shouldDisable}>
+          }} onClick={btnhandler}>
             <img src="/assets/metamask_l.svg" alt="MetaMask" width="24" height="24"
                  style={{ marginRight: 8 }}/> Metamask
           </Button>

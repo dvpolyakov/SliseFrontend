@@ -69,6 +69,7 @@ import { BACKEND_URL } from '../utils/endpoints';
 import { getCookie, setCookies } from 'cookies-next';
 import { Whitelist } from '../models/models';
 import { PhantomProvider } from '../components/PhantomProvider';
+import { MetamaskStateProvider } from 'use-metamask';
 // import { AuthProvider } from '../contexts/Auth0Context';
 // import { AuthProvider } from '../contexts/FirebaseContext';
 // import { AuthProvider } from '../contexts/AwsCognitoContext';
@@ -79,7 +80,6 @@ type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 
-
 interface MyAppProps extends AppProps {
   settings: SettingsValueProps;
   Component: NextPageWithLayout;
@@ -87,6 +87,7 @@ interface MyAppProps extends AppProps {
 
 export default function MyApp(props: MyAppProps) {
   const { Component, pageProps, settings } = props;
+
   function getLibrary(provider: any, connector: any) {
     return new Web3(provider)
   }
@@ -96,7 +97,7 @@ export default function MyApp(props: MyAppProps) {
   return (
     <>
       <Head>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <meta name="viewport" content="initial-scale=1, width=device-width"/>
       </Head>
 
       <AuthProvider>
@@ -108,15 +109,15 @@ export default function MyApp(props: MyAppProps) {
                   <ThemeProvider>
                     <Web3ReactProvider getLibrary={getLibrary}>
                       <PhantomProvider>
-                      <MetaMaskProvider>
-                    {/* <ThemeSettings> */}
-                      <NotistackProvider>
-                        <ChartStyle />
-                        <ProgressBar />
-                        {getLayout(<Component {...pageProps} />)}
-                      </NotistackProvider>
-                    {/* </ThemeSettings> */}
-                      </MetaMaskProvider>
+                        <MetamaskStateProvider>
+                          {/* <ThemeSettings> */}
+                          <NotistackProvider>
+                            <ChartStyle/>
+                            <ProgressBar/>
+                            {getLayout(<Component {...pageProps} />)}
+                          </NotistackProvider>
+                          {/* </ThemeSettings> */}
+                        </MetamaskStateProvider>
                       </PhantomProvider>
                     </Web3ReactProvider>
                   </ThemeProvider>
@@ -145,4 +146,5 @@ MyApp.getInitialProps = async (context: AppContext) => {
     ...appProps,
     settings,
   };
-};
+}
+;
