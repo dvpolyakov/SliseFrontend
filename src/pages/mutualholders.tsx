@@ -189,7 +189,7 @@ const MutualHolders = () => {
         holding.id = Math.floor(Math.random() * 1000).toString(16);
         if(holding.holdings?.totalSupply < 1)
           holding.totalSupply = (Math.random() * 100).toFixed(2);
-        else 
+        else
           holding.totalSupply = holding.holdings?.totalSupply ?? (Math.random() * 100).toFixed(2);
         holding.floorPrice = holding.holdings?.floorPrice?.toFixed(2) ?? (Math.random() * 100).toFixed(2);
         holding.mintPrice = holding.holdings?.stats?.mintPrice.toFixed(4) ?? (Math.random() * 100).toFixed(2);

@@ -909,172 +909,172 @@ export const BAYC =
       ],
       "mutualHoldings": [
         {
-          "address": "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
-          "contractName": "BoredApeYachtClub",
-          "totalholdings": 37,
-          "holdings": {
-            "totalSupply": 10000,
-            "logo": "https://lh3.googleusercontent.com/Ju9CkWtV-1Okvf45wo8UctR-M9He2PjILP0oOvxE89AyiPPGtrR3gysu1Zgy0hjd2xKIgjJJtWIc0ybj4Vd7wv8t3pxDGHoJBzDB=s120",
-            "floorPrice": 84,
-            "numOwners": 6441
-          },
-          "maxPercent": 14, "percent": 100
-        },
-        {
           "address": "0x6fE9c57ae423D14E78CDD5877D16558bb959d303",
           "contractName": "EpicBeast",
-          "totalholdings": 36,
+          "totalholdings": 40,
           "holdings": {
             "totalSupply": 8591,
             "logo": "https://lh3.googleusercontent.com/TkW6ajKYkTC1yxGxATDtfSSxvXC5opIBLiQleYuqEWbVpMBTPGNgg3cFh92mD6Fq6N9a8gs8ovoyiKoGCqbNyZPlQY2K92GPmdHRjg=s120",
             "floorPrice": 0.0193,
             "numOwners": 4982
           },
-          "maxPercent": 14, "percent": 97.2972972972973
-        },
-        {
-          "address": "0x6d3Ab34f42F8EcF7645f05C343f8D520E0764589",
-          "contractName": "Kingstown.wtf",
-          "totalholdings": 33,
-          "holdings": {
-            "totalSupply": 0,
-            "logo": "https://lh3.googleusercontent.com/01lmyZUSqJZhJpaWf2saO0JFIqm0CsMoHA7EwJLUvt6D_LUz4NzmglAuH5pb0exEU8Fl8Rv4X8zNkPj-4H7lB5ytm0fZNBLasuRvgw",
-            "floorPrice": null,
-            "numOwners": null
-          },
-          "maxPercent": 14, "percent": 89.1891891891892
+          "percent": 100
         },
         {
           "address": "0x34d85c9CDeB23FA97cb08333b511ac86E1C4E258",
           "contractName": "Otherdeed",
-          "totalholdings": 33,
+          "totalholdings": 37,
           "holdings": {
             "totalSupply": 100000,
             "logo": "https://lh3.googleusercontent.com/yIm-M5-BpSDdTEIJRt5D6xphizhIdozXjqSITgK4phWq7MmAU3qE7Nw7POGCiPGyhtJ3ZFP8iJ29TFl-RLcGBWX5qI4-ZcnCPcsY4zI=s120",
             "floorPrice": 2.175,
             "numOwners": 34759
           },
-          "maxPercent": 14, "percent": 89.1891891891892
+          "percent": 92.5
+        },
+        {
+          "address": "0x6d3Ab34f42F8EcF7645f05C343f8D520E0764589",
+          "contractName": "Kingstown.wtf",
+          "totalholdings": 37,
+          "holdings": {
+            "totalSupply": 0,
+            "logo": "https://lh3.googleusercontent.com/01lmyZUSqJZhJpaWf2saO0JFIqm0CsMoHA7EwJLUvt6D_LUz4NzmglAuH5pb0exEU8Fl8Rv4X8zNkPj-4H7lB5ytm0fZNBLasuRvgw",
+            "floorPrice": null,
+            "numOwners": null
+          },
+          "percent": 92.5
         },
         {
           "address": "0x649EDc1C85F32AFebdCD49bfC1A69224cf6cAE27",
           "contractName": "Dont Buy Poo",
-          "totalholdings": 33,
+          "totalholdings": 37,
           "holdings": {
             "totalSupply": 0,
             "logo": "https://lh3.googleusercontent.com/Mejx8qqrc6J-Mo9QhFFVXcD2wQqwRJ7xuNX3hUAeOK8zg9wFZZCtn72zOlYWCB5ZWNX4nJQrQmFGNvC_ox9KWn_jLA5YvhMAcacMCg",
             "floorPrice": null,
             "numOwners": null
           },
-          "maxPercent": 14, "percent": 89.1891891891892
+          "percent": 92.5
         },
         {
           "address": "0x75A35C67859320baA881c78f91D292174Cb6919f",
           "contractName": "Colorpencil Club X BAYC",
-          "totalholdings": 31,
+          "totalholdings": 35,
           "holdings": {
             "totalSupply": 10000,
             "logo": "https://lh3.googleusercontent.com/Jw3KNOfUXjV_phF5Z9fDFVgkaJKhMTn94to2y6etV0JIb4iFtKWILJaGdqmYjH2EiYV_pTSsKTXyL3cSklrKHzIVZ3C1-HtbV77P=s120",
             "floorPrice": null,
             "numOwners": 5820
           },
-          "maxPercent": 14, "percent": 83.78378378378379
+          "percent": 87.5
         },
         {
           "address": "0x60E4d786628Fea6478F785A6d7e704777c86a7c6",
           "contractName": "MutantApeYachtClub",
-          "totalholdings": 29,
+          "totalholdings": 33,
           "holdings": {
             "totalSupply": 19425,
             "logo": "https://lh3.googleusercontent.com/lHexKRMpw-aoSyB1WdFBff5yfANLReFxHzt1DOj_sg7mS14yARpuvYcUtsyyx-Nkpk6WTcUPFoG53VnLJezYi8hAs0OxNZwlw6Y-dmI=s120",
             "floorPrice": 16.8,
             "numOwners": 12958
           },
-          "maxPercent": 14, "percent": 78.37837837837837
+          "percent": 82.5
         },
         {
           "address": "0xf603F99c529B33B0eA1684Ec48dBa42E78697359",
           "contractName": "COLORPENCIL X AZUKI",
-          "totalholdings": 28,
+          "totalholdings": 32,
           "holdings": {
             "totalSupply": 8033,
             "logo": "https://lh3.googleusercontent.com/FSDVO140kz69mqiUHIw2yNs5ndYnkIUDyZKtO0NmyhOe0qKwvFJqhYCIZehKmXhWPf8ZdW7UForaKU4CJRVJhRw13OBlNgbAeWiH9w=s120",
             "floorPrice": null,
             "numOwners": 4771
           },
-          "maxPercent": 14, "percent": 75.67567567567568
+          "percent": 80
         },
         {
           "address": "0xba30E5F9Bb24caa003E9f2f0497Ad287FDF95623",
           "contractName": "BoredApeKennelClub",
-          "totalholdings": 26,
+          "totalholdings": 30,
           "holdings": {
             "totalSupply": 9602,
             "logo": "https://lh3.googleusercontent.com/l1wZXP2hHFUQ3turU5VQ9PpgVVasyQ79-ChvCgjoU5xKkBA50OGoJqKZeMOR-qLrzqwIfd1HpYmiv23JWm0EZ14owiPYaufqzmj1=s120",
             "floorPrice": 8.19,
             "numOwners": 5550
           },
-          "maxPercent": 14, "percent": 70.27027027027027
+          "percent": 75
         },
         {
           "address": "0x495f947276749ce646f68ac8c248420045cb7b5e",
           "contractName": "OpenSea Shared Storefront",
-          "totalholdings": 26,
+          "totalholdings": 30,
           "holdings": {
             "totalSupply": 1787545,
             "logo": "https://lh3.googleusercontent.com/a7N7kGAgplBBm4sudFAhZACwKQKxYD_0SSXMAvuwundIZl_aPrUVaXbGtKarcPbMDzqF6rekOr9Avs20o204p1Wq0p-b5QtSyKsneg",
             "floorPrice": null,
             "numOwners": null
           },
-          "maxPercent": 14, "percent": 70.27027027027027
+          "percent": 75
         },
         {
           "address": "0xB4CD5883cB81c0ECfaBb12C4594F29897A792FB5",
           "contractName": "Colorpencil Ape Club X BAYC",
-          "totalholdings": 25,
+          "totalholdings": 29,
           "holdings": {
             "totalSupply": 2008,
             "logo": "https://lh3.googleusercontent.com/SgD5PKMDcahTFh5xVjPl-GqYn3235IFbU-7F8k7O_dCBBM1zMBC48a6uBUlQXoUzK1vBM9PF9JRazjtBBnPMeZWAfLxchFAxbvKN=s120",
             "floorPrice": null,
             "numOwners": 1504
           },
-          "maxPercent": 14, "percent": 67.56756756756756
+          "percent": 72.5
         },
         {
           "address": "0x5f41A5bEA0B2a1c45bFbFd52354a0DE49ABFb8D6",
           "contractName": "CRAYON CLUB X BAYC",
-          "totalholdings": 24,
+          "totalholdings": 28,
           "holdings": {
             "totalSupply": 10001,
             "logo": "https://lh3.googleusercontent.com/CRpiTJEmQWZVQxjlDQoQ5AXF8DzF6BME2ozwMhX6zK0sx5EhF1qEckxA15L_OEPcBlPtk9k38sR1rYgAxelOxQ_9UgA5Es-i9BM=s120",
             "floorPrice": null,
             "numOwners": 5764
           },
-          "maxPercent": 14, "percent": 64.86486486486487
+          "percent": 70
         },
         {
           "address": "0x1257879752c565EE84F5146FC2b9c6CBA56E8977",
           "contractName": "HMC NO.1 SPEAKER NFT",
-          "totalholdings": 16,
+          "totalholdings": 18,
           "holdings": {
             "totalSupply": 1881,
             "logo": "https://lh3.googleusercontent.com/-rZiCH93XCzDOlWc8W1B00I5F-9h6ApB0FebMye67We11KnG_jcw9rIz9Vs8BLTBIjSm9o5r4GKHsHy5js6HhgbsJtd61YFBIJtC9jQ=s120",
             "floorPrice": null,
             "numOwners": 156
           },
-          "maxPercent": 14, "percent": 43.24324324324324
+          "percent": 45
         },
         {
           "address": "0xB826B35ECa4A3f5fDFC7f16400eaadC04B25d5eF",
           "contractName": "Draw X Ape",
-          "totalholdings": 14,
+          "totalholdings": 18,
           "holdings": {
             "totalSupply": 992,
             "logo": "https://lh3.googleusercontent.com/LfEWRxTiZsFo_z8y7pqZJ2TGM8gkmBZVe07uFn3nG6Mikj9X1I5WciHweoLCvWbuLgorFIFyV8RPNNbTbcppPj5ruQ1Bn5_UNKzToQ=s120",
             "floorPrice": null,
             "numOwners": 751
           },
-          "maxPercent": 14, "percent": 37.83783783783784
+          "percent": 45
+        },
+        {
+          "address": "0x4b570b636e4F744199ec82F52d69B08b394ab850",
+          "contractName": "DopeApeClub",
+          "totalholdings": 16,
+          "holdings": {
+            "totalSupply": 10000,
+            "logo": "https://openseauserdata.com/files/41eae55ba7f46b75cca8f1f9197a23af.jpg",
+            "floorPrice": 0.024,
+            "numOwners": 2930
+          },
+          "percent": 40
         },
         {
           "address": "0xeC516eFECd8276Efc608EcD958a4eAB8618c61e8",
@@ -1086,19 +1086,31 @@ export const BAYC =
             "floorPrice": 0.021,
             "numOwners": 2632
           },
-          "maxPercent": 14, "percent": 37.83783783783784
+          "percent": 35
         },
         {
-          "address": "0x4b570b636e4F744199ec82F52d69B08b394ab850",
-          "contractName": "DopeApeClub",
+          "address": "0x4464045102da5ab5c9195ddfb48568ab2c753f92",
+          "contractName": "tiny Polarbear",
           "totalholdings": 14,
           "holdings": {
-            "totalSupply": 10000,
-            "logo": "https://openseauserdata.com/files/41eae55ba7f46b75cca8f1f9197a23af.jpg",
-            "floorPrice": 0.024,
-            "numOwners": 2930
+            "totalSupply": 0,
+            "logo": "https://cloudflare-ipfs.com/ipfs/QmULNpKb4pJAr6LeKRDzpth8S7ZUHrZzMK8QBKtFrRE1Sf",
+            "floorPrice": null,
+            "numOwners": null
           },
-          "maxPercent": 14, "percent": 37.83783783783784
+          "percent": 35
+        },
+        {
+          "address": "0xb66a603f4cfe17e3d27b87a8bfcad319856518b8",
+          "contractName": "Rarible",
+          "totalholdings": 12,
+          "holdings": {
+            "totalSupply": 10301,
+            "logo": "https://lh3.googleusercontent.com/FG0QJ00fN3c_FWuPeUr9-T__iQl63j9hn5d6svW8UqOmia5zp3lKHPkJuHcvhZ0f_Pd6P2COo9tt9zVUvdPxG_9BBw=s60",
+            "floorPrice": 1e-7,
+            "numOwners": 218378
+          },
+          "percent": 30
         },
         {
           "address": "0x135837c230a275045455D1Eb007b13De6F2D43e6",
@@ -1110,43 +1122,31 @@ export const BAYC =
             "floorPrice": null,
             "numOwners": null
           },
-          "maxPercent": 14, "percent": 32.432432432432435
+          "percent": 30
         },
         {
-          "address": "0x4464045102da5ab5c9195ddfb48568ab2c753f92",
-          "contractName": "tiny Polarbear",
-          "totalholdings": 12,
+          "address": "0xe1216eff1e5a7c07e51ba773661112058f30c5a0",
+          "contractName": "FlyFrogs",
+          "totalholdings": 11,
+          "holdings": {
+            "totalSupply": 100,
+            "logo": "https://lh3.googleusercontent.com/p87H4-GS-LVEK5BS1SD0HZNjdPmmabh3UOZIhsRUBDqE3t7OdJJ-KZ4iCVj5xSt9ajvNfaJ9PEp0VGD6IWzsTj9o_X_8fLwHNeqc_Q=s300",
+            "floorPrice": 2,
+            "numOwners": 538
+          },
+          "percent": 27.500000000000004
+        },
+        {
+          "address": "0x7b41874eFe38Ea0E4866307B7208D9C856745d31",
+          "contractName": "WeAre",
+          "totalholdings": 11,
           "holdings": {
             "totalSupply": 0,
-            "logo": "https://cloudflare-ipfs.com/ipfs/QmULNpKb4pJAr6LeKRDzpth8S7ZUHrZzMK8QBKtFrRE1Sf",
+            "logo": "https://lh3.googleusercontent.com/-Pr9kkwWA6zzl9JQqYJpxhNp0qvxvdCSneIo-6B0RdVMtG9ewv01o__Nc1BgKFJ3yx_YyrAfBB_qrGg4ngfr8ZqVhVhduWWbJzFlpgo",
             "floorPrice": null,
             "numOwners": null
           },
-          "maxPercent": 14, "percent": 32.432432432432435
-        },
-        {
-          "address": "0xb66a603f4cfe17e3d27b87a8bfcad319856518b8",
-          "contractName": "Rarible",
-          "totalholdings": 10,
-          "holdings": {
-            "totalSupply": 10301,
-            "logo": "https://lh3.googleusercontent.com/FG0QJ00fN3c_FWuPeUr9-T__iQl63j9hn5d6svW8UqOmia5zp3lKHPkJuHcvhZ0f_Pd6P2COo9tt9zVUvdPxG_9BBw=s60",
-            "floorPrice": 1e-7,
-            "numOwners": 218378
-          },
-          "maxPercent": 14, "percent": 27.027027027027028
-        },
-        {
-          "address": "0x1266ffce77de17864a7e5c7c657425594c2be9b4",
-          "contractName": "Save Crystals",
-          "totalholdings": 10,
-          "holdings": {
-            "totalSupply": 0,
-            "logo": "https://arweave.net/4H3ey3TD27HPn3mSXFfzsElVUI4XXuMj4TskhgxA_jc",
-            "floorPrice": null,
-            "numOwners": null
-          },
-          "maxPercent": 14, "percent": 27.027027027027028
+          "percent": 27.500000000000004
         },
         {
           "address": "0x7Bd29408f11D2bFC23c34f18275bBf23bB716Bc7",
@@ -1158,31 +1158,91 @@ export const BAYC =
             "floorPrice": 4.6972,
             "numOwners": 6543
           },
-          "maxPercent": 14, "percent": 27.027027027027028
+          "percent": 25
         },
         {
-          "address": "0x7b41874eFe38Ea0E4866307B7208D9C856745d31",
-          "contractName": "WeAre",
-          "totalholdings": 9,
+          "address": "0x1266ffce77de17864a7e5c7c657425594c2be9b4",
+          "contractName": "Save Crystals",
+          "totalholdings": 10,
           "holdings": {
             "totalSupply": 0,
-            "logo": "https://lh3.googleusercontent.com/-Pr9kkwWA6zzl9JQqYJpxhNp0qvxvdCSneIo-6B0RdVMtG9ewv01o__Nc1BgKFJ3yx_YyrAfBB_qrGg4ngfr8ZqVhVhduWWbJzFlpgo",
+            "logo": "https://arweave.net/4H3ey3TD27HPn3mSXFfzsElVUI4XXuMj4TskhgxA_jc",
             "floorPrice": null,
             "numOwners": null
           },
-          "maxPercent": 14, "percent": 24.324324324324326
+          "percent": 25
         },
         {
-          "address": "0xe1216eff1e5a7c07e51ba773661112058f30c5a0",
-          "contractName": "FlyFrogs",
+          "address": "0x8F4CA9A9Df620aC58152f5369650DBcCD006de37",
+          "contractName": "Rollbit VIP Passes",
+          "totalholdings": 10,
+          "holdings": {
+            "totalSupply": 1087,
+            "logo": "https://lh3.googleusercontent.com/D3f_XihJIP1nK_-oRj7zhVIu9Jr0iGzqcSO1lwQck0ZUPnxZKM7jTXA0XZuRGT871DC5WOFMB_TO18tbQMXR43emBoZkfK7mYHjj3Q=s120",
+            "floorPrice": 0.066,
+            "numOwners": 690
+          },
+          "percent": 25
+        },
+        {
+          "address": "0x5245FC0BAee7c7ACcb8f46451599E62B5207Cc27",
+          "contractName": "The Boring Bucket Hat",
           "totalholdings": 9,
           "holdings": {
-            "totalSupply": 100,
-            "logo": "https://lh3.googleusercontent.com/p87H4-GS-LVEK5BS1SD0HZNjdPmmabh3UOZIhsRUBDqE3t7OdJJ-KZ4iCVj5xSt9ajvNfaJ9PEp0VGD6IWzsTj9o_X_8fLwHNeqc_Q=s300",
-            "floorPrice": 2,
-            "numOwners": 538
+            "totalSupply": 103,
+            "logo": "https://lh3.googleusercontent.com/1JgN6PncFht3Jd7UsL7XbvIvd6UQLCQOdVr4zH5KD9SYsjqdKg1Gs6p-jcnLLxDzEbnGOXscZWwtJLaUY2q9dAdM328hqM1XFvoW=s120",
+            "floorPrice": null,
+            "numOwners": 103
           },
-          "maxPercent": 14, "percent": 24.324324324324326
+          "percent": 22.5
+        },
+        {
+          "address": "0x6797257690f5a0c7bed43b3a220c415252ecc93e",
+          "contractName": "tiny PolarBear",
+          "totalholdings": 9,
+          "holdings": {
+            "totalSupply": 0,
+            "logo": "https://cloudflare-ipfs.com/ipfs/QmULNpKb4pJAr6LeKRDzpth8S7ZUHrZzMK8QBKtFrRE1Sf",
+            "floorPrice": null,
+            "numOwners": null
+          },
+          "percent": 22.5
+        },
+        {
+          "address": "0x7c6F282EFbe06E93de4Ab5e646478bEE20F966B8",
+          "contractName": "Legionfarm Celebrities Collection",
+          "totalholdings": 9,
+          "holdings": {
+            "totalSupply": 3021,
+            "logo": "https://openseauserdata.com/files/93edf98cab33b9a1c0a605f0200fda22.png",
+            "floorPrice": 0.375,
+            "numOwners": 600
+          },
+          "percent": 22.5
+        },
+        {
+          "address": "0xecbf716c557e5b217df39b9994a3851ef9ef018f",
+          "contractName": "Crypto Bull",
+          "totalholdings": 9,
+          "holdings": {
+            "totalSupply": 0,
+            "logo": "https://cryptobull.link/json/34",
+            "floorPrice": null,
+            "numOwners": null
+          },
+          "percent": 22.5
+        },
+        {
+          "address": "0x8eaaabe11896bd09fb852d3a5248004ec44bc793",
+          "contractName": "Refractions",
+          "totalholdings": 9,
+          "holdings": {
+            "totalSupply": 56,
+            "logo": "https://lh3.googleusercontent.com/bpgttQDPj_xaYePgjWwOIGj6Y-ajGll7zkYsB7xewqXQKy8LLr01TFyIo7PVu5W3paOGYmJVp72-WPB8CBazWbddhgmurGX2sBHLWA=s120",
+            "floorPrice": 0.035,
+            "numOwners": 6479
+          },
+          "percent": 22.5
         },
         {
           "address": "0xba0980abbe2bdd2fd8ed956718e619271ad26da4",
@@ -1194,11 +1254,11 @@ export const BAYC =
             "floorPrice": null,
             "numOwners": null
           },
-          "maxPercent": 14, "percent": 24.324324324324326
+          "percent": 22.5
         },
         {
           "address": "0x22c36bfdcef207f9c0cc941936eff94d4246d14a",
-          "contractName": null,
+          "contractName": "Bored Ape Chemistry Club",
           "totalholdings": 8,
           "holdings": {
             "totalSupply": 3,
@@ -1206,67 +1266,7 @@ export const BAYC =
             "floorPrice": 24,
             "numOwners": 302
           },
-          "maxPercent": 14, "percent": 21.62162162162162
-        },
-        {
-          "address": "0x8F4CA9A9Df620aC58152f5369650DBcCD006de37",
-          "contractName": "Rollbit VIP Passes",
-          "totalholdings": 8,
-          "holdings": {
-            "totalSupply": 1087,
-            "logo": "https://lh3.googleusercontent.com/D3f_XihJIP1nK_-oRj7zhVIu9Jr0iGzqcSO1lwQck0ZUPnxZKM7jTXA0XZuRGT871DC5WOFMB_TO18tbQMXR43emBoZkfK7mYHjj3Q=s120",
-            "floorPrice": 0.066,
-            "numOwners": 690
-          },
-          "maxPercent": 14, "percent": 21.62162162162162
-        },
-        {
-          "address": "0xa7d8d9ef8D8Ce8992Df33D8b8CF4Aebabd5bD270",
-          "contractName": "Art Blocks",
-          "totalholdings": 8,
-          "holdings": {
-            "totalSupply": 187681,
-            "logo": "https://lh3.googleusercontent.com/zm8_ETpo1NJGUlmZMRycxKs8Jhy3aPRQjzqUuEB0vNGvATL8K-wCO3JZMy2h5O0sLxRnwuCixJz8mS8GgDoU5pxrQsabYRuWaBE=s120",
-            "floorPrice": null,
-            "numOwners": null
-          },
-          "maxPercent": 14, "percent": 21.62162162162162
-        },
-        {
-          "address": "0xca22Bc327042158e333FB1551408865Cb0C3C675",
-          "contractName": "Not  Grim Syndicate",
-          "totalholdings": 7,
-          "holdings": {
-            "totalSupply": 1413,
-            "logo": "https://lh3.googleusercontent.com/V3BC--b6TUatCnxM5LpCshX2YLvgq_np2YpbPnE_GGahcRaNeRy7c9Jx6NaxKbZj1hgRiPwb5mrf-keoa8GjzZ1hd7esdbdn2WlL=s120",
-            "floorPrice": 0.1,
-            "numOwners": 1235
-          },
-          "maxPercent": 14, "percent": 18.91891891891892
-        },
-        {
-          "address": "0xecbf716c557e5b217df39b9994a3851ef9ef018f",
-          "contractName": "Crypto Bull",
-          "totalholdings": 7,
-          "holdings": {
-            "totalSupply": 0,
-            "logo": "https://cryptobull.link/json/34",
-            "floorPrice": null,
-            "numOwners": null
-          },
-          "maxPercent": 14, "percent": 18.91891891891892
-        },
-        {
-          "address": "0x197834001eeDF8D57b988C43bB24b2b08Ca50F10",
-          "contractName": "Rolex",
-          "totalholdings": 7,
-          "holdings": {
-            "totalSupply": 1468,
-            "logo": "https://lh3.googleusercontent.com/7J3MWK81GF3kf8r6sblHgqu1cvLfvxfTYgb3pYpjI3LxyJSEw9wcwqVjpJbzbxWddyYUaaxvXf6v96NebkOwDGpW0-ihFEvIuOljpAs=s120",
-            "floorPrice": 12,
-            "numOwners": 1284
-          },
-          "maxPercent": 14, "percent": 18.91891891891892
+          "percent": 20
         }
       ]
     }
