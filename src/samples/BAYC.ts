@@ -44,7 +44,7 @@ export const BAYC =
           "address": "0xd8e749e457fcd1918c9a589bfaa87db9f8e154d6",
           "portfolio": 5233143.8508,
           "nfts": 8,
-          "label": "whale",
+          "label": "flipper",
           "whale": true,
           "avgNFTPrice": 654142.98135,
           "nftsTotalPrice": 3488762.5672,
