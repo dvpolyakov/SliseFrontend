@@ -46,7 +46,6 @@ type Props = {
 export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }: Props) {
   const theme = useTheme();
   const jwt = getCookie('jwt-token');
-  console.log(jwt);
 
 
   const { pathname } = useRouter();

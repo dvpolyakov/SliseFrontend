@@ -49,6 +49,7 @@ interface WhitelistSettings {
   minTwitterFollowers: number
   registrationActive: boolean
   twitterVerification: boolean
+  whitelistName: string
 }
 
 const ProjectInfo = () => {
@@ -68,9 +69,10 @@ const ProjectInfo = () => {
       });
       if (response.data.data) {
         setWhitelistSettings(response.data.data);
+        console.log(whitelistSettings);
       }
     }
-  }, [whitelistSettings]);
+  }, [isMountedRef]);
 
   useEffect(() => {
     getProjectSettings();
@@ -90,7 +92,7 @@ const ProjectInfo = () => {
       </Typography>
       <Grid container spacing={3}>
         <Grid item md={4}>
-          <SwitchCard title="Registration is closed"/>
+          <SwitchCard value={whitelistSettings?.registrationActive} title="Registration is open"/>
           <Card sx={{ mt: 4.25 }}>
             <CardContent sx={{ padding: 4.5 }}>
               <UploadAvatar
@@ -123,7 +125,7 @@ const ProjectInfo = () => {
           </Card>
           <Card sx={{ mt: 4 }}>
             <CardContent>
-              <CopyClipboard value="https://app.slise.xyz/creeptures../12" label="Public link"/>
+              <CopyClipboard value="https://app.slise.xyz/" label="Public link"/>
             </CardContent>
           </Card>
         </Grid>
@@ -132,7 +134,7 @@ const ProjectInfo = () => {
             <CardContent>
               <Grid container spacing={2}>
                 <Grid mb={3} item md={6}>
-                  <TextField fullWidth label="Collection Name"/>
+                  <TextField fullWidth label="Collection Name" value={whitelistSettings?.whitelistName}/>
                 </Grid>
                 <Grid mb={3} item md={6}>
                   <DatePicker
@@ -197,7 +199,7 @@ const ProjectInfo = () => {
                 backgroundColor: '#131F0F',
                 ':hover': { opacity: '.6', backgroundColor: '#131F0F' },
               }}
-              startIcon={<SvgIconStyle src={`/assets/icons/ic_upload.svg/`} sx={{ width: 20, height: 20 }}/>}
+              startIcon={<SvgIconStyle src={`/assets/icons/ic_upload.svg`} sx={{ width: 20, height: 20 }}/>}
             >
               Import from file
             </Button>
