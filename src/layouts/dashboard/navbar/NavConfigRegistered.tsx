@@ -27,6 +27,8 @@ const ICONS = {
   social: getIcon('ic_animate'),
   components: getIcon('ic_components'),
   settings: getIcon('ic_settings'),
+  invoice: getIcon('ic_invoice'),
+  elements: getIcon('ic_elements'),
 };
 
 const navConfigRegistered = [
@@ -43,12 +45,11 @@ const navConfigRegistered = [
       {
         title: 'Dashboard',
         path: PATH_PAGE.dashboard,
-        icon: ICONS.dashboard,
+        icon: ICONS.analytics,
       },
-      { title: 'Mint List', path: PATH_PAGE.mintlist, icon: ICONS.analytics },
+      { title: 'Mint List', path: PATH_PAGE.mintlist, icon: ICONS.invoice },
       { title: 'Social Data', path: PATH_PAGE.socialdata, icon: ICONS.chat },
-      { title: 'Mutual Holders', path: PATH_PAGE.mutualholders, icon: ICONS.social },
-      /*      { title: 'Community Insights', path: PATH_DASHBOARD.general.booking, icon: ICONS.user },*/
+      { title: 'Mutual Holders', path: PATH_PAGE.mutualholders, icon: ICONS.elements },
       { title: 'ML Targeting', path: PATH_PAGE.mltargeting, icon: ICONS.components },
     ],
   },

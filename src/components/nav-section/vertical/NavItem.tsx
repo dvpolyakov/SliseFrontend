@@ -21,7 +21,7 @@ export default function NavItem({ item, depth, active, open, isCollapse, ...othe
   const color = '#F3F4EF';
   const renderContent = (
     <ListItemStyle depth={depth} color={color} active={active} disabled={disabled} {...other}>
-      {icon && <ListItemIconStyle>{icon}</ListItemIconStyle>}
+      {icon && <ListItemIconStyle sx={{ color: active ? '#DDFF55' : 'inherit' }}>{icon}</ListItemIconStyle>}
 
       {depth !== 1 && <DotIcon active={active && depth !== 1} />}
 
@@ -39,7 +39,7 @@ export default function NavItem({ item, depth, active, open, isCollapse, ...othe
         primaryTypographyProps={{
           noWrap: true,
           variant: active ? 'subtitle2' : 'body2',
-          color:'#F3F4EF'
+          color: active ? '#DDFF55' : '#F3F4EF',
         }}
         secondaryTypographyProps={{
           noWrap: true,
