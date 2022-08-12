@@ -3,7 +3,10 @@ import React, { lazy, useEffect, useState } from 'react';
 
 const Editor = lazy(() => import('src/components/editor'));
 
-type Props = {};
+type Props = {
+  description: string;
+  onChange: any;
+};
 
 function ProjectInfoEditor(props: Props) {
   const [canRender, setCanRender] = useState(false);
@@ -13,7 +16,7 @@ function ProjectInfoEditor(props: Props) {
     }, 0);
   }, []);
 
-  return <NoSsr defer>{canRender && <Editor simple sx={{ mb: 3 }} />}</NoSsr>;
+  return <NoSsr defer>{canRender && <Editor value={props.description} onChange={props.onChange} simple sx={{ mb: 3 }} />}</NoSsr>;
 }
 
 export default ProjectInfoEditor;
