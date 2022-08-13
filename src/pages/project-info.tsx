@@ -37,7 +37,7 @@ const ProjectInfo = () => {
   const [blockchain, setBlockchain] = useState<string | null>(null);
   const [mintPrice, setMintPrice] = useState<number | null>(null);
   const [totalSupply, setTotalSupply] = useState<number | null>(null);
-  const [registrationActive, setregistrationActive] = useState<boolean | null>(null);
+  const [registrationActive, setRegistrationActive] = useState<boolean | null>(null);
   const [twitter, setTwitter] = useState<string | null>(null);
   const [mintDate, setMintDate] = useState<Date | null>(null);
   const [logo, setLogo] = useState<string | null>(null);
@@ -62,7 +62,7 @@ const ProjectInfo = () => {
         setDescription(response.data.data.description);
         setMintDate(response.data.data.mintDate);
         setMintPrice(response.data.data.mintPrice);
-        setregistrationActive(response.data.data.registrationActive);
+        setRegistrationActive(response.data.data.registrationActive);
         setTotalSupply(response.data.data.totalSupply);
         setTwitter(response.data.data.twitter);
         setLink(`https://app.slise.xyz/collection/${response.data.data.link}`);
@@ -117,15 +117,13 @@ const ProjectInfo = () => {
     setTotalSupply(props.target.value);
   }
   const onChangeDescription = (props: any) => {
-    console.log(props);
     setDescription(props);
   }
   const onChangeBlockchain = (props: any) => {
     setBlockchain(props.target.value);
   }
   const onChangeRegistrationActive = (props: any) => {
-    setregistrationActive(registrationActive !== true);
-    console.log(registrationActive)
+    setRegistrationActive(registrationActive !== true);
   }
 
   const setFileAndLogo = (file: File) => {

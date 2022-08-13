@@ -47,6 +47,9 @@ import { number } from 'yup/lib/locale';
 import TwitterIcon from 'src/widgets/img/twitter.svg';
 import DiscordIcon from 'src/widgets/img/discord.svg';
 import Image from 'next/image';
+import { getCookie } from 'cookies-next';
+import { BACKEND_URL } from '../utils/endpoints';
+import { useSnackbar } from 'notistack';
 
 const BorderCard = styled('div')((theme) => ({
   border: '1px solid #DCE0E4',
@@ -112,6 +115,73 @@ const Requirements = () => {
   const isMountedRef = useIsMountedRef();
   const [twitterValue, setTwitterValue] = useState(15);
   const [balanceValue, setBalanceValue] = useState(0);
+  const [twitterVerification, setTwitterVerification] = useState<boolean | null>(null);
+  const [twitterMinFollowers, setTwitterMinFollowers] = useState<boolean | null>(null);
+  const [discordVerification, setDiscordVerification] = useState<boolean | null>(null);
+  const [balanceVerification, setBalanceVerification] = useState<boolean | null>(null);
+  const { enqueueSnackbar } = useSnackbar();
+
+  const getWhitelistSettings = useCallback(async () => {
+    const jwt = getCookie('jwt-token');
+    if (jwt) {
+      const currentWl = localStorage.getItem('whitelistId');
+      const response = await axiosInstance.get(`${BACKEND_URL}analytics/whitelistSettings?whitelistId=${currentWl}`, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+      if (response.data.data) {
+       setTwitterValue(response.data.data.minTwitterFollowers);
+       setBalanceValue(response.data.data.minWalletBalance);
+       setDiscordVerification(response.data.data.discordVerification);
+       setTwitterVerification(response.data.data.twitterVerification);
+       setBalanceVerification(response.data.data.balanceVerification);
+       setTwitterMinFollowers(response.data.data.requireMinTwitterFollowers);
+      }
+    }
+  }, [isMountedRef]);
+
+  const updateWhitelistInfo = async () => {
+    let formData = new FormData();
+    const jwt = getCookie('jwt-token');
+    const whitelistId = localStorage.getItem('whitelistId');
+    const response = await axiosInstance.put(`${BACKEND_URL}analytics/whitelistSettings/${whitelistId}`, {
+      'discordVerification': discordVerification,
+      'minWalletBalance': balanceValue,
+      'minTwitterFollowers': twitterValue,
+      'twitterVerification': twitterVerification,
+      'balanceVerification': balanceVerification,
+      'requireMinTwitterFollowers': twitterMinFollowers
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${jwt}`
+      },
+    });
+    if(response.status === 200){
+      enqueueSnackbar('Saved!');
+    }
+  }
+
+  const onChangeTwitterVerification = (props: any) => {
+    setTwitterVerification(twitterVerification !== true);
+  }
+
+  const onChangeDiscordVerification = (props: any) => {
+    setDiscordVerification(discordVerification !== true);
+  }
+
+  const onChangeWalletBalanceVerification = (props: any) => {
+    setBalanceVerification(balanceVerification !== true);
+  }
+
+  const onChangeTwitterMinFollowers = (props: any) => {
+    setTwitterMinFollowers(twitterMinFollowers !== true);
+  }
+
+  useEffect(() => {
+    getWhitelistSettings()
+  }, [getWhitelistSettings]);
 
   return (
     <Page
@@ -133,8 +203,8 @@ const Requirements = () => {
               <Typography variant="subtitle1">Twitter Following Verification</Typography>
             </Stack>
             <FormGroup sx={{ ml: 2, mb: 1 }}>
-              <FormControlLabel control={<Checkbox defaultChecked />} label="Require users to follow your Twitter" />
-              <FormControlLabel control={<Checkbox />} label="Require users to have a minimum number of followers" />
+              <FormControlLabel control={<Checkbox checked={twitterVerification} onChange={onChangeTwitterVerification}/>} label="Require users to follow your Twitter" />
+              <FormControlLabel control={<Checkbox checked={twitterMinFollowers} onChange={onChangeTwitterMinFollowers} />} label="Require users to have a minimum number of followers" />
             </FormGroup>
             <Stack alignItems="center" direction="row" spacing={2} pl={8}>
               <Slider
@@ -165,7 +235,7 @@ const Requirements = () => {
             </Stack>
             <FormGroup sx={{ ml: 2, mb: 1 }}>
               <FormControlLabel
-                control={<Checkbox defaultChecked />}
+                control={<Checkbox checked={discordVerification} onChange={onChangeDiscordVerification}  />}
                 label="Require users to join your Discord channel"
               />
             </FormGroup>
@@ -177,7 +247,7 @@ const Requirements = () => {
             </Stack>
             <FormGroup sx={{ ml: 2, mb: 1 }}>
               <FormControlLabel
-                control={<Checkbox defaultChecked />}
+                control={<Checkbox checked={balanceVerification} onChange={onChangeWalletBalanceVerification} />}
                 label="Require users to have a minimum wallet balance (in chain tokens)"
               />
             </FormGroup>
@@ -211,6 +281,7 @@ const Requirements = () => {
                 backgroundColor: '#DDFF55',
                 ':hover': { opacity: '.6', backgroundColor: '#DDFF55' },
               }}
+              onClick={updateWhitelistInfo}
             >
               Save Requirements
             </Button>
