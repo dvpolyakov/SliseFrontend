@@ -37,6 +37,8 @@ module.exports = withTM({
     // AUTH0
     AUTH0_CLIENT_ID: '',
     AUTH0_DOMAIN: '',
+    BACKEND_URL: 'http://localhost:3001/api/',
+    ML_URL: 'https://slise-ml.herokuapp.com/',
   },
 });
 
