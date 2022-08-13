@@ -58,7 +58,7 @@ export default function UploadSingleFile(props: any) {
     console.log(uploadedFile);
     formData.append('file', uploadedFile!);
     formData.append('collectionName', whitelistName);
-    const response = await axiosInstance.post(`${BACKEND_URL}analytics/storeWhitelist`, formData, {
+    const response = await axiosInstance.post(`${process.env.BACKEND_URL}analytics/storeWhitelist`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       },

@@ -55,13 +55,13 @@ const DashboardIndex = () => {
     const whitelistId = window.localStorage.getItem('whitelistId');
     if (whitelistId) {
       const response = await axiosInstance.get(
-        `${BACKEND_URL}analytics/getWhitelistStatistics?id=${whitelistId}`
+        `${process.env.BACKEND_URL}analytics/getWhitelistStatistics?id=${whitelistId}`
       );
       window.localStorage.setItem('whitelistSize', response.data.data.whitelistSize);
       setStatistics(response.data.data);
     } else {
       const response = await axiosInstance.get(
-        `${BACKEND_URL}analytics/getWhitelistStatistics?id=afd7626f-388e-4f98-9f36-123d54688936`
+        `${process.env.BACKEND_URL}analytics/getWhitelistStatistics?id=afd7626f-388e-4f98-9f36-123d54688936`
       );
       window.localStorage.setItem('whitelistSize', response.data.data.whitelistSize);
       setStatistics(response.data.data);

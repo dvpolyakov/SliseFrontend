@@ -125,7 +125,7 @@ const Requirements = () => {
     const jwt = getCookie('jwt-token');
     if (jwt) {
       const currentWl = localStorage.getItem('whitelistId');
-      const response = await axiosInstance.get(`${BACKEND_URL}analytics/whitelistSettings?whitelistId=${currentWl}`, {
+      const response = await axiosInstance.get(`${process.env.BACKEND_URL}analytics/whitelistSettings?whitelistId=${currentWl}`, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
@@ -145,7 +145,7 @@ const Requirements = () => {
     let formData = new FormData();
     const jwt = getCookie('jwt-token');
     const whitelistId = localStorage.getItem('whitelistId');
-    const response = await axiosInstance.put(`${BACKEND_URL}analytics/whitelistSettings/${whitelistId}`, {
+    const response = await axiosInstance.put(`${process.env.BACKEND_URL}analytics/whitelistSettings/${whitelistId}`, {
       'discordVerification': discordVerification,
       'minWalletBalance': balanceValue,
       'minTwitterFollowers': twitterValue,

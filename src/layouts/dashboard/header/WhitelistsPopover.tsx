@@ -106,7 +106,7 @@ export default function WhitelistsPopover({ isCollapse }: Props) {
   const fetchWhitelists = async (jwt: string): Promise<Whitelist[]> => {
     let wls: Whitelist[] = [];
     try {
-      const response = await axiosInstance.get(`${BACKEND_URL}analytics/whitelists`, {
+      const response = await axiosInstance.get(`${process.env.BACKEND_URL}analytics/whitelists`, {
         headers: {
           'Authorization': `Bearer ${jwt}`
         }

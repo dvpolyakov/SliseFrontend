@@ -196,7 +196,7 @@ const MintList = () => {
     const whitelistId = window.localStorage.getItem('whitelistId');
     if (jwt) {
       const response = await axiosInstance.get(
-        `${BACKEND_URL}analytics/topHolders?whitelistId=${whitelistId}`,
+        `${process.env.BACKEND_URL}analytics/topHolders?whitelistId=${whitelistId}`,
         {
           headers: {
             'Authorization': `Bearer ${jwt}`

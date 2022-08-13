@@ -271,7 +271,7 @@ PublicPage.getInitialProps = async (appContext: any) => {
   let response = null;
   let result: WhitelistInfoResponse;
   try {
-    response = await axiosInstance.get(`${BACKEND_URL}analytics/collection/${appContext.query.link}`);
+    response = await axiosInstance.get(`${process.env.BACKEND_URL}analytics/collection/${appContext.query.link}`);
     result = {
       data: response.data.data
     }

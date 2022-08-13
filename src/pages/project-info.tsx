@@ -50,7 +50,7 @@ const ProjectInfo = () => {
     const jwt = getCookie('jwt-token');
     if (jwt) {
       const currentWl = localStorage.getItem('whitelistId');
-      const response = await axiosInstance.get(`${BACKEND_URL}analytics/whitelistInfo?whitelistId=${currentWl}`, {
+      const response = await axiosInstance.get(`${process.env.BACKEND_URL}analytics/whitelistInfo?whitelistId=${currentWl}`, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
@@ -94,7 +94,7 @@ const ProjectInfo = () => {
       formData.append('blockchain', blockchain.toString());
     const jwt = getCookie('jwt-token');
     const whitelistId = localStorage.getItem('whitelistId');
-    const response = await axiosInstance.put(`${BACKEND_URL}analytics/whitelistInfo/${whitelistId}`, formData, {
+    const response = await axiosInstance.put(`${process.env.BACKEND_URL}analytics/whitelistInfo/${whitelistId}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${jwt}`

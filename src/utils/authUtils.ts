@@ -6,7 +6,7 @@ export const authUser = async (address: string, chainType: string): Promise<stri
   console.log('auth requested');
   const jwt = getCookie('jwt-token');
     if (!jwt) {
-      const response = await axiosInstance.post(`${BACKEND_URL}auth/authUser`, {
+      const response = await axiosInstance.post(`${process.env.BACKEND_URL}auth/authUser`, {
         address: address,
         networkType: chainType
       }, {
