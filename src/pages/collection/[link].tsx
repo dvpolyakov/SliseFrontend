@@ -13,7 +13,7 @@ import Logo from 'src/components/Logo';
 import useIsMountedRef from '../../hooks/useIsMountedRef';
 import axiosInstance from '../../utils/axios';
 import { BACKEND_URL } from '../../utils/endpoints';
-import { format } from "date-fns";
+import { format } from 'date-fns';
 
 const Header = styled('div')(({ theme }) => ({
   background: '#131F0F',
@@ -24,21 +24,21 @@ const Header = styled('div')(({ theme }) => ({
 type Status = 'fail' | 'success' | 'initial';
 
 interface WhitelistInfo {
-  whitelistName: string
-  description?: string
-  discord?: string
-  logo?: string
-  mintDate?: Date
-  mintPrice?: number
-  twitter?: string
-  blockchain: string
-  registrationActive: boolean
-  totalSupply: number
-  minBalance?: number
+  whitelistName: string;
+  description?: string;
+  discord?: string;
+  logo?: string;
+  mintDate?: Date;
+  mintPrice?: number;
+  twitter?: string;
+  blockchain: string;
+  registrationActive: boolean;
+  totalSupply: number;
+  minBalance?: number;
 }
 
 interface WhitelistInfoResponse {
-  data?: WhitelistInfo
+  data?: WhitelistInfo;
 }
 
 function PublicPage({ data }: WhitelistInfoResponse) {
@@ -67,13 +67,13 @@ function PublicPage({ data }: WhitelistInfoResponse) {
 
   useEffect(() => {
     setTooltipVisibility(true);
-  },[isMountedRef]);
+  }, [isMountedRef]);
 
   const [finished, setFinished] = useState(false);
   const handleSubmit = () => {
     setFinished(true);
   };
-  if(!data)
+  if (!data)
     return (
       <Grid
         container
@@ -93,8 +93,8 @@ function PublicPage({ data }: WhitelistInfoResponse) {
   return (
     <Page suppressHydrationWarning title={data?.whitelistName || ''} sx={{ backgroundColor: '#fff' }}>
       <Header>
-        <Box sx={{ padding: theme.spacing(0, 3) }}>
-          <Logo/>
+        <Box sx={{ padding: theme.spacing(3, 2.5) }}>
+          <Logo />
         </Box>
       </Header>
       <Grid maxWidth={1280} margin="0 auto" container>
@@ -118,7 +118,7 @@ function PublicPage({ data }: WhitelistInfoResponse) {
                 transform: 'translateY(18px)',
               }}
             >
-              <img width={146} height={146} src={data?.logo || ''}/>
+              <img width={146} height={146} src={data?.logo || ''} />
             </Box>
           </Box>
           <Typography mt={5} mb={2.5} variant="h3">
@@ -129,13 +129,19 @@ function PublicPage({ data }: WhitelistInfoResponse) {
               <Typography color="GrayText" variant="caption" mb={0.5}>
                 Mint Date
               </Typography>
-              <Typography variant="subtitle1">{format(Date.parse(data?.mintDate) || Date.now(),"MMMM do, yyyy")}</Typography>
+              <Typography variant="subtitle1">
+                {format(Date.parse(data?.mintDate) || Date.now(), 'MMMM do, yyyy')}
+              </Typography>
             </Grid>
             <Grid item md={4}>
               <Typography color="GrayText" variant="caption" mb={0.5}>
                 Mint Price
               </Typography>
-              {data.blockchain === 'Ethereum' ? <Typography variant="subtitle1">Ξ{data?.mintPrice}</Typography> : <Typography variant="subtitle1">◎{data.mintPrice}</Typography>}
+              {data.blockchain === 'Ethereum' ? (
+                <Typography variant="subtitle1">Ξ{data?.mintPrice}</Typography>
+              ) : (
+                <Typography variant="subtitle1">◎{data.mintPrice}</Typography>
+              )}
             </Grid>
             <Grid item md={4}>
               <Typography color="GrayText" variant="caption" mb={0.5}>
@@ -199,9 +205,11 @@ function PublicPage({ data }: WhitelistInfoResponse) {
           <Typography color="GrayText" variant="caption" mb={0.5}>
             Description
           </Typography>
-          {isTooltipVisible &&<Typography variant="body2" component="div">
-             <Typography dangerouslySetInnerHTML={{ __html: `<Typography>${data.description}</Typography>` }}/>
-          </Typography>}
+          {isTooltipVisible && (
+            <Typography variant="body2" component="div">
+              <Typography dangerouslySetInnerHTML={{ __html: `<Typography>${data.description}</Typography>` }} />
+            </Typography>
+          )}
         </Grid>
         <Grid item md={4}>
           {finished ? (
@@ -235,9 +243,14 @@ function PublicPage({ data }: WhitelistInfoResponse) {
                 <Typography mb={2} variant="body2">
                   You must meet the requirements below to be able to register to the Mint List
                 </Typography>
-                <RegistrationTwitter status={registrationTwitterStatus} onChange={handleRegistrationTwitterStatus}/>
-                <RegistrationDiscord status={registrationDiscordStatus} onChange={handleRegistrationDiscordStatus}/>
-                <RegistrationWallet blockchain={data?.blockchain || ''} minValue={data?.minBalance || 0} status={registrationWalletStatus} onChange={handleRegistrationWalletStatus}/>
+                <RegistrationTwitter status={registrationTwitterStatus} onChange={handleRegistrationTwitterStatus} />
+                <RegistrationDiscord status={registrationDiscordStatus} onChange={handleRegistrationDiscordStatus} />
+                <RegistrationWallet
+                  blockchain={data?.blockchain || ''}
+                  minValue={data?.minBalance || 0}
+                  status={registrationWalletStatus}
+                  onChange={handleRegistrationWalletStatus}
+                />
                 {allDone && (
                   <Button
                     variant="contained"
@@ -273,12 +286,11 @@ PublicPage.getInitialProps = async (appContext: any) => {
   try {
     response = await axiosInstance.get(`${process.env.BACKEND_URL}analytics/collection/${appContext.query.link}`);
     result = {
-      data: response.data.data
-    }
-
+      data: response.data.data,
+    };
   } catch {
     response = null;
   }
 
-  return { data: response?.data?.data || null}
-}
+  return { data: response?.data?.data || null };
+};

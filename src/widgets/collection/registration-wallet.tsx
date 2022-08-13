@@ -15,8 +15,8 @@ export function RegistrationWallet({ onChange, status, minValue, blockchain }: P
   const theme = useTheme();
   const isMountedRef = useIsMountedRef();
   const [currency, setCurrency] = useState<string | null>(null);
-  const setChainCurrency = useCallback( () => {
-    switch (blockchain){
+  const setChainCurrency = useCallback(() => {
+    switch (blockchain) {
       case 'Ethereum':
         setCurrency('ETH');
         break;
@@ -30,7 +30,7 @@ export function RegistrationWallet({ onChange, status, minValue, blockchain }: P
         setCurrency('None');
         break;
     }
-  },[isMountedRef]);
+  }, [isMountedRef]);
 
   const handleClick = useCallback(() => {
     setTimeout(() => {
@@ -44,7 +44,7 @@ export function RegistrationWallet({ onChange, status, minValue, blockchain }: P
 
   useEffect(() => {
     setChainCurrency();
-  },[setChainCurrency]);
+  }, [setChainCurrency]);
 
   const mapping = useMemo(
     () => ({
@@ -52,8 +52,8 @@ export function RegistrationWallet({ onChange, status, minValue, blockchain }: P
         borderColor: '#FF48427A',
         backgroundColor: '#FF484214',
         color: '#B72136',
-        icon1: <SvgIconStyle src={`/assets/icons/ic_check.svg/`} sx={{ width: 1, height: 1, bgcolor: '#B72136' }} />,
-        icon2: <SvgIconStyle src={`/assets/icons/ic_check.svg/`} sx={{ width: 1, height: 1, bgcolor: '#B72136' }} />,
+        icon1: <SvgIconStyle src={`/assets/icons/ic_remove.svg/`} sx={{ width: 1, height: 1, bgcolor: '#B72136' }} />,
+        icon2: <SvgIconStyle src={`/assets/icons/ic_remove.svg/`} sx={{ width: 1, height: 1, bgcolor: '#B72136' }} />,
         button1: <Chip sx={{ background: '#fff' }} label={'0x123..6b1'} onDelete={handleDelete} />,
         size: 'min-content',
       },

@@ -7,22 +7,23 @@ import { NAVBAR } from '../../config';
 const Root = styled('div')(() => ({
   display: 'grid',
   alignItems: 'center',
-  gridTemplateColumns: '1fr min-content',
-  gap: 16,
+  justifyContent: 'space-between',
+  gridTemplateColumns: '120px min-content',
+  gap: '16px',
   width: '100%',
   paddingLeft: 10,
   paddingRight: 10,
 }));
 
 type Props = {
-  maxPercent: number
-}
+  maxPercent: number;
+};
 
 const Wrapper = styled('div')((props) => ({
   height: 6,
   background: '#DDFF55',
   borderRadius: 10,
- /* width: `calc(100% - ${props.maxPercent * 2}px)`,*/
+  /* width: `calc(100% - ${props.maxPercent * 2}px)`,*/
   position: 'relative',
   overflow: 'hidden',
 }));
@@ -38,10 +39,12 @@ const Bar = styled('div')((props) => ({
 const AvgNtfPrice = ({ value, row }: any) => {
   return (
     <Root>
-      <Wrapper >
+      <Wrapper>
         <Bar sx={{ width: `${row.percent}%` }} />
       </Wrapper>
-      <Typography variant="body2">${formatNumber(value,0)}</Typography>
+      <Typography textAlign={'right'} variant="body2">
+        ${formatNumber(value, 0)}
+      </Typography>
     </Root>
   );
 };
