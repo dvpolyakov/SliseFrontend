@@ -42,6 +42,7 @@ const ProjectInfo = () => {
   const [mintDate, setMintDate] = useState<Date | null>(null);
   const [logo, setLogo] = useState<string | null>(null);
   const [link, setLink] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState(null);
   const isMountedRef = useIsMountedRef();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -126,9 +127,9 @@ const ProjectInfo = () => {
     setRegistrationActive(registrationActive !== true);
   }
 
-  const setFileAndLogo = (file: File) => {
+  const setFileAndLogo = (file: any) => {
+    setLogo(URL.createObjectURL(file));
     setFile(file);
-    setLogo(file.webkitRelativePath);
   }
 
   useEffect(() => {
@@ -154,8 +155,10 @@ const ProjectInfo = () => {
           <Card sx={{ mt: 4.25 }}>
             <CardContent sx={{ padding: 4.5 }}>
               <UploadAvatar
-                file={logo || file}
-                onDropAccepted={([e]) => setFile(e)}
+                file={logo}
+                onDropAccepted={([e]) => {
+                  setFileAndLogo(e);
+                }}
                 helperText={
                   <Typography component="p" sx={{ mt: 3, textAlign: 'center' }} color="GrayText" variant="caption">
                     Allowed *.jpeg, *.jpg, *.png, *.gif
