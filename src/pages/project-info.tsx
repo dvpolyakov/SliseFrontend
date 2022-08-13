@@ -76,14 +76,22 @@ const ProjectInfo = () => {
     if(file)
       formData.append('file', file!);
     formData.append('registrationActive', registrationActive!.toString());
-    formData.append('description', description!);
-    formData.append('mintDate', mintDate!.toString());
-    formData.append('collectionName', collectionName!);
-    formData.append('twitter', twitter!);
-    formData.append('discord', discord!);
-    formData.append('mintPrice', mintPrice!.toString());
-    formData.append('totalSupply', totalSupply!.toString());
-    formData.append('blockchain', blockchain!.toString());
+    if(description)
+      formData.append('description', description!);
+    if(mintDate)
+      formData.append('mintDate', mintDate.toString());
+    if(collectionName)
+      formData.append('collectionName', collectionName);
+    if(twitter)
+      formData.append('twitter', twitter);
+    if(discord)
+      formData.append('discord', discord);
+    if(mintPrice)
+      formData.append('mintPrice', mintPrice.toString());
+    if(totalSupply)
+      formData.append('totalSupply', totalSupply.toString());
+    if(blockchain)
+      formData.append('blockchain', blockchain.toString());
     const jwt = getCookie('jwt-token');
     const whitelistId = localStorage.getItem('whitelistId');
     const response = await axiosInstance.put(`${BACKEND_URL}analytics/whitelistInfo/${whitelistId}`, formData, {
