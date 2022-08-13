@@ -3,4 +3,5 @@ export type Whitelist = {
   name: string;
   networkType: string;
   logo: string;
+  link?: string;
 }

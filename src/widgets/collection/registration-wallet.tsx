@@ -1,15 +1,36 @@
 import { Box, Button, Chip, Typography, useTheme } from '@mui/material';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import SvgIconStyle from 'src/components/SvgIconStyle';
+import useIsMountedRef from '../../hooks/useIsMountedRef';
 
 type Status = 'fail' | 'success' | 'initial';
 type Props = {
   onChange: (v: Status) => void;
   status: Status;
+  minValue: number;
+  blockchain: string;
 };
 
-export function RegistrationWallet({ onChange, status }: Props) {
+export function RegistrationWallet({ onChange, status, minValue, blockchain }: Props) {
   const theme = useTheme();
+  const isMountedRef = useIsMountedRef();
+  const [currency, setCurrency] = useState<string | null>(null);
+  const setChainCurrency = useCallback( () => {
+    switch (blockchain){
+      case 'Ethereum':
+        setCurrency('ETH');
+        break;
+      case 'Polygon':
+        setCurrency('MATIC');
+        break;
+      case 'Solana':
+        setCurrency('SOL');
+        break;
+      default:
+        setCurrency('None');
+        break;
+    }
+  },[isMountedRef]);
 
   const handleClick = useCallback(() => {
     setTimeout(() => {
@@ -20,6 +41,10 @@ export function RegistrationWallet({ onChange, status }: Props) {
   const handleDelete = useCallback(() => {
     onChange('initial');
   }, [onChange]);
+
+  useEffect(() => {
+    setChainCurrency();
+  },[setChainCurrency]);
 
   const mapping = useMemo(
     () => ({
@@ -113,7 +138,7 @@ export function RegistrationWallet({ onChange, status }: Props) {
         <Box sx={{ display: 'grid', alignItems: 'center', gridTemplateColumns: '20px 1fr', gap: 1 }}>
           {mapping[status].icon2}
           <Typography variant="body2" color={mapping[status].color}>
-            The minimum balance of 5 ETH is required
+            The minimum balance of {minValue} {currency} is required
           </Typography>
         </Box>
         {status === 'fail' && (

@@ -56,26 +56,37 @@ export default function NavbarDocs() {
 
   // @ts-ignore
   return (
-    <Stack
-      spacing={2}
-      sx={{ px: 5, pb: 5, mt: 10, width: 1, textAlign: 'center', display: 'block' }}
-    >
-      <Box textAlign="center">
-
-        {jwt !== undefined ?
-          <Box>
-            <Link onClick={logOut} color='#212B36' target="_blank" rel="noopener" underline="always">
-              <Typography sx={{ color: '#637381', fontSize: 14, textAlign: 'center' }}>
-                Log Out
-              </Typography>
-            </Link>
+    <>
+      {jwt !== undefined ?
+        <Stack
+          spacing={3}
+          sx={{ width: 1, textAlign: 'center', display: 'block' }}
+        >
+          <Box textAlign="center">
+            <Box>
+              <Link onClick={logOut} color='#212B36' target="_blank" rel="noopener" underline="always">
+                <Typography sx={{ color: '#637381', fontSize: 14, textAlign: 'center' }}>
+                  Log Out
+                </Typography>
+              </Link>
+            </Box>
           </Box>
-          :
-          <Button  onClick={redirectToAuth} variant="contained" sx={{ width:'200px', color: 'black', backgroundColor: '#DDFF55', ':hover': { opacity: '1', backgroundColor: '#DDFF55' } }}>Go to your collection</Button>
-
-        }
-
-      </Box>
-    </Stack>
+        </Stack>
+        :
+        <Stack
+          spacing={3}
+          sx={{ px: 5, pb: 5, mt: 10, width: 1, textAlign: 'center', display: 'block' }}
+        >
+          <Box textAlign="center">
+            <Button onClick={redirectToAuth} variant="contained" sx={{
+              width: '200px',
+              color: 'black',
+              backgroundColor: '#DDFF55',
+              ':hover': { opacity: '1', backgroundColor: '#DDFF55' }
+            }}>Go to your collection</Button>
+          </Box>
+        </Stack>
+      }
+    </>
   );
 }

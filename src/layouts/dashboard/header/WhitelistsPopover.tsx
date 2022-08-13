@@ -77,6 +77,7 @@ export default function WhitelistsPopover({ isCollapse }: Props) {
     setWhitelists(whitelists);
     setWhitelist(findWhitelistById(whitelists, whitelists[0].id));
     window.localStorage.setItem('whitelistId', whitelists[0].id);
+    window.localStorage.setItem('whitelistLink', whitelists[0].link!);
   }, [isMountedRef]);
 
   const findWhitelistId = (name: string) => {

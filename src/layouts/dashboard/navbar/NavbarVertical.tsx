@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 // @mui
 import { styled, useTheme } from '@mui/material/styles';
-import { Box, Stack, Drawer } from '@mui/material';
+import { Box, Stack, Drawer, Button } from '@mui/material';
 // hooks
 import useResponsive from '../../../hooks/useResponsive';
 import useCollapseDrawer from '../../../hooks/useCollapseDrawer';
@@ -47,13 +47,18 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }: Props)
   const theme = useTheme();
   const jwt = getCookie('jwt-token');
 
-
-  const { pathname } = useRouter();
+  const { pathname, push } = useRouter();
 
   const isDesktop = useResponsive('up', 'lg');
 
   const { isCollapse, collapseClick, collapseHover, onToggleCollapse, onHoverEnter, onHoverLeave } =
     useCollapseDrawer();
+
+  const redirectToCollection = async () => {
+    const link = localStorage.getItem('whitelistLink');
+    if(link)
+      await push(`collection/${link}`);
+  }
 
   useEffect(() => {
     if (isOpenSidebar) {
@@ -88,7 +93,14 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }: Props)
         </Stack>
 
         <WhitelistsPopover/>
-        {/*<NavbarAccount isCollapse={isCollapse} />*/}
+        {jwt !== undefined ? <Button onClick={redirectToCollection} variant="contained" sx={{
+            color: 'black',
+            backgroundColor: '#DDFF55',
+            ':hover': { opacity: '1', backgroundColor: '#DDFF55' }
+          }}>Public page <img src="/assets/link.svg" alt="MetaMask" width="20" height="20"
+                                        style={{ marginLeft: 8 }}/></Button>
+          :
+          <></>}
       </Stack>
 
       {jwt !== undefined ?
@@ -97,7 +109,7 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }: Props)
         <NavSectionVertical navConfig={navConfigBase} isCollapse={isCollapse}/>}
 
 
-      <Box sx={{ flexGrow: 1 }}/>
+      {jwt !== undefined ?  <Box sx={{ flexGrow: 0.5 }}/>: <Box sx={{ flexGrow: 1 }}/>}
 
       {!isCollapse && <NavbarDocs/>}
     </Scrollbar>

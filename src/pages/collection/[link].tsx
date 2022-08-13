@@ -1,5 +1,5 @@
 import { Box, Button, Card, CardContent, Grid, Stack, styled, Typography, useTheme } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Page from 'src/components/Page';
 import TwitterIcon from 'src/widgets/img/twitter.svg';
 import DiscordIcon from 'src/widgets/img/discord.svg';
@@ -10,6 +10,10 @@ import { RegistrationDiscord } from 'src/widgets/collection/registration-discord
 import { RegistrationTwitter } from 'src/widgets/collection/registration-twitter';
 import { RegistrationWallet } from 'src/widgets/collection/registration-wallet';
 import Logo from 'src/components/Logo';
+import useIsMountedRef from '../../hooks/useIsMountedRef';
+import axiosInstance from '../../utils/axios';
+import { BACKEND_URL } from '../../utils/endpoints';
+import { format } from "date-fns";
 
 const Header = styled('div')(({ theme }) => ({
   background: '#131F0F',
@@ -19,11 +23,33 @@ const Header = styled('div')(({ theme }) => ({
 
 type Status = 'fail' | 'success' | 'initial';
 
-function PublicPage() {
+interface WhitelistInfo {
+  whitelistName: string
+  description?: string
+  discord?: string
+  logo?: string
+  mintDate?: Date
+  mintPrice?: number
+  twitter?: string
+  blockchain: string
+  registrationActive: boolean
+  totalSupply: number
+  minBalance?: number
+}
+
+interface WhitelistInfoResponse {
+  data?: WhitelistInfo
+}
+
+function PublicPage({ data }: WhitelistInfoResponse) {
   const theme = useTheme();
   const [registrationTwitterStatus, setRegistrationTwitterStatus] = useState<Status>('initial');
   const [registrationDiscordStatus, setRegistrationDiscordStatus] = useState<Status>('initial');
   const [registrationWalletStatus, setRegistrationWalletStatus] = useState<Status>('initial');
+  const [isTooltipVisible, setTooltipVisibility] = useState(false);
+  //const [whitelistInfo, setWhitelistInfo] = useState<WhitelistInfo | null>(null);
+
+  const isMountedRef = useIsMountedRef();
 
   const handleRegistrationTwitterStatus = (status: Status) => {
     setRegistrationTwitterStatus(status);
@@ -39,16 +65,36 @@ function PublicPage() {
     (item) => item === 'success'
   );
 
+  useEffect(() => {
+    setTooltipVisibility(true);
+  },[isMountedRef]);
+
   const [finished, setFinished] = useState(false);
   const handleSubmit = () => {
     setFinished(true);
   };
+  if(!data)
+    return (
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        style={{ minHeight: '100vh' }}
+        title="Mint List"
+      >
+        <Typography align="center" variant="h3" mb={'14px'}>
+          Oops! Whitelist doesn't exist yet :(
+        </Typography>
+      </Grid>
+    );
 
   return (
-    <Page suppressHydrationWarning title="Trash Collection" sx={{ backgroundColor: '#fff' }}>
+    <Page suppressHydrationWarning title={data?.whitelistName || ''} sx={{ backgroundColor: '#fff' }}>
       <Header>
         <Box sx={{ padding: theme.spacing(0, 3) }}>
-          <Logo />
+          <Logo/>
         </Box>
       </Header>
       <Grid maxWidth={1280} margin="0 auto" container>
@@ -72,30 +118,30 @@ function PublicPage() {
                 transform: 'translateY(18px)',
               }}
             >
-              <img width={146} height={146} src="https://picsum.photos/200" />
+              <img width={146} height={146} src={data?.logo || ''}/>
             </Box>
           </Box>
           <Typography mt={5} mb={2.5} variant="h3">
-            Trash Collection
+            {data.whitelistName}
           </Typography>
           <Grid container mb={2.75}>
             <Grid item md={4}>
               <Typography color="GrayText" variant="caption" mb={0.5}>
                 Mint Date
               </Typography>
-              <Typography variant="subtitle1">Oct 17</Typography>
+              <Typography variant="subtitle1">{format(Date.parse(data?.mintDate) || Date.now(),"MMMM do, yyyy")}</Typography>
             </Grid>
             <Grid item md={4}>
               <Typography color="GrayText" variant="caption" mb={0.5}>
                 Mint Price
               </Typography>
-              <Typography variant="subtitle1">Ξ0.001</Typography>
+              {data.blockchain === 'Ethereum' ? <Typography variant="subtitle1">Ξ{data?.mintPrice}</Typography> : <Typography variant="subtitle1">◎{data.mintPrice}</Typography>}
             </Grid>
             <Grid item md={4}>
               <Typography color="GrayText" variant="caption" mb={0.5}>
                 Total Supply
               </Typography>
-              <Typography variant="subtitle1">10,000</Typography>
+              <Typography variant="subtitle1">{data.totalSupply}</Typography>
             </Grid>
           </Grid>
           <Grid container mb={2.75}>
@@ -103,7 +149,7 @@ function PublicPage() {
               <Typography color="GrayText" variant="caption" mb={0.5}>
                 Blockchain
               </Typography>
-              <Typography variant="subtitle1">Ethereum</Typography>
+              <Typography variant="subtitle1">{data.blockchain}</Typography>
             </Grid>
             <Grid item md={4}>
               <Stack spacing={0.5} direction={'row'} alignItems="center" mb={0.5}>
@@ -124,7 +170,7 @@ function PublicPage() {
                   color: 'CaptionText',
                 }}
               >
-                twitter.com/trash_
+                {data.twitter || 'No twitter'}
               </Typography>
             </Grid>
             <Grid item md={4}>
@@ -146,16 +192,16 @@ function PublicPage() {
                   color: 'CaptionText',
                 }}
               >
-                discord.com/...
+                {data.discord || 'No discord'}
               </Typography>
             </Grid>
           </Grid>
           <Typography color="GrayText" variant="caption" mb={0.5}>
             Description
           </Typography>
-          <Typography variant="body2" component="div">
-            <p dangerouslySetInnerHTML={{ __html: '<p>123</p>' }} />
-          </Typography>
+          {isTooltipVisible &&<Typography variant="body2" component="div">
+             <Typography dangerouslySetInnerHTML={{ __html: `<Typography>${data.description}</Typography>` }}/>
+          </Typography>}
         </Grid>
         <Grid item md={4}>
           {finished ? (
@@ -189,9 +235,9 @@ function PublicPage() {
                 <Typography mb={2} variant="body2">
                   You must meet the requirements below to be able to register to the Mint List
                 </Typography>
-                <RegistrationTwitter status={registrationTwitterStatus} onChange={handleRegistrationTwitterStatus} />
-                <RegistrationDiscord status={registrationDiscordStatus} onChange={handleRegistrationDiscordStatus} />
-                <RegistrationWallet status={registrationWalletStatus} onChange={handleRegistrationWalletStatus} />
+                <RegistrationTwitter status={registrationTwitterStatus} onChange={handleRegistrationTwitterStatus}/>
+                <RegistrationDiscord status={registrationDiscordStatus} onChange={handleRegistrationDiscordStatus}/>
+                <RegistrationWallet blockchain={data?.blockchain || ''} minValue={data?.minBalance || 0} status={registrationWalletStatus} onChange={handleRegistrationWalletStatus}/>
                 {allDone && (
                   <Button
                     variant="contained"
@@ -220,3 +266,19 @@ function PublicPage() {
 }
 
 export default PublicPage;
+
+PublicPage.getInitialProps = async (appContext: any) => {
+  let response = null;
+  let result: WhitelistInfoResponse;
+  try {
+    response = await axiosInstance.get(`${BACKEND_URL}analytics/collection/${appContext.query.link}`);
+    result = {
+      data: response.data.data
+    }
+
+  } catch {
+    response = null;
+  }
+
+  return { data: response?.data?.data || null}
+}
