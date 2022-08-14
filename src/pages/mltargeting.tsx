@@ -266,13 +266,18 @@ export default function GeneralBooking() {
       <Typography align="left" variant="h3">
         ML Targeting
       </Typography>
-      <Container maxWidth={themeStretch ? false : 'xl'} sx={{ backgroundColor: '#F3F4EF', padding: '0 !important' }}>
+      <Box sx={{ backgroundColor: '#F3F4EF', padding: '0 !important' }}>
         <Grid container spacing={3} alignItems="stretch" sx={{ height: '100%' }}>
           <Grid item sm={12} md={8} lg={8} sx={{ height: '100%' }}>
             <Card sx={{ height: '100%' }}>
-              <CardContent>
+              <CardContent sx={{ height: '100%' }}>
                 <Typography variant="h6">Search space visualization</Typography>
-                <Chart style={{ marginTop: '100px' }} options={options} series={newSer} type="scatter" />
+                <Chart
+                  style={{ height: '100%', display: 'grid', placeItems: 'center' }}
+                  options={options}
+                  series={newSer}
+                  type="scatter"
+                />
               </CardContent>
             </Card>
           </Grid>
@@ -335,7 +340,7 @@ export default function GeneralBooking() {
             </Card>
           </Grid>
         </Grid>
-      </Container>
+      </Box>
     </Page>
   );
 }

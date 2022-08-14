@@ -33,7 +33,7 @@ export function RegistrationTwitter({ onChange, status }: Props) {
         borderColor: '#FF48427A',
         backgroundColor: '#FF484214',
         color: '#B72136',
-        icon: <SvgIconStyle src={`/assets/icons/ic_check.svg/`} sx={{ width: 1, height: 1, bgcolor: '#B72136' }} />,
+        icon: <SvgIconStyle src={`/assets/icons/ic_remove.svg/`} sx={{ width: 1, height: 1, bgcolor: '#B72136' }} />,
         button: <Chip sx={{ background: '#fff' }} label={'@dariaodaria'} onDelete={handleDelete} />,
         size: 'min-content',
       },

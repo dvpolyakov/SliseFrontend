@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 // @mui
 import { styled, useTheme } from '@mui/material/styles';
-import { Box, Stack, Drawer, Button } from '@mui/material';
+import { Box, Stack, Drawer, Button, Typography } from '@mui/material';
 // hooks
 import useResponsive from '../../../hooks/useResponsive';
 import useCollapseDrawer from '../../../hooks/useCollapseDrawer';
@@ -56,9 +56,8 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }: Props)
 
   const redirectToCollection = async () => {
     const link = localStorage.getItem('whitelistLink');
-    if(link)
-      await push(`collection/${link}`);
-  }
+    if (link) await push(`collection/${link}`);
+  };
 
   useEffect(() => {
     if (isOpenSidebar) {
@@ -85,33 +84,42 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }: Props)
         }}
       >
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Logo/>
+          <Logo />
 
           {/*{isDesktop && !isCollapse && (
             <CollapseButton onToggleCollapse={onToggleCollapse} collapseClick={collapseClick} />
           )}*/}
         </Stack>
 
-        <WhitelistsPopover/>
-        {jwt !== undefined ? <Button onClick={redirectToCollection} variant="contained" sx={{
-            color: 'black',
-            backgroundColor: '#DDFF55',
-            ':hover': { opacity: '1', backgroundColor: '#DDFF55' }
-          }}>Public page <img src="/assets/link.svg" alt="MetaMask" width="20" height="20"
-                                        style={{ marginLeft: 8 }}/></Button>
-          :
-          <></>}
+        <WhitelistsPopover />
+        {jwt !== undefined ? (
+          <Button
+            onClick={redirectToCollection}
+            variant="contained"
+            sx={{
+              color: 'black',
+              backgroundColor: '#DDFF55',
+              ':hover': { opacity: '1', backgroundColor: '#DDFF55' },
+            }}
+          >
+            Public page <img src="/assets/link.svg" alt="MetaMask" width="20" height="20" style={{ marginLeft: 8 }} />
+          </Button>
+        ) : (
+          <Typography variant="caption" sx={{ mt: '8px !important' }} color="#7E857A">
+            Choose a demo collection for a preview
+          </Typography>
+        )}
       </Stack>
 
-      {jwt !== undefined ?
-        <NavSectionVertical navConfig={navConfigRegistered} isCollapse={isCollapse}/>
-        :
-        <NavSectionVertical navConfig={navConfigBase} isCollapse={isCollapse}/>}
+      {jwt !== undefined ? (
+        <NavSectionVertical navConfig={navConfigRegistered} isCollapse={isCollapse} />
+      ) : (
+        <NavSectionVertical navConfig={navConfigBase} isCollapse={isCollapse} />
+      )}
 
+      {jwt !== undefined ? <Box sx={{ flexGrow: 0.5 }} /> : <Box sx={{ flexGrow: 1 }} />}
 
-      {jwt !== undefined ?  <Box sx={{ flexGrow: 0.5 }}/>: <Box sx={{ flexGrow: 1 }}/>}
-
-      {!isCollapse && <NavbarDocs/>}
+      {!isCollapse && <NavbarDocs />}
     </Scrollbar>
   );
 
@@ -127,11 +135,7 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }: Props)
       }}
     >
       {!isDesktop && (
-        <Drawer
-          open={isOpenSidebar}
-          onClose={onCloseSidebar}
-          PaperProps={{ sx: { width: NAVBAR.DASHBOARD_WIDTH } }}
-        >
+        <Drawer open={isOpenSidebar} onClose={onCloseSidebar} PaperProps={{ sx: { width: NAVBAR.DASHBOARD_WIDTH } }}>
           {renderContent}
         </Drawer>
       )}
