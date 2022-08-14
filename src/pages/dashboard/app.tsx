@@ -16,7 +16,6 @@ import TwitterFollowers from 'src/widgets/TwitterFollowers';
 import Whales from 'src/widgets/Whales';
 import WhitelistSize from 'src/widgets/WhitelistSize';
 import { number } from 'yup/lib/locale';
-import { process.env.BACKEND_URL } from '../../utils/endpoints';
 
 const CardsGrid = styled('div')(() => ({
   display: 'grid',
