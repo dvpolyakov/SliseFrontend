@@ -2,6 +2,9 @@ import { Box, Button, Chip, Typography, useTheme } from '@mui/material';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import SvgIconStyle from 'src/components/SvgIconStyle';
 import useIsMountedRef from '../../hooks/useIsMountedRef';
+import { ethers } from 'ethers';
+import { authUser, authWhitelistMember } from '../../utils/authUtils';
+import usePhantom from '../../hooks/usePhantom';
 
 type Status = 'fail' | 'success' | 'initial';
 type Props = {
@@ -9,12 +12,95 @@ type Props = {
   status: Status;
   minValue: number;
   blockchain: string;
+  link: string
 };
 
-export function RegistrationWallet({ onChange, status, minValue, blockchain }: Props) {
+export function RegistrationWallet({ onChange, status, minValue, blockchain, link }: Props) {
   const theme = useTheme();
   const isMountedRef = useIsMountedRef();
   const [currency, setCurrency] = useState<string | null>(null);
+  const [data, setdata] = useState({
+    address: "",
+    Balance: null,
+  });
+
+  // Button handler button for handling a
+  // request event for metamask
+  const btnhandler = () => {
+
+    // Asking if metamask is already present or not
+    if (window.ethereum) {
+
+      // res[0] for fetching a first wallet
+      window.ethereum
+        .request({ method: "eth_requestAccounts" })
+        .then(async (res) => {
+          const sig = await signMessage({
+            setError,
+            message: res[0]
+          });
+          accountChangeHandler(res[0]);
+        });
+    } else {
+    }
+  };
+  const getbalance = (address) => {
+
+    // Requesting balance method
+    window.ethereum
+      .request({
+        method: "eth_getBalance",
+        params: [address, "latest"]
+      })
+      .then((balance) => {
+        // Setting balance
+        setdata({
+          Balance: ethers.utils.formatEther(balance),
+        });
+      });
+  };
+
+  const signMessage = async ({ setError, message }) => {
+    try {
+      console.log({ message });
+      if (!window.ethereum)
+        throw new Error("No crypto wallet found. Please install it.");
+
+      await window.ethereum.send("eth_requestAccounts");
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const signature = await signer.signMessage(message);
+      const address = await signer.getAddress();
+      const whitelistId = await authWhitelistMember(message, blockchain,link);
+
+      return {
+        message,
+        signature,
+        address
+      };
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  // Function for getting handling all events
+  const accountChangeHandler = (account) => {
+    // Setting an address data
+    setdata({
+      address: account,
+    });
+
+    // Setting a balance
+    getbalance(account);
+  };
+  const {
+    walletAvail,
+    provider,
+    connected,
+    pubKey,
+    connectHandler,
+    disconnectHandler
+  } = usePhantom();
   const setChainCurrency = useCallback( () => {
     switch (blockchain){
       case 'Ethereum':

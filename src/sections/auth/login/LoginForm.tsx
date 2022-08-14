@@ -19,7 +19,7 @@ import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hoo
 import Connect2Phantom from '../../../hooks/usePhantom';
 import useMetaMask from '../../../hooks/useMetamask';
 import axiosInstance from '../../../utils/axios';
-import { BACKEND_URL } from '../../../utils/endpoints';
+
 import { setCookie } from 'cookies-next';
 import { styled } from '@mui/material/styles';
 import NavItem from '../../../components/nav-section/horizontal/NavItem';
@@ -189,7 +189,7 @@ export default function LoginForm() {
                  style={{ marginRight: 8 }}/> Metamask
           </Button>
           :
-          <Typography sx={{ fontSize: 14, textAlign: 'center' }}>Opps!!! MetaMask is not available. Go get it <Link
+          <Typography sx={{ fontSize: 14, textAlign: 'center' }}>Oops!!! MetaMask is not available. Go get it <Link
             target="_blank" rel="noopener" href="https://metamask.io/">https://metamask.io/</Link>.</Typography>
         }
         <Divider><Typography color={'#637381'}>OR</Typography></Divider>
@@ -223,7 +223,7 @@ export default function LoginForm() {
           </>
           :
           <>
-            <Typography sx={{ fontSize: 14, textAlign: 'center' }}>Opps!!! Phantom is not available. Go get it <Link
+            <Typography sx={{ fontSize: 14, textAlign: 'center' }}>Oops!!! Phantom is not available. Go get it <Link
               target="_blank" rel="noopener" href="https://phantom.app/">https://phantom.app/</Link>.</Typography>
           </>
         }

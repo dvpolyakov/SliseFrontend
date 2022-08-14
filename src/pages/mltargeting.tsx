@@ -13,9 +13,10 @@ import useSettings from 'src/hooks/useSettings';
 import Layout from 'src/layouts';
 import { styled } from '@mui/system';
 import useIsMountedRef from '../hooks/useIsMountedRef';
-import { BACKEND_URL } from '../utils/endpoints';
+
 import useWindowDimensions from '../utils/windowSize';
 import { useTheme } from '@mui/material';
+
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -184,8 +185,7 @@ export default function GeneralBooking() {
           },
         })
         .then((response) => {
-          setWallets(response.data.data.data.total);
-          console.log(response.data.data.data.total);
+          setWallets(response.data.data.total);
 
           /*const mintShare = response.data;
           setView(mintShare);

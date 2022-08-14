@@ -12,8 +12,9 @@ import { RegistrationWallet } from 'src/widgets/collection/registration-wallet';
 import Logo from 'src/components/Logo';
 import useIsMountedRef from '../../hooks/useIsMountedRef';
 import axiosInstance from '../../utils/axios';
-import { BACKEND_URL } from '../../utils/endpoints';
 import { format } from "date-fns";
+import { setCookie } from 'cookies-next';
+import { signIn, signOut, useSession, } from 'next-auth/react';
 
 const Header = styled('div')(({ theme }) => ({
   background: '#131F0F',
@@ -38,11 +39,13 @@ interface WhitelistInfo {
 }
 
 interface WhitelistInfoResponse {
-  data?: WhitelistInfo
+  data?: WhitelistInfo,
+  link: string
 }
 
-function PublicPage({ data }: WhitelistInfoResponse) {
+function PublicPage({ data, link }: WhitelistInfoResponse) {
   const theme = useTheme();
+  const session = useSession();
   const [registrationTwitterStatus, setRegistrationTwitterStatus] = useState<Status>('initial');
   const [registrationDiscordStatus, setRegistrationDiscordStatus] = useState<Status>('initial');
   const [registrationWalletStatus, setRegistrationWalletStatus] = useState<Status>('initial');
@@ -67,13 +70,13 @@ function PublicPage({ data }: WhitelistInfoResponse) {
 
   useEffect(() => {
     setTooltipVisibility(true);
-  },[isMountedRef]);
+  }, [isMountedRef]);
 
   const [finished, setFinished] = useState(false);
   const handleSubmit = () => {
     setFinished(true);
   };
-  if(!data)
+  if (!data)
     return (
       <Grid
         container
@@ -129,13 +132,15 @@ function PublicPage({ data }: WhitelistInfoResponse) {
               <Typography color="GrayText" variant="caption" mb={0.5}>
                 Mint Date
               </Typography>
-              <Typography variant="subtitle1">{format(Date.parse(data?.mintDate) || Date.now(),"MMMM do, yyyy")}</Typography>
+              <Typography
+                variant="subtitle1">{format(Date.parse(data?.mintDate) || Date.now(), "MMMM do, yyyy")}</Typography>
             </Grid>
             <Grid item md={4}>
               <Typography color="GrayText" variant="caption" mb={0.5}>
                 Mint Price
               </Typography>
-              {data.blockchain === 'Ethereum' ? <Typography variant="subtitle1">Ξ{data?.mintPrice}</Typography> : <Typography variant="subtitle1">◎{data.mintPrice}</Typography>}
+              {data.blockchain === 'Ethereum' ? <Typography variant="subtitle1">Ξ{data?.mintPrice}</Typography> :
+                <Typography variant="subtitle1">◎{data.mintPrice}</Typography>}
             </Grid>
             <Grid item md={4}>
               <Typography color="GrayText" variant="caption" mb={0.5}>
@@ -199,8 +204,8 @@ function PublicPage({ data }: WhitelistInfoResponse) {
           <Typography color="GrayText" variant="caption" mb={0.5}>
             Description
           </Typography>
-          {isTooltipVisible &&<Typography variant="body2" component="div">
-             <Typography dangerouslySetInnerHTML={{ __html: `<Typography>${data.description}</Typography>` }}/>
+          {isTooltipVisible && <Typography variant="body2" component="div">
+              <Typography dangerouslySetInnerHTML={{ __html: `<Typography>${data.description || ''}</Typography>` }}/>
           </Typography>}
         </Grid>
         <Grid item md={4}>
@@ -237,7 +242,8 @@ function PublicPage({ data }: WhitelistInfoResponse) {
                 </Typography>
                 <RegistrationTwitter status={registrationTwitterStatus} onChange={handleRegistrationTwitterStatus}/>
                 <RegistrationDiscord status={registrationDiscordStatus} onChange={handleRegistrationDiscordStatus}/>
-                <RegistrationWallet blockchain={data?.blockchain || ''} minValue={data?.minBalance || 0} status={registrationWalletStatus} onChange={handleRegistrationWalletStatus}/>
+                <RegistrationWallet link={link} blockchain={data?.blockchain || ''} minValue={data?.minBalance || 0}
+                                    status={registrationWalletStatus} onChange={handleRegistrationWalletStatus}/>
                 {allDone && (
                   <Button
                     variant="contained"
@@ -273,12 +279,14 @@ PublicPage.getInitialProps = async (appContext: any) => {
   try {
     response = await axiosInstance.get(`${process.env.BACKEND_URL}analytics/collection/${appContext.query.link}`);
     result = {
-      data: response.data.data
+      data: response.data.data,
+      link: appContext.query.link
     }
 
   } catch {
     response = null;
   }
+  setCookie('whitelistLink', appContext.query.link);
 
-  return { data: response?.data?.data || null}
+  return { data: response?.data?.data, link: appContext.query.link || null }
 }

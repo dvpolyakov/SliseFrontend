@@ -37,9 +37,11 @@ module.exports = withTM({
     // AUTH0
     AUTH0_CLIENT_ID: '',
     AUTH0_DOMAIN: '',
-    BACKEND_URL: 'https://daoanalytics.herokuapp.com/api/',
-    ML_URL: 'https://slise-ml.herokuapp.com/'
-  },
+    TWITTER_KEY: process.env.TWITTER_KEY,
+    TWITTER_SECRET: process.env.TWITTER_SECRET,
+    BACKEND_URL: process.env.BACKEND_URL,
+    ML_URL: process.env.ML_URL,
+  }
 });
 
 

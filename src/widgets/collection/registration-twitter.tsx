@@ -3,6 +3,7 @@ import Image from 'next/image';
 import React, { ReactNode, useCallback, useMemo, useState } from 'react';
 import SvgIconStyle from 'src/components/SvgIconStyle';
 import TwitterIcon from 'src/widgets/img/twitter.svg';
+import { signIn, signOut, useSession, } from 'next-auth/react';
 
 type Status = 'fail' | 'success' | 'initial';
 type Props = {
@@ -12,11 +13,14 @@ type Props = {
 
 export function RegistrationTwitter({ onChange, status }: Props) {
   const theme = useTheme();
+  const session = useSession();
 
-  const handleClick = useCallback(() => {
-    setTimeout(() => {
+  const handleClick = useCallback(async () => {
+    await signIn();
+    console.log(session.user);
+   /* setTimeout(() => {
       onChange('success');
-    }, 1000);
+    }, 1000);*/
   }, [onChange]);
 
   const handleDelete = useCallback(() => {
@@ -46,7 +50,7 @@ export function RegistrationTwitter({ onChange, status }: Props) {
         backgroundColor: '#fff',
         color: '#131F0F',
         icon: <Image {...TwitterIcon} />,
-        button: (
+        button:(
           <Button
             onClick={handleClick}
             variant="contained"

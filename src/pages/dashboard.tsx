@@ -16,7 +16,7 @@ import TwitterFollowers from 'src/widgets/TwitterFollowers';
 import Whales from 'src/widgets/Whales';
 import WhitelistSize from 'src/widgets/WhitelistSize';
 import { number } from 'yup/lib/locale';
-import { BACKEND_URL } from '../utils/endpoints';
+
 import { getCookie } from 'cookies-next';
 import { BAYC } from '../samples/BAYC';
 import { mockIds } from '../samples/whitelist-mapper';

@@ -51,7 +51,7 @@ export default function NavbarDocs() {
     deleteCookie('jwt-token');
     deleteCookie('jwt-token-exp');
     deleteCookie('current-chain');
-    router.reload();
+    router.push('/dashboard');
   }
 
   // @ts-ignore

@@ -48,8 +48,9 @@ import TwitterIcon from 'src/widgets/img/twitter.svg';
 import DiscordIcon from 'src/widgets/img/discord.svg';
 import Image from 'next/image';
 import { getCookie } from 'cookies-next';
-import { BACKEND_URL } from '../utils/endpoints';
+
 import { useSnackbar } from 'notistack';
+
 
 const BorderCard = styled('div')((theme) => ({
   border: '1px solid #DCE0E4',
@@ -113,7 +114,7 @@ const Requirements = () => {
   const [value, setValue] = useState<Date | null>(null);
   const styles = useStyles();
   const isMountedRef = useIsMountedRef();
-  const [twitterValue, setTwitterValue] = useState(15);
+  const [twitterValue, setTwitterValue] = useState(0);
   const [balanceValue, setBalanceValue] = useState(0);
   const [twitterVerification, setTwitterVerification] = useState<boolean | null>(null);
   const [twitterMinFollowers, setTwitterMinFollowers] = useState<boolean | null>(null);

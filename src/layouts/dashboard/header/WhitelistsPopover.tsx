@@ -15,7 +15,7 @@ import { IconButtonAnimate } from '../../../components/animate';
 import { Whitelist } from '../../../models/models';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
 import axiosInstance from '../../../utils/axios';
-import { BACKEND_URL } from '../../../utils/endpoints';
+
 import { sampleWlIds } from '../../../samples/whitelist-mapper';
 import { getCookie } from 'cookies-next';
 import MyAvatar from '../../../components/MyAvatar';

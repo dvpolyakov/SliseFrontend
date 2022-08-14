@@ -11,9 +11,10 @@ import Layout from 'src/layouts';
 import axiosInstance from 'src/utils/axios';
 import ProjectInfoEditor from 'src/widgets/ProjectInfoEditor';
 import SwitchCard from 'src/widgets/SwitchCard';
-import { BACKEND_URL } from '../utils/endpoints';
+
 import { bool } from 'yup';
 import { useSnackbar } from 'notistack';
+
 
 interface WhitelistInfo {
   description?: string;

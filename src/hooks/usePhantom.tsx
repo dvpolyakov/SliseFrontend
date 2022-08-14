@@ -1,11 +1,11 @@
 import React, { FC, useEffect, useMemo, useState } from "react";
 import { Connection, PublicKey, clusterApiUrl } from "@solana/web3.js";
 import { Button, Link, Typography } from '@mui/material';
-import { authUser } from '../utils/authUtils';
+import { authUser, authWhitelistMember } from '../utils/authUtils';
 import { router } from 'next/client';
 import { useRouter } from 'next/router';
 import { MetaMaskContext } from './useMetamask';
-import { deleteCookie } from 'cookies-next';
+import { deleteCookie, getCookie } from 'cookies-next';
 
 type PhantomEvent = "disconnect" | "connect" | "accountChanged";
 
@@ -70,12 +70,39 @@ export const PhantomProvider = ({ children }: any) => {
           ).then(async (sign) => {
           if (sign.signature) {
             console.log('test');
-            const whitelistId = await authUser(data.publicKey, 'Solana', true);
+            const whitelistId = await authUser(data.publicKey, 'Solana');
             if (whitelistId) {
               localStorage.setItem('whitelistId', whitelistId);
               await router.push('/project-info');
             }
             await router.push('/dashboard');
+          }
+        })
+
+      })
+      .catch((err) => {
+        console.error("connect ERROR:", err);
+      });
+  }
+
+  const connectWhitelistMemberHandler: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+    console.log(`connect handler`);
+
+    provider?.connect()
+      .then(async (data) => {
+        console.log(`public key ${data.publicKey}`);
+        window.solana
+          .signMessage(
+            new TextEncoder().encode(data.publicKey),
+            'utf8'
+          ).then(async (sign) => {
+          if (sign.signature) {
+            const whitelistLink = getCookie('whitelistLink');
+
+            const address = await authWhitelistMember(data.publicKey, 'Solana', whitelistLink);
+            if (address) {
+              return address;
+            }
           }
         })
 
@@ -122,7 +149,7 @@ export const PhantomProvider = ({ children }: any) => {
 //     </>
 //     :
 //     <>
-//       <Typography sx={{fontSize: 14, textAlign:'center'}}>Opps!!! Phantom is not available. Go get it <Link target="_blank" rel="noopener" href="https://phantom.app/">https://phantom.app/</Link>.</Typography>
+//       <Typography sx={{fontSize: 14, textAlign:'center'}}>Oops!!! Phantom is not available. Go get it <Link target="_blank" rel="noopener" href="https://phantom.app/">https://phantom.app/</Link>.</Typography>
 //     </>
 //   }
 // </div>

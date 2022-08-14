@@ -20,12 +20,13 @@ import nft2 from 'src/assets/nft2.svg';
 import nft3 from 'src/assets/nft3.svg';
 import axiosInstance from '../utils/axios';
 import useIsMountedRef from '../hooks/useIsMountedRef';
-import { BACKEND_URL } from '../utils/endpoints';
+
 import { getCookie } from 'cookies-next';
 import { mockIds } from '../samples/whitelist-mapper';
 import { BAYC } from '../samples/BAYC';
 import useWindowDimensions from '../utils/windowSize';
 import { IKIGAI } from '../samples/IKIGAI';
+
 
 const Cards = styled('div')(() => ({
   display: 'grid',
