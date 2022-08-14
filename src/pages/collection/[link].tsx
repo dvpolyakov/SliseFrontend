@@ -39,12 +39,8 @@ interface WhitelistInfo {
 }
 
 interface WhitelistInfoResponse {
-<<<<<<< HEAD
   data?: WhitelistInfo,
   link: string
-=======
-  data?: WhitelistInfo;
->>>>>>> e7b76bc5d09375f5449eaf1742c264d132e1c2a2
 }
 
 function PublicPage({ data, link }: WhitelistInfoResponse) {
@@ -253,6 +249,7 @@ function PublicPage({ data, link }: WhitelistInfoResponse) {
                 <RegistrationTwitter status={registrationTwitterStatus} onChange={handleRegistrationTwitterStatus} />
                 <RegistrationDiscord status={registrationDiscordStatus} onChange={handleRegistrationDiscordStatus} />
                 <RegistrationWallet
+                  link={link}
                   blockchain={data?.blockchain || ''}
                   minValue={data?.minBalance || 0}
                   status={registrationWalletStatus}
