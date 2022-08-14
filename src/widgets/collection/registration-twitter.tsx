@@ -30,10 +30,13 @@ export function RegistrationTwitter({ onChange, status, twitter, minTwitterFollo
     if(!session) return;
     const results = await axiosInstance.get('/api/twitter/profile');
     console.log(results);
-    const existFollowed = results.data.result.followed.data.find(x => x.name = twitter);
+    const followed = results.data.result.followed.data.map((twit) => twit.username.toLowerCase());
+    console.log(twitter.toLowerCase());
+    const existFollowed = followed.find(x => x === twitter.toLowerCase());
     if(!existFollowed) onChange('fail');
     const followers = results.data.result.publicMetrics.data.public_metrics.followers_count;
-    if(followers < minTwitterFollowers) return onChange('fail');
+    if(followers < minTwitterFollowers) onChange('fail');
+
 
   },[isMountedRef]);
 
