@@ -69,6 +69,7 @@
     "i18next-browser-languagedetector": "^6.1.4",
     "immutable": "^4.1.0",
     "js-cookie": "^3.0.1",
+    "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.19",
     "mapbox-gl": "^2.9.1",
@@ -103,6 +104,8 @@
     "slick-carousel": "^1.8.1",
     "stylis": "^4.1.1",
     "stylis-plugin-rtl": "^2.1.1",
+    "twitter-api-v2": "^1.12.3",
+    "twitter-lite": "^1.1.0",
     "web3": "^1.7.5",
     "yup": "^0.32.11"
   },

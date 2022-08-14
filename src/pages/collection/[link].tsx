@@ -36,6 +36,7 @@ interface WhitelistInfo {
   registrationActive: boolean;
   totalSupply: number;
   minBalance?: number;
+  minTwitterFollowers?: number;
 }
 
 interface WhitelistInfoResponse {
@@ -170,7 +171,7 @@ function PublicPage({ data, link }: WhitelistInfoResponse) {
               <Typography
                 component="a"
                 suppressHydrationWarning
-                href="twitter.com/trash_"
+                href={`twitter.com/${data?.twitter}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 variant="subtitle1"
@@ -246,7 +247,7 @@ function PublicPage({ data, link }: WhitelistInfoResponse) {
                 <Typography mb={2} variant="body2">
                   You must meet the requirements below to be able to register to the Mint List
                 </Typography>
-                <RegistrationTwitter status={registrationTwitterStatus} onChange={handleRegistrationTwitterStatus} />
+                <RegistrationTwitter minTwitterFollowers={data?.minTwitterFollowers} twitter={data?.twitter} status={registrationTwitterStatus} onChange={handleRegistrationTwitterStatus} />
                 <RegistrationDiscord status={registrationDiscordStatus} onChange={handleRegistrationDiscordStatus} />
                 <RegistrationWallet
                   link={link}

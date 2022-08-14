@@ -1,31 +1,53 @@
 import { Box, Button, Chip, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
-import React, { ReactNode, useCallback, useMemo, useState } from 'react';
+import React, { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import SvgIconStyle from 'src/components/SvgIconStyle';
 import TwitterIcon from 'src/widgets/img/twitter.svg';
 import { signIn, signOut, useSession, } from 'next-auth/react';
+import axiosInstance from '../../utils/axios';
+import useIsMountedRef from '../../hooks/useIsMountedRef';
 
 type Status = 'fail' | 'success' | 'initial';
 type Props = {
   onChange: (v: Status) => void;
   status: Status;
+  twitter: string;
+  minTwitterFollowers: number
 };
 
-export function RegistrationTwitter({ onChange, status }: Props) {
+export function RegistrationTwitter({ onChange, status, twitter, minTwitterFollowers }: Props) {
   const theme = useTheme();
   const session = useSession();
+  const isMountedRef = useIsMountedRef();
+
+  async function handleOnSearchSubmit() {
+
+
+  }
+
+  const checkTwitterRequirements = useCallback(async () => {
+    console.log(session);
+    if(!session) return;
+    const results = await axiosInstance.get('/api/twitter/profile');
+    console.log(results);
+    const existFollowed = results.data.result.followed.data.find(x => x.name = twitter);
+    if(!existFollowed) onChange('fail');
+    const followers = results.data.result.publicMetrics.data.public_metrics.followers_count;
+    if(followers < minTwitterFollowers) return onChange('fail');
+
+  },[isMountedRef]);
 
   const handleClick = useCallback(async () => {
     await signIn();
-    console.log(session.user);
-   /* setTimeout(() => {
-      onChange('success');
-    }, 1000);*/
   }, [onChange]);
 
   const handleDelete = useCallback(() => {
     onChange('initial');
   }, [onChange]);
+
+  useEffect(() => {
+    checkTwitterRequirements();
+  },[checkTwitterRequirements]);
 
   const mapping = useMemo(
     () => ({
@@ -33,16 +55,16 @@ export function RegistrationTwitter({ onChange, status }: Props) {
         borderColor: '#FF48427A',
         backgroundColor: '#FF484214',
         color: '#B72136',
-        icon: <SvgIconStyle src={`/assets/icons/ic_remove.svg/`} sx={{ width: 1, height: 1, bgcolor: '#B72136' }} />,
-        button: <Chip sx={{ background: '#fff' }} label={'@dariaodaria'} onDelete={handleDelete} />,
+        icon: <SvgIconStyle src={`/assets/icons/ic_remove.svg/`} sx={{ width: 1, height: 1, bgcolor: '#B72136' }}/>,
+        button: <Chip sx={{ background: '#fff' }} label={`@${session?.data?.username }`} onDelete={handleDelete}/>,
         size: 'min-content',
       },
       success: {
         borderColor: '#54D62C7A',
         backgroundColor: '#54D62C14',
         color: '#229A16',
-        icon: <SvgIconStyle src={`/assets/icons/ic_check.svg/`} sx={{ width: 1, height: 1, bgcolor: '#229A16' }} />,
-        button: <Chip sx={{ background: '#fff' }} label={'@dariaodaria'} onDelete={handleDelete} />,
+        icon: <SvgIconStyle src={`/assets/icons/ic_check.svg/`} sx={{ width: 1, height: 1, bgcolor: '#229A16' }}/>,
+        button: <Chip sx={{ background: '#fff' }} label={`@${session?.data?.username }`} onDelete={handleDelete}/>,
         size: 'min-content',
       },
       initial: {
@@ -50,7 +72,7 @@ export function RegistrationTwitter({ onChange, status }: Props) {
         backgroundColor: '#fff',
         color: '#131F0F',
         icon: <Image {...TwitterIcon} />,
-        button:(
+        button: (
           <Button
             onClick={handleClick}
             variant="contained"
@@ -87,13 +109,12 @@ export function RegistrationTwitter({ onChange, status }: Props) {
         sx={{ display: 'grid', alignItems: 'center', gridTemplateColumns: `20px 1fr ${mapping[status].size}`, gap: 1 }}
       >
         {mapping[status].icon}
-
         <Typography variant="body2" color={mapping[status].color}>
           Follow{' '}
           <Typography
             component="a"
             suppressHydrationWarning
-            href="twitter.com/trash_"
+            href={`twitter.com/${twitter}`}
             target="_blank"
             rel="noopener noreferrer"
             variant="subtitle2"
@@ -102,7 +123,7 @@ export function RegistrationTwitter({ onChange, status }: Props) {
               color: mapping[status].color,
             }}
           >
-            @trash_
+            @{twitter}
           </Typography>{' '}
           on Twitter
         </Typography>
