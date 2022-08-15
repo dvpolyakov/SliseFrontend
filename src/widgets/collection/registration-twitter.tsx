@@ -8,37 +8,47 @@ import axiosInstance from '../../utils/axios';
 import useIsMountedRef from '../../hooks/useIsMountedRef';
 
 type Status = 'fail' | 'success' | 'initial';
+type Reason = 'Too few followers' | 'Not followed' | 'initial'
 type Props = {
   onChange: (v: Status) => void;
+  handleTwitter: (twitter: string) => void;
   status: Status;
   twitter: string;
-  minTwitterFollowers: number
+  minTwitterFollowers: number;
 };
 
-export function RegistrationTwitter({ onChange, status, twitter, minTwitterFollowers }: Props) {
+export function RegistrationTwitter({ onChange, status, twitter, minTwitterFollowers, handleTwitter }: Props) {
   const theme = useTheme();
   const session = useSession();
   const isMountedRef = useIsMountedRef();
+  const [reason, setReason] = useState<Reason>('initial');
 
   async function handleOnSearchSubmit() {
-
 
   }
 
   const checkTwitterRequirements = useCallback(async () => {
-    console.log(session);
-    if(!session) return;
+
+    if (!session) return;
     const results = await axiosInstance.get('/api/twitter/profile');
     console.log(results);
     const followed = results.data.result.followed.data.map((twit) => twit.username.toLowerCase());
-    console.log(twitter.toLowerCase());
     const existFollowed = followed.find(x => x === twitter.toLowerCase());
-    if(!existFollowed) onChange('fail');
-    const followers = results.data.result.publicMetrics.data.public_metrics.followers_count;
-    if(followers < minTwitterFollowers) onChange('fail');
+    if (!existFollowed) {
+      onChange('fail');
+      setReason('Not followed');
+      return;
+    }
+    const followers = results.data.result.followersCount;
+    if (followers < minTwitterFollowers) {
+      onChange('fail');
+      setReason('Too few followers');
+      return;
+    }
 
-
-  },[isMountedRef]);
+    onChange('success');
+    handleTwitter(session?.data?.username || '');
+  }, [isMountedRef]);
 
   const handleClick = useCallback(async () => {
     await signIn();
@@ -50,7 +60,7 @@ export function RegistrationTwitter({ onChange, status, twitter, minTwitterFollo
 
   useEffect(() => {
     checkTwitterRequirements();
-  },[checkTwitterRequirements]);
+  }, [checkTwitterRequirements]);
 
   const mapping = useMemo(
     () => ({
@@ -59,7 +69,7 @@ export function RegistrationTwitter({ onChange, status, twitter, minTwitterFollo
         backgroundColor: '#FF484214',
         color: '#B72136',
         icon: <SvgIconStyle src={`/assets/icons/ic_remove.svg/`} sx={{ width: 1, height: 1, bgcolor: '#B72136' }}/>,
-        button: <Chip sx={{ background: '#fff' }} label={`@${session?.data?.username }`} onDelete={handleDelete}/>,
+        button: <Chip sx={{ background: '#fff' }} label={`@${session?.data?.username}`} onDelete={handleDelete}/>,
         size: 'min-content',
       },
       success: {
@@ -67,7 +77,7 @@ export function RegistrationTwitter({ onChange, status, twitter, minTwitterFollo
         backgroundColor: '#54D62C14',
         color: '#229A16',
         icon: <SvgIconStyle src={`/assets/icons/ic_check.svg/`} sx={{ width: 1, height: 1, bgcolor: '#229A16' }}/>,
-        button: <Chip sx={{ background: '#fff' }} label={`@${session?.data?.username }`} onDelete={handleDelete}/>,
+        button: <Chip sx={{ background: '#fff' }} label={`@${session?.data?.username}`} onDelete={handleDelete}/>,
         size: 'min-content',
       },
       initial: {
@@ -134,7 +144,7 @@ export function RegistrationTwitter({ onChange, status, twitter, minTwitterFollo
       </Box>
       {status === 'fail' && (
         <Typography ml={3.25} variant="caption" color={mapping[status].color}>
-          The requirement is not met
+          The requirement is not met. {reason}
         </Typography>
       )}
     </Box>

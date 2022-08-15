@@ -256,9 +256,9 @@ const Requirements = () => {
               <Slider
                 sx={{ maxWidth: 400 }}
                 value={balanceValue}
-                min={1}
-                step={0.01}
-                max={100}
+                min={0.00000}
+                step={0.00001}
+                max={1}
                 onChange={(_, v) => setBalanceValue(v as number)}
                 valueLabelDisplay="off"
                 marks={false} // Very slow

@@ -1,4 +1,16 @@
-import { Box, Button, Card, CardContent, Grid, Stack, styled, Typography, useTheme } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  Snackbar, SnackbarCloseReason,
+  Stack,
+  styled,
+  Typography,
+  useTheme
+} from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import Page from 'src/components/Page';
 import TwitterIcon from 'src/widgets/img/twitter.svg';
@@ -15,6 +27,7 @@ import axiosInstance from '../../utils/axios';
 import { format } from "date-fns";
 import { setCookie } from 'cookies-next';
 import { signIn, signOut, useSession, } from 'next-auth/react';
+import Label from '../../components/Label';
 
 const Header = styled('div')(({ theme }) => ({
   background: '#131F0F',
@@ -37,6 +50,9 @@ interface WhitelistInfo {
   totalSupply: number;
   minBalance?: number;
   minTwitterFollowers?: number;
+  twitterRequired: boolean;
+  discordRequired: boolean;
+  twitterMinFollowersRequired: boolean;
 }
 
 interface WhitelistInfoResponse {
@@ -50,7 +66,11 @@ function PublicPage({ data, link }: WhitelistInfoResponse) {
   const [registrationTwitterStatus, setRegistrationTwitterStatus] = useState<Status>('initial');
   const [registrationDiscordStatus, setRegistrationDiscordStatus] = useState<Status>('initial');
   const [registrationWalletStatus, setRegistrationWalletStatus] = useState<Status>('initial');
+  const [twitter, setTwitter] = useState<string | null>(null);
+  const [address, setAddress] = useState<string>('');
   const [isTooltipVisible, setTooltipVisibility] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [error, setError] = useState('');
   //const [whitelistInfo, setWhitelistInfo] = useState<WhitelistInfo | null>(null);
 
   const isMountedRef = useIsMountedRef();
@@ -65,17 +85,70 @@ function PublicPage({ data, link }: WhitelistInfoResponse) {
     setRegistrationWalletStatus(status);
   };
 
-  const allDone = [registrationTwitterStatus, registrationDiscordStatus, registrationWalletStatus].every(
-    (item) => item === 'success'
-  );
+  const handleAddress = (address: string) => {
+    setAddress(address);
+  };
+  const handleTwitter = (twitter: string) => {
+    setTwitter(twitter);
+  };
+
+  const handleCloseAlert = (event: React.SyntheticEvent<Element, Event>) => {
+    setOpen(false);
+  };
+
+  const handleClose = (event: Event | React.SyntheticEvent<any>, reason: SnackbarCloseReason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   useEffect(() => {
     setTooltipVisibility(true);
   }, [isMountedRef]);
 
   const [finished, setFinished] = useState(false);
-  const handleSubmit = () => {
-    setFinished(true);
+  const handleSubmit = async () => {
+    let requiersCount: number = 0;
+    if(data?.discordRequired)
+      requiersCount = requiersCount++;
+    if(data?.twitterRequired)
+      requiersCount = requiersCount++;
+    if(data?.twitterMinFollowersRequired)
+      requiersCount = requiersCount++;
+    let requiresDone: number = 0;
+    if(registrationTwitterStatus === 'success')
+      requiresDone = requiresDone++;
+    if(registrationDiscordStatus === 'success')
+      requiresDone = requiresDone++;
+    let done:string[] = [];
+    if(data?.discordRequired)
+      done.push(registrationDiscordStatus);
+    if(data?.twitterRequired)
+      done.push(registrationTwitterStatus);
+    if(data?.minBalance! > 0)
+      done.push(registrationWalletStatus);
+    const allDone = done.every(
+      (item) => item === 'success'
+    );
+
+    console.log(allDone);
+    if(allDone){
+      const response = await axiosInstance.post(`${process.env.BACKEND_URL}auth/authWhitelistMember`,{
+        'address': address,
+        'link': link,
+        'networkType': data?.blockchain,
+        'twitter': session?.data?.username
+      }).then((response) => setFinished(true))
+        .catch((error) => {
+          console.log(error);
+          setError(error.message);
+          setOpen(true);
+        });
+      console.log(response);
+    }
+   /* setFinished(true);*/
   };
   if (!data)
     return (
@@ -98,7 +171,7 @@ function PublicPage({ data, link }: WhitelistInfoResponse) {
     <Page suppressHydrationWarning title={data?.whitelistName || ''} sx={{ backgroundColor: '#fff' }}>
       <Header>
         <Box sx={{ padding: theme.spacing(3, 2.5) }}>
-          <Logo />
+          <Logo/>
         </Box>
       </Header>
       <Grid maxWidth={1280} margin="0 auto" container>
@@ -122,7 +195,7 @@ function PublicPage({ data, link }: WhitelistInfoResponse) {
                 transform: 'translateY(18px)',
               }}
             >
-              <img width={146} height={146} src={data?.logo || ''} />
+              <img width={146} height={146} src={data?.logo || ''}/>
             </Box>
           </Box>
           <Typography mt={5} mb={2.5} variant="h3">
@@ -211,7 +284,7 @@ function PublicPage({ data, link }: WhitelistInfoResponse) {
           </Typography>
           {isTooltipVisible && (
             <Typography variant="body2" component="div">
-              <Typography dangerouslySetInnerHTML={{ __html: `<Typography>${data.description}</Typography>` }} />
+              <Typography dangerouslySetInnerHTML={{ __html: `<Typography>${data.description}</Typography>` }}/>
             </Typography>
           )}
         </Grid>
@@ -241,22 +314,30 @@ function PublicPage({ data, link }: WhitelistInfoResponse) {
           ) : (
             <Card sx={{ transform: 'translateY(-37px)' }}>
               <CardContent>
-                <Typography mb={1} variant="h5">
-                  Registration
-                </Typography>
+
+                  <Typography mb={1} variant="h5">
+                    Registration
+                    {data?.registrationActive ? <Label sx={{marginLeft:2}} variant="filled" color={'success'}>Active</Label>: <Label sx={{marginLeft:2}} variant="filled" color={'error'}>Closed</Label>}
+                  </Typography>
+
                 <Typography mb={2} variant="body2">
                   You must meet the requirements below to be able to register to the Mint List
                 </Typography>
-                <RegistrationTwitter minTwitterFollowers={data?.minTwitterFollowers} twitter={data?.twitter} status={registrationTwitterStatus} onChange={handleRegistrationTwitterStatus} />
-                <RegistrationDiscord status={registrationDiscordStatus} onChange={handleRegistrationDiscordStatus} />
+                {data?.twitterRequired &&
+                    <RegistrationTwitter handleTwitter={handleTwitter} minTwitterFollowers={data?.minTwitterFollowers} twitter={data?.twitter}
+                                         status={registrationTwitterStatus}
+                                         onChange={handleRegistrationTwitterStatus}/>}
+                {data?.discordRequired && <RegistrationDiscord status={registrationDiscordStatus}
+                                                               onChange={handleRegistrationDiscordStatus}/>}
                 <RegistrationWallet
                   link={link}
+                  handleAddress={handleAddress}
                   blockchain={data?.blockchain || ''}
                   minValue={data?.minBalance || 0}
                   status={registrationWalletStatus}
                   onChange={handleRegistrationWalletStatus}
                 />
-                {allDone && (
+                {data?.registrationActive && (
                   <Button
                     variant="contained"
                     size="large"
@@ -279,6 +360,14 @@ function PublicPage({ data, link }: WhitelistInfoResponse) {
         </Grid>
         <Grid item md={1}></Grid>
       </Grid>
+      {open ?
+        <Snackbar anchorOrigin={{vertical:'top', horizontal:'center'}} open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleCloseAlert} severity="error" sx={{width: '100%'}}>
+            {error}
+          </Alert>
+        </Snackbar>
+        : <></>
+      }
     </Page>
   );
 }

@@ -6,6 +6,7 @@ import { router } from 'next/client';
 import { useRouter } from 'next/router';
 import { MetaMaskContext } from './useMetamask';
 import { deleteCookie, getCookie } from 'cookies-next';
+import axiosInstance from '../utils/axios';
 
 type PhantomEvent = "disconnect" | "connect" | "accountChanged";
 
@@ -31,6 +32,7 @@ export const PhantomProvider = ({ children }: any) => {
   const [provider, setProvider] = useState<UsePhantom | null>(null);
   const [connected, setConnected] = useState(false);
   const [pubKey, setPubKey] = useState<PublicKey | null>(null);
+  const [solBalance, setSolBalance] = useState<number>(0);
 
   useEffect(() => {
     if ("solana" in window) {
@@ -87,29 +89,26 @@ export const PhantomProvider = ({ children }: any) => {
 
   const connectWhitelistMemberHandler: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     console.log(`connect handler`);
-
-    provider?.connect()
-      .then(async (data) => {
-        console.log(`public key ${data.publicKey}`);
-        window.solana
-          .signMessage(
-            new TextEncoder().encode(data.publicKey),
-            'utf8'
-          ).then(async (sign) => {
-          if (sign.signature) {
-            const whitelistLink = getCookie('whitelistLink');
-
-            const address = await authWhitelistMember(data.publicKey, 'Solana', whitelistLink);
-            if (address) {
-              return address;
+    if (window.solana) {
+      provider?.connect()
+        .then(async (data) => {
+          console.log(`public key ${data.publicKey}`);
+          window.solana
+            .signMessage(
+              new TextEncoder().encode(data.publicKey),
+              'utf8'
+            ).then(async (sign) => {
+            if (sign.signature) {
+              const response = await axiosInstance.get(`${process.env.BACKEND_URL}analytics/solBalance?address=${data.publicKey}`);
+              setSolBalance(response.data.data);
             }
-          }
-        })
+          })
 
-      })
-      .catch((err) => {
-        console.error("connect ERROR:", err);
-      });
+        })
+        .catch((err) => {
+          console.error("connect ERROR:", err);
+        });
+    }
   }
 
   const disconnectHandler: React.MouseEventHandler<HTMLButtonElement> = (event) => {
@@ -130,10 +129,12 @@ export const PhantomProvider = ({ children }: any) => {
       provider,
       connected,
       pubKey,
+      solBalance,
       connectHandler,
       disconnectHandler,
+      connectWhitelistMemberHandler
     }),
-    [walletAvail, provider, connected, pubKey]
+    [walletAvail, provider, connected, pubKey,solBalance]
   )
 
   return <PhantomContext.Provider value={values}>{children}</PhantomContext.Provider>
