@@ -20,7 +20,7 @@ import { deleteCookie, getCookie } from 'cookies-next';
 export default function NavbarDocs() {
   const jwt = getCookie('jwt-token');
   const isMountedRef = useIsMountedRef();
-  const [web3interface, setWeb3Interface] = useState("ethers");
+  const [web3interface, setWeb3Interface] = useState('ethers');
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const handleOpenAddCollection = () => setOpen(true);
@@ -40,53 +40,56 @@ export default function NavbarDocs() {
     height: '432px',
     bgcolor: '#FFFFFF',
     p: 3,
-    borderRadius: '25px'
+    borderRadius: '25px',
   };
 
   const redirectToAuth = async () => {
     await router.push('auth/login');
-  }
+  };
 
   const logOut = () => {
     deleteCookie('jwt-token');
     deleteCookie('jwt-token-exp');
     deleteCookie('current-chain');
     router.push('/dashboard');
-  }
+  };
 
   // @ts-ignore
   return (
     <>
-      {jwt !== undefined ?
-        <Stack
-          spacing={3}
-          sx={{ width: 1, textAlign: 'center', display: 'block' }}
-        >
-          <Box textAlign="center">
-            <Box>
-              <Link onClick={logOut} color='#212B36' target="_blank" rel="noopener" underline="always">
-                <Typography sx={{ color: '#637381', fontSize: 14, textAlign: 'center' }}>
-                  Log Out
-                </Typography>
-              </Link>
-            </Box>
+      {jwt !== undefined ? (
+        <Stack spacing={3} sx={{ width: 1, textAlign: 'center', display: 'block' }}>
+          <Box textAlign="center" minHeight={85} sx={{ placeItems: 'center', display: 'grid' }}>
+            <Link
+              onClick={logOut}
+              color="#212B36"
+              target="_blank"
+              rel="noopener"
+              underline="always"
+              sx={{ cursor: 'pointer' }}
+            >
+              <Typography sx={{ color: '#637381', fontSize: 14, textAlign: 'center' }}>Log Out</Typography>
+            </Link>
           </Box>
         </Stack>
-        :
-        <Stack
-          spacing={3}
-          sx={{ px: 5, pb: 5, mt: 10, width: 1, textAlign: 'center', display: 'block' }}
-        >
+      ) : (
+        <Stack spacing={3} sx={{ px: 5, pb: 5, mt: 10, width: 1, textAlign: 'center', display: 'block' }}>
           <Box textAlign="center">
-            <Button onClick={redirectToAuth} variant="contained" sx={{
-              width: '200px',
-              color: 'black',
-              backgroundColor: '#DDFF55',
-              ':hover': { opacity: '1', backgroundColor: '#DDFF55' }
-            }}>Go to your collection</Button>
+            <Button
+              onClick={redirectToAuth}
+              variant="contained"
+              sx={{
+                width: '200px',
+                color: 'black',
+                backgroundColor: '#DDFF55',
+                ':hover': { opacity: '1', backgroundColor: '#DDFF55' },
+              }}
+            >
+              Go to your collection
+            </Button>
           </Box>
         </Stack>
-      }
+      )}
     </>
   );
 }
