@@ -57,7 +57,8 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }: Props)
   const redirectToCollection = async () => {
     const link = localStorage.getItem('whitelistLink');
     if (link) {
-      await push(`collection/${link}`);
+      window.open(
+        `https://app.slise.xyz/collection/${link}`, "_blank");
     }
   };
 
