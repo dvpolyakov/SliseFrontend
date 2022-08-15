@@ -3,6 +3,7 @@ import { Stack, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import React from 'react';
 import Icon from './img/whitelist.svg';
+import DashboardWidgetWrapper from 'src/components/DashboardWidgetWrapper';
 
 const Root = styled('div')(() => ({
   gridArea: 'WhitelistSize',
@@ -15,13 +16,11 @@ const Root = styled('div')(() => ({
 
 const WhitelistSize = ({ value }: any) => {
   return (
-    <Root>
-      <Stack direction="column" alignItems="center">
-        <img {...Icon} />
-        <Typography variant="subtitle2">Mint list Size</Typography>
-        <Typography variant="h3">{formatNumber(value, 2)}</Typography>
-      </Stack>
-    </Root>
+    <DashboardWidgetWrapper gridArea="WhitelistSize">
+      <img {...Icon} />
+      <Typography variant="subtitle2">Mint list Size</Typography>
+      <Typography variant="h3">{formatNumber(value, 2)}</Typography>
+    </DashboardWidgetWrapper>
   );
 };
 

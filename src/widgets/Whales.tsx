@@ -3,6 +3,7 @@ import { Stack, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import React from 'react';
 import Icon from './img/whales.svg';
+import DashboardWidgetWrapper from 'src/components/DashboardWidgetWrapper';
 
 const Root = styled('div')(() => ({
   gridArea: 'Whales',
@@ -15,13 +16,11 @@ const Root = styled('div')(() => ({
 
 const Whales = ({ value }: any) => {
   return (
-    <Root>
-      <Stack direction="column" alignItems="center">
-        <img {...Icon} />
-        <Typography variant="subtitle2">Whales</Typography>
-        <Typography variant="h3">{formatNumber(value, 2)}</Typography>
-      </Stack>
-    </Root>
+    <DashboardWidgetWrapper gridArea="Whales">
+      <img {...Icon} />
+      <Typography variant="subtitle2">Whales</Typography>
+      <Typography variant="h3">{formatNumber(value, 2)}</Typography>
+    </DashboardWidgetWrapper>
   );
 };
 

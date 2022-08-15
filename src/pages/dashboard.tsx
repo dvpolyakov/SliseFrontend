@@ -51,7 +51,6 @@ const BigCardsGrid = styled('div')(() => ({
   },
 }));
 
-
 const DashboardIndex = () => {
   const isMountedRef = useIsMountedRef();
   const [statistics, setStatistics] = useState<any>(null);
@@ -62,10 +61,11 @@ const DashboardIndex = () => {
     const whitelistId = window.localStorage.getItem('whitelistId');
     if (jwt) {
       const response = await axiosInstance.get(
-        `${process.env.BACKEND_URL}analytics/whitelistStatistics?whitelistId=${whitelistId}`, {
+        `${process.env.BACKEND_URL}analytics/whitelistStatistics?whitelistId=${whitelistId}`,
+        {
           headers: {
-            'Authorization' : `Bearer ${jwt}`
-          }
+            Authorization: `Bearer ${jwt}`,
+          },
         }
       );
       window.localStorage.setItem('whitelistSize', response.data.data.whitelistSize);
@@ -78,7 +78,6 @@ const DashboardIndex = () => {
   }, [isMountedRef]);
 
   useEffect(() => {
-
     getWhitelistStatistics();
   }, [getWhitelistStatistics]);
 
@@ -97,7 +96,6 @@ const DashboardIndex = () => {
           Oops! We don't support mobile devices yet :(
         </Typography>
       </Grid>
-
     );
 
   if (!statistics) {
@@ -122,7 +120,7 @@ const DashboardIndex = () => {
       sx={{
         height: 'calc(100vh - 60px)',
         display: 'grid',
-        gridTemplateRows: 'min-content min-content 1fr',
+        gridTemplateRows: 'min-content 1fr minmax(362px, 1fr)',
       }}
       title="Dashboard"
     >

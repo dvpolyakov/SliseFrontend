@@ -15,17 +15,16 @@ import SwitchCard from 'src/widgets/SwitchCard';
 import { bool } from 'yup';
 import { useSnackbar } from 'notistack';
 
-
 interface WhitelistInfo {
   description?: string;
-  discord?: string
-  blockchain?: string
-  mintPrice?: number
-  collectionName: string
-  totalSupply: number
-  registrationActive: boolean
-  twitter?: string
-  mintDate?: Date,
+  discord?: string;
+  blockchain?: string;
+  mintPrice?: number;
+  collectionName: string;
+  totalSupply: number;
+  registrationActive: boolean;
+  twitter?: string;
+  mintDate?: Date;
   logo?: string;
 }
 
@@ -51,11 +50,14 @@ const ProjectInfo = () => {
     const jwt = getCookie('jwt-token');
     if (jwt) {
       const currentWl = localStorage.getItem('whitelistId');
-      const response = await axiosInstance.get(`${process.env.BACKEND_URL}analytics/whitelistInfo?whitelistId=${currentWl}`, {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      });
+      const response = await axiosInstance.get(
+        `${process.env.BACKEND_URL}analytics/whitelistInfo?whitelistId=${currentWl}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
       if (response.data.data) {
         setCollectionName(response.data.data.collectionName);
         setLogo(response.data.data.logo);
@@ -74,82 +76,76 @@ const ProjectInfo = () => {
 
   const updateWhitelistInfo = async () => {
     let formData = new FormData();
-    if(file)
-      formData.append('file', file!);
+    if (file) formData.append('file', file!);
     formData.append('registrationActive', registrationActive!.toString());
-    if(description)
-      formData.append('description', description!);
-    if(mintDate)
-      formData.append('mintDate', mintDate.toString());
-    if(collectionName)
-      formData.append('collectionName', collectionName);
-    if(twitter)
-      formData.append('twitter', twitter);
-    if(discord)
-      formData.append('discord', discord);
-    if(mintPrice)
-      formData.append('mintPrice', mintPrice.toString());
-    if(totalSupply)
-      formData.append('totalSupply', totalSupply.toString());
-    if(blockchain)
-      formData.append('blockchain', blockchain.toString());
+    if (description) formData.append('description', description!);
+    if (mintDate) formData.append('mintDate', mintDate.toString());
+    if (collectionName) formData.append('collectionName', collectionName);
+    if (twitter) formData.append('twitter', twitter);
+    if (discord) formData.append('discord', discord);
+    if (mintPrice) formData.append('mintPrice', mintPrice.toString());
+    if (totalSupply) formData.append('totalSupply', totalSupply.toString());
+    if (blockchain) formData.append('blockchain', blockchain.toString());
     const jwt = getCookie('jwt-token');
     const whitelistId = localStorage.getItem('whitelistId');
-    const response = await axiosInstance.put(`${process.env.BACKEND_URL}analytics/whitelistInfo/${whitelistId}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'Authorization': `Bearer ${jwt}`
-      },
-      data: formData
-    });
-    if(response.status === 200){
+    const response = await axiosInstance.put(
+      `${process.env.BACKEND_URL}analytics/whitelistInfo/${whitelistId}`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${jwt}`,
+        },
+        data: formData,
+      }
+    );
+    if (response.status === 200) {
       enqueueSnackbar('Saved!');
     }
-  }
+  };
 
   const onChangeCollectionName = (props: any) => {
     setCollectionName(props.target.value);
-  }
+  };
   const onChangeMintDate = (props: any) => {
     console.log(props);
     setMintDate(props);
-  }
+  };
   const onChangeTwitter = (props: any) => {
     setTwitter(props.target.value);
-  }
+  };
   const onChangeDiscord = (props: any) => {
     setDiscord(props.target.value);
-  }
+  };
   const onChangeMintPrice = (props: any) => {
     setMintPrice(props.target.value);
-  }
+  };
   const onChangeTotalSupply = (props: any) => {
     setTotalSupply(props.target.value);
-  }
+  };
   const onChangeDescription = (props: any) => {
     setDescription(props);
-  }
+  };
   const onChangeBlockchain = (props: any) => {
     setBlockchain(props.target.value);
-  }
+  };
   const onChangeRegistrationActive = (props: any) => {
     setRegistrationActive(registrationActive !== true);
-  }
+  };
 
   const setFileAndLogo = (file: any) => {
     setLogo(URL.createObjectURL(file));
     setFile(file);
-  }
+  };
 
   useEffect(() => {
-    console.log('render')
+    console.log('render');
     getProjectSettings();
   }, [getProjectSettings]);
 
   return (
     <Page
       sx={{
-        minHeight: 'calc(100vh - 60px)',
         display: 'grid',
         gridTemplateRows: 'min-content 1fr min-content',
       }}
@@ -160,8 +156,8 @@ const ProjectInfo = () => {
       </Typography>
       <Grid container spacing={3}>
         <Grid item md={4}>
-          <SwitchCard title="Registration is open" value={registrationActive}  onChange={onChangeRegistrationActive}/>
-          <Card sx={{ mt: 4.25 }}>
+          <SwitchCard title="Registration is open" value={registrationActive} onChange={onChangeRegistrationActive} />
+          <Card sx={{ mt: 3 }}>
             <CardContent sx={{ padding: 4.5 }}>
               <UploadAvatar
                 file={logo}
@@ -171,19 +167,27 @@ const ProjectInfo = () => {
                 helperText={
                   <Typography component="p" sx={{ mt: 3, textAlign: 'center' }} color="GrayText" variant="caption">
                     Allowed *.jpeg, *.jpg, *.png, *.gif
-                    <br/>
+                    <br />
                     Max size of 3.1 MB
                   </Typography>
                 }
               />
             </CardContent>
           </Card>
-          <Card sx={{ mt: 4 }}>
+          <Card sx={{ mt: 3 }}>
             <CardContent sx={{ padding: '16px 24px 24px' }}>
               <Typography mb={1} variant="subtitle2">
                 Blockchain
               </Typography>
-              <TextField select fullWidth label="Select the chain" placeholder="Select the chain" value={blockchain} key={blockchain} onChange={onChangeBlockchain}>
+              <TextField
+                select
+                fullWidth
+                label="Select the chain"
+                placeholder="Select the chain"
+                value={blockchain}
+                key={blockchain}
+                onChange={onChangeBlockchain}
+              >
                 <MenuItem key={1} value="Ethereum">
                   Ethereum
                 </MenuItem>
@@ -196,53 +200,83 @@ const ProjectInfo = () => {
               </TextField>
             </CardContent>
           </Card>
-          <Card sx={{ mt: 4 }}>
+          <Card sx={{ mt: 3 }}>
             <CardContent>
-              <CopyClipboard value={link || ''} key={link} label="Public link"/>
+              <CopyClipboard value={link || ''} key={link} label="Public link" />
             </CardContent>
           </Card>
         </Grid>
         <Grid item md={8}>
-          <Card>
+          <Card sx={{ height: '100%' }}>
             <CardContent>
-              <Grid container spacing={2}>
-                <Grid mb={3} item md={6}>
-                  <TextField autoFocus={true} type={'text'} fullWidth label="Collection Name" onChange={onChangeCollectionName}
-                             value={collectionName} key={collectionName}/>
+              <Grid container spacing={2} sx={{ marginTop: 0 }}>
+                <Grid sx={{ pt: '0 !important' }} mb={3} item md={6}>
+                  <TextField
+                    autoFocus={true}
+                    type={'text'}
+                    fullWidth
+                    label="Collection Name"
+                    onChange={onChangeCollectionName}
+                    value={collectionName}
+                    key={collectionName}
+                  />
                 </Grid>
-                <Grid mb={3} item md={6}>
+                <Grid sx={{ pt: '0 !important' }} mb={3} item md={6}>
                   <DatePicker
                     label="Mint Date"
                     value={mintDate}
                     onChange={onChangeMintDate}
-                    renderInput={(params) => <TextField {...params} fullWidth/>}
+                    renderInput={(params) => <TextField {...params} fullWidth />}
                   />
                 </Grid>
-                <Grid mb={3} item md={6}>
-                  <TextField autoFocus={true} fullWidth label="Official Twitter" onChange={onChangeTwitter}
-                             value={twitter} key={twitter}/>
+                <Grid sx={{ pt: '0 !important' }} mb={3} item md={6}>
+                  <TextField
+                    autoFocus={true}
+                    fullWidth
+                    label="Official Twitter"
+                    onChange={onChangeTwitter}
+                    value={twitter}
+                    key={twitter}
+                  />
                 </Grid>
-                <Grid mb={3} item md={6}>
-                  <TextField autoFocus={true} fullWidth label="Official Discord Channel"
-                             onChange={onChangeDiscord}
-                             value={discord} key={discord}/>
+                <Grid sx={{ pt: '0 !important' }} mb={3} item md={6}>
+                  <TextField
+                    autoFocus={true}
+                    fullWidth
+                    label="Official Discord Channel"
+                    onChange={onChangeDiscord}
+                    value={discord}
+                    key={discord}
+                  />
                 </Grid>
-                <Grid mb={3} item md={6}>
-                  <TextField autoFocus={true} fullWidth label="Mint Price" type={'number'}
-                             onChange={onChangeMintPrice}
-                             value={mintPrice} key={mintPrice}/>
+                <Grid sx={{ pt: '0 !important' }} mb={3} item md={6}>
+                  <TextField
+                    autoFocus={true}
+                    fullWidth
+                    label="Mint Price"
+                    type={'number'}
+                    onChange={onChangeMintPrice}
+                    value={mintPrice}
+                    key={mintPrice}
+                  />
                 </Grid>
-                <Grid mb={3} item md={6}>
-                  <TextField autoFocus={true} fullWidth label="Total Supply" type={'number'}
-                             onChange={onChangeTotalSupply}
-                             value={totalSupply} key={totalSupply}/>
+                <Grid sx={{ pt: '0 !important' }} mb={3} item md={6}>
+                  <TextField
+                    autoFocus={true}
+                    fullWidth
+                    label="Total Supply"
+                    type={'number'}
+                    onChange={onChangeTotalSupply}
+                    value={totalSupply}
+                    key={totalSupply}
+                  />
                 </Grid>
               </Grid>
               <Typography variant="subtitle2" mb={0.75}>
                 Description
               </Typography>
               <NoSsr defer>
-                <ProjectInfoEditor description={description || ''} onChange={onChangeDescription}/>
+                <ProjectInfoEditor description={description || ''} onChange={onChangeDescription} />
               </NoSsr>
               <Stack direction="row" alignItems="center" justifyContent="flex-end">
                 <Button
@@ -277,7 +311,7 @@ const ProjectInfo = () => {
                 backgroundColor: '#131F0F',
                 ':hover': { opacity: '.6', backgroundColor: '#131F0F' },
               }}
-              startIcon={<SvgIconStyle src={`/assets/icons/ic_upload.svg/`} sx={{ width: 20, height: 20 }}/>}
+              startIcon={<SvgIconStyle src={`/assets/icons/ic_upload.svg/`} sx={{ width: 20, height: 20 }} />}
             >
               Import from file
             </Button>
