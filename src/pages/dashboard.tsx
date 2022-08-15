@@ -45,7 +45,7 @@ const BigCardsGrid = styled('div')(() => ({
   gridTemplateColumns: '1fr 1fr 1fr',
   gap: 24,
   minHeight: 0,
-  '& > *:not(:last-child)': {
+  '& > *': {
     minHeight: 0,
     minWidth: 0,
   },
@@ -120,10 +120,7 @@ const DashboardIndex = () => {
       sx={{
         height: 'calc(100vh - 60px)',
         display: 'grid',
-        gridTemplateRows: {
-          xs: 'min-content min-content calc(1fr - 120px)',
-          xl: 'min-content 1fr 1fr',
-        },
+        gridTemplateRows: 'min-content min-content 1fr',
       }}
       title="Dashboard"
     >
