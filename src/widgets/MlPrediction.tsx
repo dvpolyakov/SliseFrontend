@@ -105,6 +105,8 @@ const MlPrediction = ({ blockchain }: Props) => {
 
   useEffect(() => {
     const getData = setTimeout(() => {
+      const val = blockchain === 'Solana' ? priceSliderValue * 0.025 : priceSliderValue;
+      console.log(val);
       if (priceSliderValue > 0.1 || collectionSizeSliderValue > 10)
         axiosInstance
           .get(
@@ -169,7 +171,7 @@ const MlPrediction = ({ blockchain }: Props) => {
           <Typography align="left" variant="overline" mb={0}>
             MINT PRICE
           </Typography>
-          {blockchain === 'Ethereum' ? (
+          {blockchain !== 'Solana' ? (
             <Typography align="right" variant="h6" lineHeight={1} mb={0}>
               Ξ {priceSliderValue}
             </Typography>
@@ -181,9 +183,9 @@ const MlPrediction = ({ blockchain }: Props) => {
         </Stack>
         <Slider
           value={priceSliderValue}
-          min={0}
-          step={0.01}
-          max={1}
+          min={blockchain === 'Solana' ? 0 : 0}
+          step={blockchain === 'Solana' ? 0.1 : 0.01}
+          max={blockchain === 'Solana' ? 100 : 1}
           onChange={handlePriceChange}
           valueLabelDisplay="off"
           marks
