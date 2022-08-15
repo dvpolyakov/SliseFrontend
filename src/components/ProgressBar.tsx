@@ -45,7 +45,7 @@ export default function ProgressBar() {
             width: '100%',
             position: 'fixed',
             zIndex: theme.zIndex.snackbar,
-            backgroundColor: theme.palette.primary.main,
+            backgroundColor: "#DDFF55",
             boxShadow: `0 0 2px ${theme.palette.primary.main}`,
           },
           '& .peg': {
