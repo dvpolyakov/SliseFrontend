@@ -84,8 +84,17 @@ const options = {
     animations: {
       enabled: false,
     },
+    toolbar: {
+      show: false
+    }
   },
+  plotOptions: {
+    bar: {
+      distributed: true,
+      horizontal: true,
 
+    }
+  },
   markers: {
     size: 10,
   },
@@ -152,7 +161,7 @@ export default function GeneralBooking() {
   const { themeStretch } = useSettings();
   const [value, setValue] = useState(0);
   const [newSer, setnewSer] = useState(moveData(serOrig, 1));
-  const [newView, setView] = useState(0);
+  const [newView, setView] = useState(1);
   const [wallets, setWallets] = useState(0);
   const [data, setData] = useState<string[]>([]);
   const windowSize = useWindowDimensions();
@@ -168,6 +177,7 @@ export default function GeneralBooking() {
     const walletsPredicted = newSer[1].data.length;
     setView(newNumber);
     setValue(newVal);
+    console.log(newSer);
     setnewSer(newSer);
   };
   const headers = [
@@ -179,7 +189,7 @@ export default function GeneralBooking() {
   useEffect(() => {
     const getData = setTimeout(() => {
       axiosInstance
-        .get(`${process.env.BACKEND_URL}analytics/getTargets?vector=${+newView / 100}`, {
+        .get(`${process.env.BACKEND_URL}analytics/getTargets?vector=${1 - (+newView / 100)}`, {
           headers: {
             'Access-Control-Allow-Origin': '*',
           },
@@ -299,7 +309,6 @@ export default function GeneralBooking() {
                     value={newView}
                     min={0}
                     step={1}
-                    defaultValue={1}
                     max={100}
                     onChange={handleChange}
                     valueLabelDisplay="auto"
