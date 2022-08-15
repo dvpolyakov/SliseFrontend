@@ -2,6 +2,7 @@ import { Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import React from 'react';
 import { formatNumber } from './utils';
+import Link from 'next/link';
 
 const Root = styled('div')(() => ({
   background: '#131F0F',
@@ -20,15 +21,17 @@ const Img = styled('img')(() => ({
 
 const TargetWallets = () => {
   return (
-    <Root>
-      <Typography variant="h3" align="left">
-        {formatNumber(4293,2)}
-      </Typography>
-      <Typography variant="subtitle2" align="left" sx={{ opacity: 0.72 }} mb={'34px'}>
-        Target wallets identified
-      </Typography>
-      <Img src="/assets/TypeML_graph.svg" />
-    </Root>
+    <Link href={'/mltargeting'}>
+      <Root>
+        <Typography variant="h3" align="left">
+          {formatNumber(4293, 2)}
+        </Typography>
+        <Typography variant="subtitle2" align="left" sx={{ opacity: 0.72 }} mb={'34px'}>
+          Target wallets identified
+        </Typography>
+        <Img src="/assets/TypeML_graph.svg"/>
+      </Root>
+    </Link>
   );
 };
 

@@ -321,7 +321,7 @@ function PublicPage({ data, link }: WhitelistInfoResponse) {
                   </Typography>
 
                 <Typography mb={2} variant="body2">
-                  You must meet the requirements below to be able to register to the Mint List
+                  You must meet the requirements below to be able to register for the Mint List
                 </Typography>
                 {data?.twitterRequired &&
                     <RegistrationTwitter handleTwitter={handleTwitter} minTwitterFollowers={data?.minTwitterFollowers} twitter={data?.twitter}

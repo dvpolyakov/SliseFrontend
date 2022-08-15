@@ -56,7 +56,9 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }: Props)
 
   const redirectToCollection = async () => {
     const link = localStorage.getItem('whitelistLink');
-    if (link) await push(`collection/${link}`);
+    if (link) {
+      await push(`collection/${link}`);
+    }
   };
 
   useEffect(() => {
