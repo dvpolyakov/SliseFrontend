@@ -30,24 +30,27 @@ export function RegistrationTwitter({ onChange, status, twitter, minTwitterFollo
   const checkTwitterRequirements = useCallback(async () => {
 
     if (!session) return;
-    const results = await axiosInstance.get('/api/twitter/profile');
-    console.log(results);
-    const followed = results.data.result.followed.data.map((twit) => twit.username.toLowerCase());
-    const existFollowed = followed.find(x => x === twitter.toLowerCase());
-    if (!existFollowed) {
-      onChange('fail');
-      setReason('Not followed');
-      return;
-    }
-    const followers = results.data.result.followersCount;
-    if (followers < minTwitterFollowers) {
-      onChange('fail');
-      setReason('Too few followers');
-      return;
+    if(twitter){
+      const results = await axiosInstance.get('/api/twitter/profile');
+      console.log(results);
+      const followed = results.data.result.followed.data.map((twit) => twit.username.toLowerCase());
+      const existFollowed = followed.find(x => x === twitter.toLowerCase());
+      if (!existFollowed) {
+        onChange('fail');
+        setReason('Not followed');
+        return;
+      }
+      const followers = results.data.result.followersCount;
+      if (followers < minTwitterFollowers) {
+        onChange('fail');
+        setReason('Too few followers');
+        return;
+      }
+
+      onChange('success');
+      handleTwitter(session?.data?.username || '');
     }
 
-    onChange('success');
-    handleTwitter(session?.data?.username || '');
   }, [isMountedRef]);
 
   const handleClick = useCallback(async () => {

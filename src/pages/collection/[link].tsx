@@ -284,7 +284,7 @@ function PublicPage({ data, link }: WhitelistInfoResponse) {
           </Typography>
           {isTooltipVisible && (
             <Typography variant="body2" component="div">
-              <Typography dangerouslySetInnerHTML={{ __html: `<Typography>${data.description}</Typography>` }}/>
+              <Typography dangerouslySetInnerHTML={{ __html: `<Typography>${data?.description || ''}</Typography>` }}/>
             </Typography>
           )}
         </Grid>
