@@ -1,14 +1,14 @@
 // @mui
-import {styled} from '@mui/material/styles';
-import {Box, Card, CardContent, Container, Grid, Stack, Typography} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Box, Card, CardContent, Container, Grid, Stack, Typography } from '@mui/material';
 import Datagrid from 'src/components/Datagrid';
 import Page from 'src/components/Page';
 import Layout from 'src/layouts';
-import Icon from './icons/upward.svg'
-import Chart from './icons/chart.svg'
-import Chart2 from './icons/chart2.svg'
+import Icon from './icons/upward.svg';
+import Chart from './icons/chart.svg';
+import Chart2 from './icons/chart2.svg';
 import AddressCell from 'src/components/DatagridCells/AddressCell';
-import {formatNumber} from 'src/widgets/utils';
+import { formatNumber } from 'src/widgets/utils';
 import nft1 from 'src/assets/nft1.svg';
 import nft2 from 'src/assets/nft2.svg';
 import nft3 from 'src/assets/nft3.svg';
@@ -19,11 +19,10 @@ SocialData.getLayout = function getLayout(page: React.ReactElement) {
   return <Layout>{page}</Layout>;
 };
 
-
 const Main1 = styled(Page)(() => ({
   backgroundColor: '#F3F4EF',
   width: '100%',
-  height: '100%'
+  height: '100%',
 }));
 
 const TableCard = styled('div')(() => ({
@@ -43,9 +42,31 @@ const _mintList = [...Array(36)].map((_, index) => ({
   pfp: [nft1, nft2, nft3, nft1, nft2, nft3, nft1, nft2, nft3],
   discordMessages: 12 + Math.floor(Math.random() * 29),
   followers: 432 + Math.floor(Math.random() * 29),
-  twitter: ['@ruleconcept1', '@flipper', '@holder34', '@tomas', '@ape232', '@mironn', '@Kbalika2', '@cryptocraze', '@buscador', '@wayne3'][Math.floor(Math.random() * 10)],
+  twitter: [
+    '@ruleconcept1',
+    '@flipper',
+    '@holder34',
+    '@tomas',
+    '@ape232',
+    '@mironn',
+    '@Kbalika2',
+    '@cryptocraze',
+    '@buscador',
+    '@wayne3',
+  ][Math.floor(Math.random() * 10)],
   twitterInteractions: 400 + Math.floor(Math.random() * 10),
-  discordUsername: ['rule.eth#5454', 'ape423#121', 'punk#1253', 'miron#4523', 'davidCrypt#5325', 'rave#5323', 'Kbalika#2432', 'crazape#5234', 'buscador#4329', 'wayne3#8887'][Math.floor(Math.random() * 10)],
+  discordUsername: [
+    'rule.eth#5454',
+    'ape423#121',
+    'punk#1253',
+    'miron#4523',
+    'davidCrypt#5325',
+    'rave#5323',
+    'Kbalika#2432',
+    'crazape#5234',
+    'buscador#4329',
+    'wayne3#8887',
+  ][Math.floor(Math.random() * 10)],
 }));
 const columns = [
   {
@@ -81,7 +102,7 @@ const columns = [
     align: 'left',
     headerAlign: 'left',
     sortable: false,
-    size: "small",
+    size: 'small',
     disableColumnMenu: true,
     disableReorder: true,
   },
@@ -96,7 +117,7 @@ const columns = [
     resizable: false,
     disableColumnMenu: true,
     disableReorder: true,
-    valueFormatter: ({value}: any) => formatNumber(value,0),
+    valueFormatter: ({ value }: any) => formatNumber(value, 0),
   },
   {
     field: 'twitterInteractions',
@@ -131,91 +152,81 @@ const columns = [
     resizable: false,
     disableColumnMenu: true,
     disableReorder: true,
-    valueFormatter: ({value}: any) => `${formatNumber(value,0)}`,
+    valueFormatter: ({ value }: any) => `${formatNumber(value, 0)}`,
   },
 ];
 
-export default function SocialData({title}: any) {
+export default function SocialData({ title }: any) {
   return (
-
     <Main1 title="Social Data">
-      <Container>
-
-        <Typography variant='h3'>Social Data
-
-        </Typography>
+      <div>
+        <Typography variant="h3">Social Data</Typography>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={12} lg={6}>
-
-            <Card sx={{display: 'flex', backgroundColor: 'white', width: '500px', marginTop: '30px'}}>
-              <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                <CardContent sx={{flex: '1 0 auto'}}>
-                  <Typography variant="subtitle2" sx={{paddingBottom: '20px'}}>
+          <Grid item xs={12} md={12} lg={6} xl={6}>
+            <Card sx={{ display: 'flex', backgroundColor: 'white', marginTop: '30px' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <CardContent sx={{ flex: '1 0 auto' }}>
+                  <Typography variant="subtitle2" sx={{ paddingBottom: '20px' }}>
                     Twitter Followers
                   </Typography>
-                  <Typography variant="h3" sx={{paddingBottom: '10px'}}>
+                  <Typography variant="h3" sx={{ paddingBottom: '10px' }}>
                     18,7K
                   </Typography>
                   <Stack direction="row" spacing={1}>
-                    <Box sx={{marginTop: '7px'}}> <img {...Icon} /></Box>
+                    <Box sx={{ marginTop: '7px' }}>
+                      {' '}
+                      <img {...Icon} />
+                    </Box>
 
-
-                    <Typography variant="subtitle2">
-                      2.6%
-                    </Typography>
-                    <Typography variant="subtitle2" sx={{opacity: '.8'}}>
+                    <Typography variant="subtitle2">2.6%</Typography>
+                    <Typography variant="subtitle2" sx={{ opacity: '.8' }}>
                       than last week
                     </Typography>
-
                   </Stack>
-
                 </CardContent>
               </Box>
-              <Box sx={{marginLeft: '150px', marginTop: '40px'}}>
+              <Box sx={{ marginLeft: '150px', marginTop: '40px' }}>
                 <img {...Chart} />
               </Box>
             </Card>
-
           </Grid>
           <Grid item xs={12} md={12} lg={6}>
-            <Card sx={{display: 'flex', backgroundColor: 'white', width: '500px', marginTop: '30px'}}>
-              <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                <CardContent sx={{flex: '1 0 auto'}}>
-                  <Typography variant="subtitle2" sx={{paddingBottom: '20px'}}>
+            <Card sx={{ display: 'flex', backgroundColor: 'white', marginTop: '30px' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <CardContent sx={{ flex: '1 0 auto' }}>
+                  <Typography variant="subtitle2" sx={{ paddingBottom: '20px' }}>
                     Discord Members
                   </Typography>
-                  <Typography variant="h3" sx={{paddingBottom: '10px'}}>
+                  <Typography variant="h3" sx={{ paddingBottom: '10px' }}>
                     1,290
                   </Typography>
                   <Stack direction="row" spacing={1}>
-                    <Box sx={{marginTop: '7px'}}> <img  {...Icon} /></Box>
+                    <Box sx={{ marginTop: '7px' }}>
+                      {' '}
+                      <img {...Icon} />
+                    </Box>
 
-                    <Typography variant="subtitle2">
-                      10.1%
-                    </Typography>
-                    <Typography variant="subtitle2" sx={{opacity: '.8'}}>
+                    <Typography variant="subtitle2">10.1%</Typography>
+                    <Typography variant="subtitle2" sx={{ opacity: '.8' }}>
                       than last week
                     </Typography>
-
                   </Stack>
-
                 </CardContent>
               </Box>
-              <Box sx={{marginLeft: '150px', marginTop: '40px'}}>
+              <Box sx={{ marginLeft: '150px', marginTop: '40px' }}>
                 <img {...Chart2} />
               </Box>
             </Card>
           </Grid>
         </Grid>
         <Grid container sx={12}>
-          <Grid item style={{width: '100%', backgroundColor: 'white', marginTop: '30px', borderRadius: '16px'}}>
+          <Grid item style={{ width: '100%', backgroundColor: 'white', marginTop: '30px', borderRadius: '16px' }}>
             <TableCard>
-              <Datagrid columns={columns} rows={_mintList}/>
+              <Datagrid columns={columns} rows={_mintList} />
             </TableCard>
           </Grid>
         </Grid>
-      </Container>
+      </div>
     </Main1>
-
   );
 }

@@ -3,6 +3,7 @@ import React from 'react';
 import { Stack, Typography } from '@mui/material';
 import { formatNumber } from './utils';
 import Icon from './img/bots.svg';
+import DashboardWidgetWrapper from 'src/components/DashboardWidgetWrapper';
 
 const Root = styled('div')(() => ({
   gridArea: 'BotsIdentified',
@@ -15,13 +16,11 @@ const Root = styled('div')(() => ({
 
 const BotsIdentified = ({ value }: any) => {
   return (
-    <Root>
-      <Stack direction="column" alignItems="center">
-        <img {...Icon} />
-        <Typography variant="subtitle2">Bots identified</Typography>
-        <Typography variant="h3">{formatNumber(value, 2)}</Typography>
-      </Stack>
-    </Root>
+    <DashboardWidgetWrapper gridArea="BotsIdentified">
+      <img {...Icon} />
+      <Typography variant="subtitle2">Bots identified</Typography>
+      <Typography variant="h3">{formatNumber(value, 2)}</Typography>
+    </DashboardWidgetWrapper>
   );
 };
 
