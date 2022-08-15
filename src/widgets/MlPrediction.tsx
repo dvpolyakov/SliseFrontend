@@ -184,7 +184,7 @@ const MlPrediction = ({ blockchain }: Props) => {
         <Slider
           value={priceSliderValue}
           min={blockchain === 'Solana' ? 0 : 0}
-          step={blockchain === 'Solana' ? 0.1 : 0.01}
+          step={blockchain === 'Solana' ? 1 : 0.01}
           max={blockchain === 'Solana' ? 100 : 1}
           onChange={handlePriceChange}
           valueLabelDisplay="off"
