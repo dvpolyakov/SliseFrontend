@@ -1,8 +1,8 @@
 //@ts-check
-import {Alert, Slider, Snackbar, SnackbarCloseReason, Stack, Typography} from '@mui/material';
-import {createStyles, makeStyles} from '@mui/styles';
-import {styled} from '@mui/system';
-import React, {useEffect, useState} from 'react';
+import { Alert, Slider, Snackbar, SnackbarCloseReason, Stack, Typography } from '@mui/material';
+import { createStyles, makeStyles } from '@mui/styles';
+import { styled } from '@mui/system';
+import React, { useEffect, useState } from 'react';
 import Label from 'src/components/Label';
 import axiosInstance from 'src/utils/axios';
 
@@ -67,11 +67,11 @@ const useStyles = makeStyles(
   }))
 );
 
-const {format: formatNumber} = new Intl.NumberFormat('en-US', {
+const { format: formatNumber } = new Intl.NumberFormat('en-US', {
   useGrouping: true,
   notation: 'standard',
 });
-const {format: formatPercent} = new Intl.NumberFormat('en-US', {
+const { format: formatPercent } = new Intl.NumberFormat('en-US', {
   style: 'percent',
   minimumFractionDigits: 0,
   maximumFractionDigits: 0,
@@ -81,7 +81,7 @@ type Props = {
   blockchain: string
 }
 
-const MlPrediction = ({blockchain}: Props) => {
+const MlPrediction = ({ blockchain }: Props) => {
   const styles = useStyles();
   const [priceSliderValue, setPriceSliderValue] = useState(0.3);
   const [collectionSizeSliderValue, setCollectionSizeSliderValue] = useState(8000);
@@ -114,11 +114,13 @@ const MlPrediction = ({blockchain}: Props) => {
 
   useEffect(() => {
     const getData = setTimeout(() => {
+
+      const val = blockchain === 'Solana' ? priceSliderValue * 0.025 : priceSliderValue;
+      console.log(val)
       if (priceSliderValue > 0.1 || collectionSizeSliderValue > 10)
         axiosInstance
           .get(
-            `${process.env.ML_URL}items?price=${priceSliderValue}&supply=${collectionSizeSliderValue}&whitelist=${+whitelistSize!}`,
-            {
+            `${process.env.ML_URL}items?price=${val}&supply=${collectionSizeSliderValue}&whitelist=${+whitelistSize!}`,      {
               headers: {
                 'Access-Control-Allow-Origin': '*',
               },
@@ -126,7 +128,7 @@ const MlPrediction = ({blockchain}: Props) => {
           )
           .then((response) => {
             console.log(
-              `${process.env.ML_URL}items?price=${priceSliderValue}&supply=${collectionSizeSliderValue}&whitelist=${+whitelistSize!}`
+              `${process.env.ML_URL}items?price=${val}&supply=${collectionSizeSliderValue}&whitelist=${+whitelistSize!}`
             );
             console.log(response.data[0]);
             const mintShare = response.data[0].toFixed(2);
@@ -149,7 +151,6 @@ const MlPrediction = ({blockchain}: Props) => {
     return () => clearTimeout(getData);
   }, [priceSliderValue, collectionSizeSliderValue]);
 
-
   return (
     <Root>
       <Typography align="left" variant="h6" mb={'16px'}>
@@ -160,7 +161,7 @@ const MlPrediction = ({blockchain}: Props) => {
           <Typography align="left" variant="overline" mb={0}>
             MINT PRICE
           </Typography>
-          {blockchain === 'Ethereum' ? (
+          {blockchain !== 'Solana' ? (
             <Typography align="right" variant="h6" lineHeight={1} mb={0}>
               Ξ {priceSliderValue}
             </Typography>
@@ -173,9 +174,9 @@ const MlPrediction = ({blockchain}: Props) => {
         </Stack>
         <Slider
           value={priceSliderValue}
-          min={0}
-          step={0.01}
-          max={1}
+          min={blockchain === 'Solana' ? 0 : 0}
+          step={blockchain === 'Solana' ? 0.1 : 0.01}
+          max={blockchain === 'Solana' ? 100 : 1}
           onChange={handlePriceChange}
           valueLabelDisplay="off"
           marks
@@ -198,7 +199,7 @@ const MlPrediction = ({blockchain}: Props) => {
             {formatNumber(collectionSizeSliderValue)}
           </Typography>
         </Stack>
-        
+
         <Slider
           value={collectionSizeSliderValue}
           min={10}
@@ -228,7 +229,7 @@ const MlPrediction = ({blockchain}: Props) => {
       </Stack>
       {open ?
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-          <Alert onClose={handleCloseAlert} severity="error" sx={{width: '50%'}}>
+          <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '50%' }}>
             {error}
           </Alert>
         </Snackbar>
