@@ -161,7 +161,7 @@ export default function GeneralBooking() {
   const { themeStretch } = useSettings();
   const [value, setValue] = useState(0);
   const [newSer, setnewSer] = useState(moveData(serOrig, 1));
-  const [newView, setView] = useState(1);
+  const [newView, setView] = useState(25);
   const [wallets, setWallets] = useState(0);
   const [data, setData] = useState<string[]>([]);
   const windowSize = useWindowDimensions();
@@ -189,7 +189,7 @@ export default function GeneralBooking() {
   useEffect(() => {
     const getData = setTimeout(() => {
       axiosInstance
-        .get(`${process.env.BACKEND_URL}analytics/getTargets?vector=${1 - (+newView / 100)}`, {
+        .get(`${process.env.BACKEND_URL}analytics/getTargets?vector=${+newView / 100}`, {
           headers: {
             'Access-Control-Allow-Origin': '*',
           },
