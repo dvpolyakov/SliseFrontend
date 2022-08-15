@@ -24,7 +24,7 @@ const RootStyle = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     display: 'flex',
   },
-  backgroundColor: '#E5E5E5'
+  backgroundColor: '#E5E5E5',
 }));
 
 const HeaderStyle = styled('header')(({ theme }) => ({
@@ -45,23 +45,18 @@ const HeaderStyle = styled('header')(({ theme }) => ({
 
 const SectionStyle = styled(Card)(({ theme }) => ({
   width: '100%',
-  maxWidth: 464,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  color: '#F3F4EF',
+  maxWidth: 444,
+  display: 'grid',
+  placeItems: 'center',
   backgroundColor: '#131F0F',
+  boxShadow: '0px 16px 32px -4px rgba(145, 158, 171, 0.16)',
+  borderRadius: '16px',
   margin: theme.spacing(2, 0, 2, 2),
 }));
 
-const ContentStyle = styled('div')(({ theme }) => ({
-  maxWidth: 444,
-  margin: 'auto',
-  minHeight: '100vh',
-  display: 'flex',
-  justifyContent: 'center',
-  flexDirection: 'column',
-  padding: theme.spacing(12, 0),
+const Img = styled('img')(() => ({
+  display: 'block',
+  width: '100%',
 }));
 
 // ----------------------------------------------------------------------
@@ -73,7 +68,6 @@ export default function Login() {
 
   const mdUp = useResponsive('up', 'md');
 
-
   return (
     <GuestGuard>
       <Page title="Login">
@@ -84,47 +78,22 @@ export default function Login() {
 
           {mdUp && (
             <SectionStyle>
-              <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-                Manage the job
-                more effectively with Slise
-              </Typography>
-
+              <Img src="/assets/TypeML_graph.svg" />
             </SectionStyle>
           )}
 
-          <Container maxWidth="sm">
-            <ContentStyle>
-              <Stack direction="row" alignItems="center" sx={{ mb: 5 }}>
-                <Box sx={{ flexGrow: 1 }}>
-                  <Typography variant="h4" gutterBottom>
-                    Get started absolutely free.
-                  </Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>
-                    Free forever. No credit card needed.
-                  </Typography>
-                </Box>
+          <Box sx={{ display: 'grid', placeItems: 'center', minHeight: '100vh', width: '100%' }}>
+            <Box sx={{ maxWidth: 480, width: '100%' }}>
+              <Typography variant="h4" gutterBottom>
+                Have a majestic launch
+              </Typography>
 
-                {/*<Tooltip title={capitalCase(method)} placement="right">
-                  <>
-                    <Image
-                      disabledEffect
-                      alt={method}
-                      src={`https://minimal-assets-api-dev.vercel.app/assets/icons/auth/ic_${method}.png`}
-                      sx={{ width: 32, height: 32 }}
-                    />
-                  </>
-                </Tooltip>*/}
-              </Stack>
-
-              {/*<Alert severity="info" sx={{ mb: 3 }}>
-                Use email : <strong>demo@minimals.cc</strong> / password :<strong> demo1234</strong>
-              </Alert>*/}
-
+              <Typography sx={{ color: 'text.secondary' }} variant="body1" mb={3}>
+                You’re one step away
+              </Typography>
               <LoginForm />
-
-
-            </ContentStyle>
-          </Container>
+            </Box>
+          </Box>
         </RootStyle>
       </Page>
     </GuestGuard>

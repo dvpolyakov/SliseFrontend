@@ -53,37 +53,32 @@ export default function LoginForm() {
   const { login } = useAuth();
   const router = useRouter();
   const [data, setdata] = useState({
-    address: "",
+    address: '',
     Balance: null,
   });
 
   // Button handler button for handling a
   // request event for metamask
   const btnhandler = () => {
-
     // Asking if metamask is already present or not
     if (window.ethereum) {
-
       // res[0] for fetching a first wallet
-      window.ethereum
-        .request({ method: "eth_requestAccounts" })
-        .then(async (res) => {
-          const sig = await signMessage({
-            setError,
-            message: res[0]
-          });
-          accountChangeHandler(res[0]);
+      window.ethereum.request({ method: 'eth_requestAccounts' }).then(async (res) => {
+        const sig = await signMessage({
+          setError,
+          message: res[0],
         });
+        accountChangeHandler(res[0]);
+      });
     } else {
     }
   };
   const getbalance = (address) => {
-
     // Requesting balance method
     window.ethereum
       .request({
-        method: "eth_getBalance",
-        params: [address, "latest"]
+        method: 'eth_getBalance',
+        params: [address, 'latest'],
       })
       .then((balance) => {
         // Setting balance
@@ -96,16 +91,15 @@ export default function LoginForm() {
   const signMessage = async ({ setError, message }) => {
     try {
       console.log({ message });
-      if (!window.ethereum)
-        throw new Error("No crypto wallet found. Please install it.");
+      if (!window.ethereum) throw new Error('No crypto wallet found. Please install it.');
 
-      await window.ethereum.send("eth_requestAccounts");
+      await window.ethereum.send('eth_requestAccounts');
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const signature = await signer.signMessage(message);
       const address = await signer.getAddress();
       const whitelistId = await authUser(message, 'Ethereum');
-      if(whitelistId) {
+      if (whitelistId) {
         localStorage.setItem('whitelistId', whitelistId);
         await router.push('/project-info');
       }
@@ -114,7 +108,7 @@ export default function LoginForm() {
       return {
         message,
         signature,
-        address
+        address,
       };
     } catch (err) {
       setError(err.message);
@@ -131,14 +125,7 @@ export default function LoginForm() {
     // Setting a balance
     getbalance(account);
   };
-  const {
-    walletAvail,
-    provider,
-    connected,
-    pubKey,
-    connectHandler,
-    disconnectHandler
-  } = usePhantom();
+  const { walletAvail, provider, connected, pubKey, connectHandler, disconnectHandler } = usePhantom();
 
   const isMountedRef = useIsMountedRef();
 
@@ -177,62 +164,97 @@ export default function LoginForm() {
       <Stack spacing={3}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
 
-        {typeof window.ethereum !== 'undefined' ?
-          <Button fullWidth variant='contained' sx={{
-            backgroundColor: '#1098FC',
-            variant: 'contained',
-            maxWidth: 480,
-            height: 48,
-            ':hover': { opacity: '.9', backgroundColor: '#1098FC' }
-          }} onClick={btnhandler}>
-            <img src="/assets/metamask_l.svg" alt="MetaMask" width="24" height="24"
-                 style={{ marginRight: 8 }}/> Metamask
+        {typeof window.ethereum !== 'undefined' ? (
+          <Button
+            fullWidth
+            variant="contained"
+            sx={{
+              backgroundColor: '#1098FC',
+              variant: 'contained',
+              maxWidth: 480,
+              height: 48,
+              ':hover': { opacity: '.9', backgroundColor: '#1098FC' },
+            }}
+            onClick={btnhandler}
+          >
+            <img src="/assets/metamask_l.svg" alt="MetaMask" width="24" height="24" style={{ marginRight: 8 }} />{' '}
+            Metamask
           </Button>
-          :
-          <Typography sx={{ fontSize: 14, textAlign: 'center' }}>Oops!!! MetaMask is not available. Go get it <Link
-            target="_blank" rel="noopener" href="https://metamask.io/">https://metamask.io/</Link>.</Typography>
-        }
-        <Divider><Typography color={'#637381'}>OR</Typography></Divider>
-        {walletAvail ?
+        ) : (
+          <Typography sx={{ fontSize: 14, textAlign: 'center' }}>
+            Oops!!! MetaMask is not available. Go get it{' '}
+            <Link target="_blank" rel="noopener" href="https://metamask.io/">
+              https://metamask.io/
+            </Link>
+            .
+          </Typography>
+        )}
+        <Divider>
+          <Typography variant="subtitle2" color={'#637381'}>
+            OR
+          </Typography>
+        </Divider>
+        {walletAvail ? (
           <>
-            {pubKey !== null ?
-              <Button fullWidth variant="contained" sx={{
-                backgroundColor: '#513DBE',
-                variant: 'contained',
-                maxWidth: 480,
-                height: 48,
-                ':hover': { opacity: '.9', backgroundColor: '#513DBE' }
-              }} disabled={!connected} onClick={disconnectHandler}>
-                <img src="/assets/phantom_l.svg" alt="MetaMask" width="24" height="24"
-                     style={{ marginRight: 8 }}/> Disconnect from Phantom</Button>
-              :
-              <Button fullWidth variant="contained" sx={{
-                backgroundColor: '#513DBE',
-                variant: 'contained',
-                maxWidth: 480,
-                height: 48,
-                ':hover': { opacity: '.9', backgroundColor: '#513DBE' }
-              }} disabled={connected} onClick={connectHandler}>
-                <img src="/assets/phantom_l.svg" alt="MetaMask" width="24" height="24"
-                     style={{ marginRight: 8 }}/> Phantom
+            {pubKey !== null ? (
+              <Button
+                fullWidth
+                variant="contained"
+                sx={{
+                  backgroundColor: '#513DBE',
+                  variant: 'contained',
+                  maxWidth: 480,
+                  height: 48,
+                  ':hover': { opacity: '.9', backgroundColor: '#513DBE' },
+                }}
+                disabled={!connected}
+                onClick={disconnectHandler}
+              >
+                <img src="/assets/phantom_l.svg" alt="MetaMask" width="24" height="24" style={{ marginRight: 8 }} />{' '}
+                Disconnect from Phantom
               </Button>
-            }
-
+            ) : (
+              <Button
+                fullWidth
+                variant="contained"
+                sx={{
+                  backgroundColor: '#513DBE',
+                  variant: 'contained',
+                  maxWidth: 480,
+                  height: 48,
+                  ':hover': { opacity: '.9', backgroundColor: '#513DBE' },
+                }}
+                disabled={connected}
+                onClick={connectHandler}
+              >
+                <img src="/assets/phantom_l.svg" alt="MetaMask" width="24" height="24" style={{ marginRight: 8 }} />{' '}
+                Phantom
+              </Button>
+            )}
 
             {/*{connected ? <p>Your public key is : {pubKey?.toBase58()}</p> : null}*/}
           </>
-          :
+        ) : (
           <>
-            <Typography sx={{ fontSize: 14, textAlign: 'center' }}>Oops!!! Phantom is not available. Go get it <Link
-              target="_blank" rel="noopener" href="https://phantom.app/">https://phantom.app/</Link>.</Typography>
+            <Typography sx={{ fontSize: 14, textAlign: 'center' }}>
+              Oops!!! Phantom is not available. Go get it{' '}
+              <Link target="_blank" rel="noopener" href="https://phantom.app/">
+                https://phantom.app/
+              </Link>
+              .
+            </Typography>
           </>
-        }
-        <Typography sx={{ color: '#637381', fontSize: 14, textAlign: 'center' }}>
-          By signing up, I agree to Slise <Link color='#212B36' target="_blank" rel="noopener" underline="always">
-          Terms of Service
-        </Link> and <Link color='#212B36' target="_blank" rel="noopener" underline="always">
-          Privacy Policy
-        </Link>.
+        )}
+        <Typography color="#637381" variant="body2" textAlign={'center'}>
+          By signing up, I agree to Slise{' '}
+          <Link color="#212B36" target="_blank" rel="noopener" underline="always">
+            Terms of Service
+          </Link>{' '}
+          and{' '}
+          <Link color="#212B36" target="_blank" rel="noopener" underline="always">
+            Privacy Policy
+          </Link>
+          .
         </Typography>
       </Stack>
 
