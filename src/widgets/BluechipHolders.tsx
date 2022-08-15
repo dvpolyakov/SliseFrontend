@@ -1,6 +1,7 @@
 import { Stack, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import React from 'react';
+import DashboardWidgetWrapper from 'src/components/DashboardWidgetWrapper';
 import Icon from './img/bluechip.svg';
 import { formatNumber } from './utils';
 
@@ -15,13 +16,11 @@ const Root = styled('div')(() => ({
 
 const BluechipHolders = ({ value }: any) => {
   return (
-    <Root>
-      <Stack direction="column" alignItems="center">
-        <img {...Icon} />
-        <Typography variant="subtitle2">Bluechip Holders</Typography>
-        <Typography variant="h3">{formatNumber(value,2)}</Typography>
-      </Stack>
-    </Root>
+    <DashboardWidgetWrapper gridArea="BluechipHolders">
+      <img {...Icon} />
+      <Typography variant="subtitle2">Bluechip Holders</Typography>
+      <Typography variant="h3">{formatNumber(value, 2)}</Typography>
+    </DashboardWidgetWrapper>
   );
 };
 

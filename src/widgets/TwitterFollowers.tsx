@@ -4,6 +4,7 @@ import { styled } from '@mui/system';
 import React, { useEffect, useState } from 'react';
 import Icon from './img/twitter.svg';
 import ConnectButton from 'src/components/ConnectButton';
+import DashboardWidgetWrapper from 'src/components/DashboardWidgetWrapper';
 
 const Root = styled('div')(() => ({
   gridArea: 'TwitterFollowers',
@@ -26,17 +27,15 @@ const TwitterFollowers = ({ value }: any) => {
   };
 
   return (
-    <Root>
-      <Stack direction="column" alignItems="center">
-        <img {...Icon} />
-        <Typography variant="subtitle2">Twitter Followers</Typography>
-        {connected || value > 0 ? (
-          <Typography variant="h3">{formatNumber(value, 2)}</Typography>
-        ) : (
-          <ConnectButton onClick={handleConnect} disabled={loading} />
-        )}
-      </Stack>
-    </Root>
+    <DashboardWidgetWrapper gridArea="TwitterFollowers">
+      <img {...Icon} />
+      <Typography variant="subtitle2">Twitter Followers</Typography>
+      {connected || value > 0 ? (
+        <Typography variant="h3">{formatNumber(value, 2)}</Typography>
+      ) : (
+        <ConnectButton onClick={handleConnect} disabled={loading} />
+      )}
+    </DashboardWidgetWrapper>
   );
 };
 

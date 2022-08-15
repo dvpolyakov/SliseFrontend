@@ -1,20 +1,11 @@
 //@ts-check
-import {Alert, Slider, Snackbar, SnackbarCloseReason, Stack, Typography} from '@mui/material';
-import {createStyles, makeStyles} from '@mui/styles';
-import {styled} from '@mui/system';
-import React, {useEffect, useState} from 'react';
+import { Alert, Slider, Snackbar, SnackbarCloseReason, Stack, Typography } from '@mui/material';
+import { createStyles, makeStyles } from '@mui/styles';
+import { styled } from '@mui/system';
+import React, { useEffect, useState } from 'react';
+import DashboardWidgetWrapper from 'src/components/DashboardWidgetWrapper';
 import Label from 'src/components/Label';
 import axiosInstance from 'src/utils/axios';
-
-const Root = styled('div')(() => ({
-  gridArea: 'MlPrediction',
-
-  background: '#DDFF55',
-  boxShadow: '0px 0px 2px rgba(145, 158, 171, 0.2), 0px 12px 24px -4px rgba(145, 158, 171, 0.12)',
-  borderRadius: 16,
-  padding: '12px 24px',
-  color: '#131F0F',
-}));
 
 const Group = styled('div')(() => ({
   marginBottom: 20,
@@ -67,21 +58,21 @@ const useStyles = makeStyles(
   }))
 );
 
-const {format: formatNumber} = new Intl.NumberFormat('en-US', {
+const { format: formatNumber } = new Intl.NumberFormat('en-US', {
   useGrouping: true,
   notation: 'standard',
 });
-const {format: formatPercent} = new Intl.NumberFormat('en-US', {
+const { format: formatPercent } = new Intl.NumberFormat('en-US', {
   style: 'percent',
   minimumFractionDigits: 0,
   maximumFractionDigits: 0,
 });
 
 type Props = {
-  blockchain: string
-}
+  blockchain: string;
+};
 
-const MlPrediction = ({blockchain}: Props) => {
+const MlPrediction = ({ blockchain }: Props) => {
   const styles = useStyles();
   const [priceSliderValue, setPriceSliderValue] = useState(0.3);
   const [collectionSizeSliderValue, setCollectionSizeSliderValue] = useState(8000);
@@ -117,7 +108,9 @@ const MlPrediction = ({blockchain}: Props) => {
       if (priceSliderValue > 0.1 || collectionSizeSliderValue > 10)
         axiosInstance
           .get(
-            `${process.env.ML_URL}items?price=${priceSliderValue}&supply=${collectionSizeSliderValue}&whitelist=${+whitelistSize!}`,
+            `${
+              process.env.ML_URL
+            }items?price=${priceSliderValue}&supply=${collectionSizeSliderValue}&whitelist=${+whitelistSize!}`,
             {
               headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -126,7 +119,9 @@ const MlPrediction = ({blockchain}: Props) => {
           )
           .then((response) => {
             console.log(
-              `${process.env.ML_URL}items?price=${priceSliderValue}&supply=${collectionSizeSliderValue}&whitelist=${+whitelistSize!}`
+              `${
+                process.env.ML_URL
+              }items?price=${priceSliderValue}&supply=${collectionSizeSliderValue}&whitelist=${+whitelistSize!}`
             );
             console.log(response.data[0]);
             const mintShare = response.data[0].toFixed(2);
@@ -140,18 +135,32 @@ const MlPrediction = ({blockchain}: Props) => {
               setSharePredict('??');
             }
             setError('');
-          }).catch((error) => {
+          })
+          .catch((error) => {
             setError(error.message);
             setOpen(true);
-          }
-        );
+          });
     }, 2000);
     return () => clearTimeout(getData);
   }, [priceSliderValue, collectionSizeSliderValue]);
 
-
   return (
-    <Root>
+    <DashboardWidgetWrapper
+      gridArea="MlPrediction"
+      sx={{
+        background: '#DDFF55',
+        color: '#131F0F',
+      }}
+      cardContentSx={{
+        maxWidth: 250,
+        width: '100%',
+      }}
+      stackSx={{
+        alignItems: 'stretch',
+        maxWidth: 202,
+        width: '100%',
+      }}
+    >
       <Typography align="left" variant="h6" mb={'16px'}>
         ML Prediction
       </Typography>
@@ -169,7 +178,6 @@ const MlPrediction = ({blockchain}: Props) => {
               ◎ {priceSliderValue}
             </Typography>
           )}
-
         </Stack>
         <Slider
           value={priceSliderValue}
@@ -198,7 +206,7 @@ const MlPrediction = ({blockchain}: Props) => {
             {formatNumber(collectionSizeSliderValue)}
           </Typography>
         </Stack>
-        
+
         <Slider
           value={collectionSizeSliderValue}
           min={10}
@@ -226,15 +234,16 @@ const MlPrediction = ({blockchain}: Props) => {
         </Typography>
         <Label variant="outlined">{sharePredict}</Label>
       </Stack>
-      {open ?
+      {open ? (
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-          <Alert onClose={handleCloseAlert} severity="error" sx={{width: '50%'}}>
+          <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '50%' }}>
             {error}
           </Alert>
         </Snackbar>
-        : <></>
-      }
-    </Root>
+      ) : (
+        <></>
+      )}
+    </DashboardWidgetWrapper>
   );
 };
 
