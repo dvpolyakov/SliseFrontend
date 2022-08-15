@@ -67,58 +67,52 @@ export default function WhitelistsPopover({ isCollapse }: Props) {
   const getWhitelists = useCallback(async () => {
     console.log('fetching');
     const sampleWls = sampleWlIds;
-    let whitelists: Whitelist[]
+    let whitelists: Whitelist[];
     const jwt = getCookie('jwt-token');
-    if (jwt)
-      whitelists = await fetchWhitelists(jwt as string);
-    else
-      whitelists = sampleWls;
+    if (jwt) whitelists = await fetchWhitelists(jwt as string);
+    else whitelists = sampleWls;
 
     setWhitelists(whitelists);
-    setWhitelist(findWhitelistById(whitelists, whitelists[0].id));
-    window.localStorage.setItem('whitelistId', whitelists[0].id);
-    window.localStorage.setItem('whitelistLink', whitelists[0].link!);
+    setWhitelist(findWhitelistById(whitelists, whitelists?.[0]?.id));
+    window.localStorage.setItem('whitelistId', whitelists?.[0]?.id);
+    window.localStorage.setItem('whitelistLink', whitelists?.[0]?.link!);
   }, [isMountedRef]);
 
   const findWhitelistId = (name: string) => {
     let id;
     whitelists.map((list: any) => {
-      if (list.name === name)
-        id = list.id;
+      if (list.name === name) id = list.id;
     });
     return id;
-  }
+  };
 
   const findWhitelistById = (data: Whitelist[], id: any): Whitelist => {
     let wl: Whitelist = {
       name: 'BAYC',
       networkType: 'Ethereum',
       id: '1',
-      logo: ''
+      logo: '',
     };
     data.map((list: any) => {
-      if (list.id === id)
-        wl = list
+      if (list.id === id) wl = list;
     });
     return wl;
-  }
+  };
 
   const fetchWhitelists = async (jwt: string): Promise<Whitelist[]> => {
     let wls: Whitelist[] = [];
     try {
       const response = await axiosInstance.get(`${process.env.BACKEND_URL}analytics/whitelists`, {
         headers: {
-          'Authorization': `Bearer ${jwt}`
-        }
+          Authorization: `Bearer ${jwt}`,
+        },
       });
       console.log(1);
       wls = response.data.data;
-    } catch {
-
-    }
+    } catch {}
 
     return wls;
-  }
+  };
 
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
     setOpen(event.currentTarget);
@@ -150,7 +144,7 @@ export default function WhitelistsPopover({ isCollapse }: Props) {
             }),
           }}
         >
-          <CollectionAvatar logo={whitelist?.logo}/>
+          <CollectionAvatar logo={whitelist?.logo} />
 
           <Box
             sx={{
@@ -192,9 +186,8 @@ export default function WhitelistsPopover({ isCollapse }: Props) {
           },
         }}
       >
-        <RootStyle2
-        >
-          <CollectionAvatar logo={whitelist?.logo}/>
+        <RootStyle2>
+          <CollectionAvatar logo={whitelist?.logo} />
           <Box
             sx={{
               ml: 2,
@@ -273,10 +266,9 @@ export default function WhitelistsPopover({ isCollapse }: Props) {
               </RootStyle>
           ))}*/}
 
-          {jwt == undefined ?
-            <RootStyle
-            >
-              <img src="/assets/plus.svg" alt="Add yours" width="20" height="20" style={{ marginRight: 8 }}/>
+          {jwt == undefined ? (
+            <RootStyle>
+              <img src="/assets/plus.svg" alt="Add yours" width="20" height="20" style={{ marginRight: 8 }} />
               <Box
                 sx={{
                   ml: 2,
@@ -299,9 +291,9 @@ export default function WhitelistsPopover({ isCollapse }: Props) {
                 </Typography>*/}
               </Box>
             </RootStyle>
-            :
-            <></>}
-
+          ) : (
+            <></>
+          )}
         </Scrollbar>
       </MenuPopover>
     </>
