@@ -24,7 +24,7 @@ const RootStyle = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     display: 'flex',
   },
-  backgroundColor: '#E5E5E5',
+  backgroundColor: '#F3F4EF',
 }));
 
 const HeaderStyle = styled('header')(({ theme }) => ({
