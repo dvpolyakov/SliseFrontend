@@ -216,7 +216,7 @@ const MintList = () => {
         holding.id = Math.floor(Math.random() * 1000).toString(16);
         holding.holdings = holding.alsoHold;
         holding.avgNftPrice = holding.avgNFTPrice ?? (Math.random() * 100).toFixed(2);
-        holding.balance = holding.nftsTotalPrice ?? (Math.random() * 100).toFixed(2);
+        holding.balance = holding.nfts > 1 ? holding.avgNftPrice * 2 : holding.avgNftPrice;
         holding.holdingTime = holding.holdingTimeLabel;
         holding.totalHolders = holding.totalSupply !== undefined ? holding.totalSupply / 2 * 1.5 : (Math.random() * 100).toFixed(2);
       });
@@ -236,7 +236,7 @@ const MintList = () => {
         holding.id = Math.floor(Math.random() * 1000).toString(16);
         holding.holdings = holding.alsoHold;
         holding.avgNftPrice = holding.avgNFTPrice;
-        holding.balance = holding.nftsTotalPrice ?? (Math.random() * 100).toFixed(2);
+        holding.balance = holding.nfts > 1 ? holding.avgNftPrice * 2 : holding.avgNftPrice;
         holding.holdingTime = holding.holdingTimeLabel;
         holding.totalHolders = holding.totalSupply !== undefined ? holding.totalSupply / 2 * 1.5 : (Math.random() * 100).toFixed(2);
       });
