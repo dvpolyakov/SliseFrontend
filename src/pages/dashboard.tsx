@@ -136,10 +136,10 @@ const DashboardIndex = () => {
         <Whales value={statistics?.whales ?? 0} />
         <WhitelistSize value={statistics?.whitelistSize ?? 0} />
         <TwitterFollowers value={statistics?.twitterFollowersCount ?? 0} />
-        <MlPrediction />
+        <MlPrediction lockchain={statistics?.blockchain} />
       </CardsGrid>
       <BigCardsGrid>
-        <TopHolders data={statistics?.topHolders ?? []} />
+        <TopHolders blockchain={statistics?.blockchain} data={statistics?.topHolders ?? []} />
         <MutualHolders data={statistics?.mutualHoldings ?? []} />
         <TargetWallets />
       </BigCardsGrid>

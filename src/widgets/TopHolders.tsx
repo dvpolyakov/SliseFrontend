@@ -51,17 +51,19 @@ interface TopHolderRow {
   portfolio: number;
   holdingTimeLabel: string;
 }
+
 interface TopHolder {
- data: TopHolderRow[];
+  data: TopHolderRow[];
+  blockchain: string;
 }
 
-const TopHolders = ({ data = [] }: TopHolder) => {
+const TopHolders = ({ data = [], blockchain }: TopHolder) => {
   return (
     <Root>
       <Typography variant="h6" align="left">
         Top Holders
       </Typography>
-      <TableContainer sx={{size:"small"}}>
+      <TableContainer sx={{ size: "small" }}>
         <Table size="small" stickyHeader={true} sx={{ height: 'max-content' }}>
           <TableRow>
             <STableCell>
@@ -91,12 +93,12 @@ const TopHolders = ({ data = [] }: TopHolder) => {
               <TableRow key={row.address}>
                 <SBodyTableCell>
                   <Stack direction={'row'} alignItems="center" gap={0.25}>
-                    {row.portfolio > 2_000_000 && <img src={WhaleIcon.src} width={16} height={16} />}
-                    {row.nfts > 10 && <img src={BluechipIcon.src} width={16} height={16} />}
+                    {row.portfolio > 2_000_000 && <img src={WhaleIcon.src} width={16} height={16}/>}
+                    {row.nfts > 10 && <img src={BluechipIcon.src} width={16} height={16}/>}
                     <a
                       style={{ textDecoration: 'none', color: 'inherit' }}
                       target={'_blank'}
-                      href={`https://etherscan.io/address/${row.address}`}
+                      href={blockchain == 'Solana' ? `https://explorer.solana.com/address/${row.address}` : `https://etherscan.io/address/${row.address}`}
                     >
                       <Typography variant="subtitle2">{row.address.substring(0, 6)}</Typography>
                     </a>
@@ -109,12 +111,13 @@ const TopHolders = ({ data = [] }: TopHolder) => {
                 </SBodyTableCell>
                 <SBodyTableCell>
                   <Typography align={'right'} variant="body2">
-                    ${formatNumber(row.portfolio,0)}
+                    ${formatNumber(row.portfolio, 0)}
                   </Typography>
                 </SBodyTableCell>
                 <SBodyTableCell>
                   <Stack direction={'row'} justifyContent="center">
-                    <Label variant="filled" color={labelVariantMap[row.holdingTimeLabel as keyof typeof labelVariantMap]}>
+                    <Label variant="filled"
+                           color={labelVariantMap[row.holdingTimeLabel as keyof typeof labelVariantMap]}>
                       {row.holdingTimeLabel}
                     </Label>
                   </Stack>

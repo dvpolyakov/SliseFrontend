@@ -77,7 +77,11 @@ const {format: formatPercent} = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 0,
 });
 
-const MlPrediction = () => {
+type Props = {
+  blockchain: string
+}
+
+const MlPrediction = ({blockchain}: Props) => {
   const styles = useStyles();
   const [priceSliderValue, setPriceSliderValue] = useState(0.3);
   const [collectionSizeSliderValue, setCollectionSizeSliderValue] = useState(8000);
@@ -156,9 +160,16 @@ const MlPrediction = () => {
           <Typography align="left" variant="overline" mb={0}>
             MINT PRICE
           </Typography>
-          <Typography align="right" variant="h6" lineHeight={1} mb={0}>
-            Ξ {priceSliderValue}
-          </Typography>
+          {blockchain === 'Ethereum' ? (
+            <Typography align="right" variant="h6" lineHeight={1} mb={0}>
+              Ξ {priceSliderValue}
+            </Typography>
+          ) : (
+            <Typography align="right" variant="h6" lineHeight={1} mb={0}>
+              ◎ {priceSliderValue}
+            </Typography>
+          )}
+
         </Stack>
         <Slider
           value={priceSliderValue}
