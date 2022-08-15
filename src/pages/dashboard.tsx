@@ -17,7 +17,7 @@ import Whales from 'src/widgets/Whales';
 import WhitelistSize from 'src/widgets/WhitelistSize';
 import { number } from 'yup/lib/locale';
 
-import { getCookie } from 'cookies-next';
+import { getCookie, setCookie } from 'cookies-next';
 import { BAYC } from '../samples/BAYC';
 import { mockIds } from '../samples/whitelist-mapper';
 import useWindowDimensions from '../utils/windowSize';
@@ -136,7 +136,7 @@ const DashboardIndex = () => {
         <Whales value={statistics?.whales ?? 0} />
         <WhitelistSize value={statistics?.whitelistSize ?? 0} />
         <TwitterFollowers value={statistics?.twitterFollowersCount ?? 0} />
-        <MlPrediction lockchain={statistics?.blockchain} />
+        <MlPrediction blockchain={statistics?.blockchain} />
       </CardsGrid>
       <BigCardsGrid>
         <TopHolders blockchain={statistics?.blockchain} data={statistics?.topHolders ?? []} />

@@ -15,12 +15,11 @@ import MutualHoldersCard from 'src/widgets/MutualHoldersCard';
 import useIsMountedRef from '../hooks/useIsMountedRef';
 import axiosInstance from '../utils/axios';
 
-import { getCookie } from 'cookies-next';
+import { getCookie, setCookie } from 'cookies-next';
 import { mockIds } from '../samples/whitelist-mapper';
 import { BAYC } from '../samples/BAYC';
 import useWindowDimensions from '../utils/windowSize';
 import { IKIGAI } from '../samples/IKIGAI';
-
 
 const Cards = styled('div')(() => ({
   display: 'grid',
@@ -123,7 +122,7 @@ const columns = [
     resizable: false,
     disableColumnMenu: true,
     disableReorder: true,
-    valueFormatter: ({ value }: any) => `Ξ ${value}`,
+    valueFormatter: ({ value }: any) => value,
   },
   {
     field: 'mintPrice',
@@ -135,7 +134,7 @@ const columns = [
     resizable: false,
     disableColumnMenu: true,
     disableReorder: true,
-    valueFormatter: ({ value }: any) => `Ξ ${value}`,
+    valueFormatter: ({ value }: any) => value,
   },
   {
     field: 'twitterFollowers',
@@ -162,6 +161,7 @@ function Grid(props: any) {
 const MutualHolders = () => {
   const isMountedRef = useIsMountedRef();
   const [mutualHolders, setMutualHolders] = useState<any[]>([]);
+  const [blockchain, setBlockchain] = useState<string | null>(null);
   const windowSize = useWindowDimensions();
 
   const getMutualHolders = useCallback(async () => {
@@ -176,18 +176,23 @@ const MutualHolders = () => {
           }
         }
       );
-      response.data.data.map((holding: any) => {
+      response.data.data.mutualHoldings.map((holding: any) => {
+
         holding.id = Math.floor(Math.random() * 1000).toString(16);
         if(holding.holdings?.totalSupply < 1)
           holding.totalSupply = (Math.random() * 100).toFixed(2);
         else
           holding.totalSupply = holding.holdings?.totalSupply ?? (Math.random() * 100).toFixed(2);
         holding.floorPrice = holding.holdings?.stats?.floor.toFixed(4) ?? (Math.random() * 100).toFixed(2);
+        holding.floorPrice = response.data.data.blockchain == 'Solana' ? `◎ ${holding.floorPrice}` : `Ξ ${holding.floorPrice}`
         holding.mintPrice = holding.holdings?.stats?.mintPrice.toFixed(4) ?? (Math.random() * 100).toFixed(2);
+        holding.mintPrice = response.data.data.blockchain == 'Solana' ? `◎ ${holding.mintPrice}` : `Ξ ${holding.mintPrice}`
         holding.twitterFollowers = (Math.random() * 100000).toFixed(2);
         holding.totalHolders = holding.totalSupply !== undefined ? holding.totalSupply / 2 * 1.5 : (Math.random() * 100).toFixed(2);
+        console.log(holding);
       });
-      setMutualHolders(response.data.data);
+
+      setMutualHolders(response.data.data.mutualHoldings);
     } else {
       const mockWl = IKIGAI;
       mockWl.data.mutualHoldings.map((holding: any) => {
