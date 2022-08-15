@@ -1,4 +1,5 @@
-import { Typography } from '@mui/material';
+import { Box, Typography, useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/system';
 import React from 'react';
 import { formatNumber } from './utils';
@@ -10,16 +11,15 @@ const Root = styled('div')(() => ({
   borderRadius: 16,
   padding: 16,
   color: '#fff',
-  overflow: 'hidden',
-}));
-const Img = styled('img')(() => ({
-  display: 'block',
-  width: '100%',
-  maxWidth: '90%',
-  margin: '0 auto',
+  display: 'grid',
+  gridTemplateRows: 'min-content min-content 1fr',
 }));
 
 const TargetWallets = () => {
+  const theme = useTheme();
+
+  const isXl = useMediaQuery(theme.breakpoints.up('xl'));
+
   return (
     <Link href={'/mltargeting'}>
       <Root>
@@ -29,7 +29,9 @@ const TargetWallets = () => {
         <Typography variant="subtitle2" align="left" sx={{ opacity: 0.72 }} mb={'34px'}>
           Target wallets identified
         </Typography>
-        <Img src="/assets/TypeML_graph.svg"/>
+        <Box sx={{ placeSelf: 'stretch', display: 'grid', placeItems: 'center' }}>
+          <img src="/assets/TypeML_graph.svg" style={{ objectFit: 'contain', width: isXl ? '50%' : '100%' }} />
+        </Box>
       </Root>
     </Link>
   );
