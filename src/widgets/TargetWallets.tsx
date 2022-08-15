@@ -13,6 +13,13 @@ const Root = styled('div')(() => ({
   color: '#fff',
   display: 'grid',
   gridTemplateRows: 'min-content min-content 1fr',
+  overflow: 'hidden',
+}));
+const Img = styled('img')(() => ({
+  display: 'block',
+  width: '100%',
+  maxWidth: '80%',
+  margin: '0 auto',
 }));
 
 const TargetWallets = () => {
@@ -29,9 +36,8 @@ const TargetWallets = () => {
         <Typography variant="subtitle2" align="left" sx={{ opacity: 0.72 }} mb={'34px'}>
           Target wallets identified
         </Typography>
-        <Box sx={{ placeSelf: 'stretch', display: 'grid', placeItems: 'center' }}>
-          <img src="/assets/TypeML_graph.svg" style={{ objectFit: 'contain', width: isXl ? '50%' : '100%' }} />
-        </Box>
+
+        <Img src="/assets/TypeML_graph.svg" />
       </Root>
     </Link>
   );
