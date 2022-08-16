@@ -19,7 +19,7 @@ import { number } from 'yup/lib/locale';
 
 import { getCookie, setCookie } from 'cookies-next';
 import { BAYC } from '../samples/BAYC';
-import { mockIds } from '../samples/whitelist-mapper';
+import { getSampleWhitelistById, mockIds, sampleWlIds } from '../samples/whitelist-mapper';
 import useWindowDimensions from '../utils/windowSize';
 import { IKIGAI } from '../samples/IKIGAI';
 
@@ -71,9 +71,10 @@ const DashboardIndex = () => {
       window.localStorage.setItem('whitelistSize', response.data.data.whitelistSize);
       setStatistics(response.data.data);
     } else {
-      const mockWl = IKIGAI;
-      window.localStorage.setItem('whitelistSize', mockWl.data.whitelistSize.toString());
-      setStatistics(mockWl.data);
+      const id = localStorage.getItem('whitelistId');
+      const mockWl = getSampleWhitelistById(id!);
+      window.localStorage.setItem('whitelistSize', mockWl!.data!.whitelistSize.toString());
+      setStatistics(mockWl!.data);
     }
   }, [isMountedRef]);
 

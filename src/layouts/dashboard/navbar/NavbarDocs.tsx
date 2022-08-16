@@ -14,7 +14,7 @@ import Web3 from 'web3';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
 import { useRouter } from 'next/router';
 import Connect2Phantom from '../../../hooks/usePhantom';
-import { deleteCookie, getCookie } from 'cookies-next';
+import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 
 // ----------------------------------------------------------------------
 export default function NavbarDocs() {
@@ -51,7 +51,8 @@ export default function NavbarDocs() {
     deleteCookie('jwt-token');
     deleteCookie('jwt-token-exp');
     deleteCookie('current-chain');
-    router.push('/dashboard');
+    localStorage.setItem('whitelistId','1');
+    router.reload();
   };
 
   // @ts-ignore

@@ -22,7 +22,7 @@ import axiosInstance from '../utils/axios';
 import useIsMountedRef from '../hooks/useIsMountedRef';
 
 import { getCookie } from 'cookies-next';
-import { mockIds } from '../samples/whitelist-mapper';
+import { getSampleWhitelistById, mockIds } from '../samples/whitelist-mapper';
 import { BAYC } from '../samples/BAYC';
 import useWindowDimensions from '../utils/windowSize';
 import { IKIGAI } from '../samples/IKIGAI';
@@ -226,7 +226,8 @@ const MintList = () => {
       setBluechips(response.data.data.bluechipHolders);
       setSize(response.data.data.size);
     } else {
-      const mockWl = IKIGAI;
+      const id = localStorage.getItem('whitelistId');
+      const mockWl = getSampleWhitelistById(id!);
       const arr = [...mockWl.data.topHolders];
       const newArr = arr.sort((a, b) => {
         return b.avgNFTPrice - a.avgNFTPrice;

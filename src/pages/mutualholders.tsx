@@ -16,7 +16,7 @@ import useIsMountedRef from '../hooks/useIsMountedRef';
 import axiosInstance from '../utils/axios';
 
 import { getCookie, setCookie } from 'cookies-next';
-import { mockIds } from '../samples/whitelist-mapper';
+import { getSampleWhitelistById, mockIds } from '../samples/whitelist-mapper';
 import { BAYC } from '../samples/BAYC';
 import useWindowDimensions from '../utils/windowSize';
 import { IKIGAI } from '../samples/IKIGAI';
@@ -194,7 +194,8 @@ const MutualHolders = () => {
 
       setMutualHolders(response.data.data.mutualHoldings);
     } else {
-      const mockWl = IKIGAI;
+      const id = localStorage.getItem('whitelistId');
+      const mockWl = getSampleWhitelistById(id!);
       mockWl.data.mutualHoldings.map((holding: any) => {
         holding.id = Math.floor(Math.random() * 1000).toString(16);
         if(holding.holdings?.totalSupply < 1)
