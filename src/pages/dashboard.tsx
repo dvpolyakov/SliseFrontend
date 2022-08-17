@@ -139,7 +139,7 @@ const DashboardIndex = () => {
       </CardsGrid>
       <BigCardsGrid>
         <TopHolders blockchain={statistics?.blockchain} data={statistics?.topHolders ?? []} />
-        <MutualHolders data={statistics?.mutualHoldings ?? []} />
+        <MutualHolders blockchain={statistics?.blockchain} data={statistics?.mutualHoldings ?? []} />
         <TargetWallets />
       </BigCardsGrid>
     </Page>

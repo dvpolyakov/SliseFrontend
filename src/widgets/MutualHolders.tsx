@@ -53,7 +53,12 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-const MutualHolders = ({ data = [] }: any) => {
+interface MutualHolder {
+  data: any[];
+  blockchain: string;
+}
+
+const MutualHolders = ({ data = [], blockchain }: MutualHolder) => {
   return (
     <Root>
       <Typography variant="h6" align="left">
@@ -69,7 +74,7 @@ const MutualHolders = ({ data = [] }: any) => {
                     <a
                       style={{ textDecoration: 'none', color: 'inherit' }}
                       target={'_blank'}
-                      href={`https://etherscan.io/address/${row!.address}`}
+                      href={blockchain === 'Solana' ? `https://explorer.solana.com/address/${row!.address}` : `https://etherscan.io/address/${row!.address}`}
                     >
                       <Avatar
                         sx={{ width: 24, height: 24 }}
