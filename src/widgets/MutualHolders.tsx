@@ -74,7 +74,7 @@ const MutualHolders = ({ data = [], blockchain }: MutualHolder) => {
                     <a
                       style={{ textDecoration: 'none', color: 'inherit' }}
                       target={'_blank'}
-                      href={blockchain === 'Solana' ? `https://explorer.solana.com/address/${row!.address}` : `https://etherscan.io/address/${row!.address}`}
+                      href={blockchain == 'Solana' ? `https://explorer.solana.com/address/${row!.address}` : `https://etherscan.io/address/${row!.address}`}
                     >
                       <Avatar
                         sx={{ width: 24, height: 24 }}
@@ -85,7 +85,7 @@ const MutualHolders = ({ data = [], blockchain }: MutualHolder) => {
                     <a
                       style={{ textDecoration: 'none', color: 'inherit', overflow: 'hidden' }}
                       target={'_blank'}
-                      href={`https://etherscan.io/address/${row.address}`}
+                      href={blockchain == 'Solana' ? `https://explorer.solana.com/address/${row!.address}` : `https://etherscan.io/address/${row!.address}`}
                     >
                       <Typography
                         sx={{ WebkitLineClamp: 1, textOverflow: 'ellipsis', overflow: 'hidden' }}
