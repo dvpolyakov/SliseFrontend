@@ -480,7 +480,7 @@ export const IKIGAI =
                 "logo": "https://lh3.googleusercontent.com/vJCXy67euJo3TS1PRmjrkqwTEO93_BFdkQjHPbPcXXIXSzHdcJ8UbErjF-nsRci8ZJ7Z0z9PZYBs2qnWKDj2g5xVuSgaSUIi-ssp-Q=s120"
               },
               {
-                "logo": "ipfs://QmcG7FMBfqxVESjYSz8fsUfBie7tg7TjmB4UjPyWyiVvDb"
+                "logo": "https://ipfs.io/ipfs/QmcG7FMBfqxVESjYSz8fsUfBie7tg7TjmB4UjPyWyiVvDb"
               }
             ]
           },

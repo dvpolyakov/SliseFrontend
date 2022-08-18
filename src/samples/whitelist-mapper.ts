@@ -2,6 +2,7 @@ import { Whitelist } from '../models/models';
 import { BAYC } from './BAYC';
 import { IKIGAI } from './IKIGAI';
 import { SOLPARK } from './SOLPARK';
+import { DEGENAPEZ } from './DEGENAPEZ';
 
 export const whitelistMapper = (id: string): any => {
   let wl;
@@ -27,6 +28,12 @@ export const sampleWlIds: Whitelist[] = [
     name: 'SolPark',
     networkType: 'Solana',
     logo: 'https://img-cdn.magiceden.dev/rs:fill:400:400:0:0/plain/https://creator-hub-prod.s3.us-east-2.amazonaws.com/spn_pfp_1658604791034.gif'
+  },
+  {
+    id: '3',
+    name: 'Degen Apez',
+    networkType: 'Polygon',
+    logo: 'https://img.rarible.com/prod/v1/image/t_gif_big/aHR0cHM6Ly9pcGZzLmlvL2lwZnMvYmFmeWJlaWdzajdweXQ2anJheGx1NXlidmltYTZqY3Vnb2RmenYyMjJqYm80aW91dHl3eWI2aHZ2Z3UvMTMxLmdpZg=='
   }
 ]
 
@@ -38,6 +45,9 @@ export const getSampleWhitelistById = (id: string) => {
       break;
     case '2':
       wl = SOLPARK;
+      break;
+    case '3':
+      wl = DEGENAPEZ;
       break;
     default:
       wl = IKIGAI;

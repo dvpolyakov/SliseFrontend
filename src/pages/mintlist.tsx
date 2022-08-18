@@ -229,6 +229,10 @@ const MintList = () => {
       const id = localStorage.getItem('whitelistId');
       const mockWl = getSampleWhitelistById(id!);
       const arr = [...mockWl.data.topHolders];
+
+      /*  arr.map((item) => {
+          item.avgNFTPrice = item.avgNFTPrice * 10
+        });*/
       const newArr = arr.sort((a, b) => {
         return b.avgNFTPrice - a.avgNFTPrice;
       });
