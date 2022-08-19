@@ -9,6 +9,7 @@ export const DEGENAPEZ =
       "bluechipHolders": 27,
       "whales": 0,
       "whitelistSize": 131,
+      "blockchain": "Polygon",
       "topHolders": [
         {
           "id": "c8731bc2-5028-42f6-870f-a8dfcc1aae12",

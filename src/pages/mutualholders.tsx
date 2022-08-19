@@ -16,7 +16,7 @@ import useIsMountedRef from '../hooks/useIsMountedRef';
 import axiosInstance from '../utils/axios';
 
 import { getCookie, setCookie } from 'cookies-next';
-import { getSampleWhitelistById, mockIds } from '../samples/whitelist-mapper';
+import { getBlockchainSymbol, getSampleWhitelistById, mockIds } from '../samples/whitelist-mapper';
 import { BAYC } from '../samples/BAYC';
 import useWindowDimensions from '../utils/windowSize';
 import { IKIGAI } from '../samples/IKIGAI';
@@ -167,6 +167,7 @@ const MutualHolders = () => {
   const getMutualHolders = useCallback(async () => {
     const jwt = getCookie('jwt-token');
     const whitelistId = window.localStorage.getItem('whitelistId');
+
     if (jwt) {
       const response = await axiosInstance.get(
         `${process.env.BACKEND_URL}analytics/mutualHoldings?whitelistId=${whitelistId}`,
@@ -183,10 +184,11 @@ const MutualHolders = () => {
           holding.totalSupply = (Math.random() * 100).toFixed(2);
         else
           holding.totalSupply = holding.holdings?.totalSupply ?? (Math.random() * 100).toFixed(2);
+        const symb = getBlockchainSymbol(response.data.data.blockchain);
         holding.floorPrice = holding.holdings?.stats?.floor.toFixed(4) ?? (Math.random() * 100).toFixed(2);
-        holding.floorPrice = response.data.data.blockchain == 'Solana' ? `◎ ${holding.floorPrice}` : `Ξ ${holding.floorPrice}`
+        holding.floorPrice = symb === 'MATIC' ? `${holding.floorPrice} ${symb}` : `${symb} ${holding.floorPrice}`;
         holding.mintPrice = holding.holdings?.stats?.mintPrice.toFixed(4) ?? (Math.random() * 100).toFixed(2);
-        holding.mintPrice = response.data.data.blockchain == 'Solana' ? `◎ ${holding.mintPrice}` : `Ξ ${holding.mintPrice}`
+        holding.mintPrice = symb === 'MATIC' ? `${holding.mintPrice} ${symb}` : `${symb} ${holding.mintPrice}`;
         holding.twitterFollowers = (Math.random() * 100000).toFixed(2);
         holding.totalHolders = holding.totalSupply !== undefined ? holding.totalSupply / 2 * 1.5 : (Math.random() * 100).toFixed(2);
         console.log(holding);
@@ -202,8 +204,11 @@ const MutualHolders = () => {
           holding.totalSupply = (Math.random() * 100).toFixed(2);
         else
           holding.totalSupply = holding.holdings?.totalSupply ?? (Math.random() * 100).toFixed(2);
-        holding.floorPrice = holding.holdings?.floorPrice?.toFixed(2) ?? (Math.random() * 100).toFixed(2);
+        const symb = getBlockchainSymbol(mockWl.data.blockchain);
+        holding.floorPrice = holding.holdings?.stats?.floor.toFixed(4) ?? (Math.random() * 100).toFixed(2);
+        holding.floorPrice = symb === 'MATIC' ? `${holding.floorPrice} ${symb}` : `${symb} ${holding.floorPrice}`;
         holding.mintPrice = holding.holdings?.stats?.mintPrice.toFixed(4) ?? (Math.random() * 100).toFixed(2);
+        holding.mintPrice = symb === 'MATIC' ? `${holding.mintPrice} ${symb}` : `${symb} ${holding.mintPrice}`;
         holding.twitterFollowers = (Math.random() * 100000).toFixed(2);
         holding.totalHolders = holding.holdings?.numOwners ?? (Math.random() * 100).toFixed(2);
 

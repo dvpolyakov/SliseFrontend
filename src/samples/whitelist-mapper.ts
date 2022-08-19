@@ -61,6 +61,25 @@ export const mockIds: string[] = [
   '2'
 ]
 
+export const getBlockchainSymbol = (blockchain: string) => {
+  let bc;
+  switch (blockchain){
+    case 'Solana':
+      bc = '◎';
+      break;
+    case 'Polygon':
+      bc = 'MATIC';
+      break;
+    case 'Ethereum':
+      bc = 'Ξ';
+      break;
+    default:
+      bc = 'Ξ';
+      break;
+  }
+  return bc;
+}
+
 export const findWhitelistId = (whitelists: Whitelist[], name: string) => {
   let id;
   whitelists.map((list: any) => {

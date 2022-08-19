@@ -9,6 +9,7 @@ export const SOLPARK =
       "bluechipHolders": 21,
       "whales": 0,
       "whitelistSize": 42,
+      "blockchain": "Solana",
       "topHolders": [
         {
           "id": "7d284c61-8fba-4578-bb2f-7916ab8bceec",

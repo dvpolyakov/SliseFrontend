@@ -9,6 +9,7 @@ export const IKIGAI =
       "bluechipHolders": 117,
       "whales": 0,
       "whitelistSize": 249,
+      "blockchain": "Ethereum",
       "topHolders": [
         {
           "id": "29999eff-ba55-4169-9a7b-2da72da1a1b1",

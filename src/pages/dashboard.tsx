@@ -19,7 +19,7 @@ import { number } from 'yup/lib/locale';
 
 import { getCookie, setCookie } from 'cookies-next';
 import { BAYC } from '../samples/BAYC';
-import { getSampleWhitelistById, mockIds, sampleWlIds } from '../samples/whitelist-mapper';
+import { getBlockchainSymbol, getSampleWhitelistById, mockIds, sampleWlIds } from '../samples/whitelist-mapper';
 import useWindowDimensions from '../utils/windowSize';
 import { IKIGAI } from '../samples/IKIGAI';
 
@@ -54,6 +54,7 @@ const BigCardsGrid = styled('div')(() => ({
 const DashboardIndex = () => {
   const isMountedRef = useIsMountedRef();
   const [statistics, setStatistics] = useState<any>(null);
+  const [symbol, setSymbol] = useState<string>('');
   const windowSize = useWindowDimensions();
 
   const getWhitelistStatistics = useCallback(async () => {
@@ -75,6 +76,7 @@ const DashboardIndex = () => {
       const mockWl = getSampleWhitelistById(id!);
       window.localStorage.setItem('whitelistSize', mockWl!.data!.whitelistSize.toString());
       setStatistics(mockWl!.data);
+      setSymbol(getBlockchainSymbol(mockWl.data.blockchain));
     }
   }, [isMountedRef]);
 
@@ -135,7 +137,7 @@ const DashboardIndex = () => {
         <Whales value={statistics?.whales ?? 0} />
         <WhitelistSize value={statistics?.whitelistSize ?? 0} />
         <TwitterFollowers value={statistics?.twitterFollowersCount ?? 0} />
-        <MlPrediction blockchain={statistics?.blockchain || 'Ethereum'} />
+        <MlPrediction symbol={symbol} blockchain={statistics?.blockchain || 'Ethereum'} />
       </CardsGrid>
       <BigCardsGrid>
         <TopHolders blockchain={statistics?.blockchain} data={statistics?.topHolders ?? []} />
