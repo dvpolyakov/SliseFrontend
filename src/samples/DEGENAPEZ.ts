@@ -654,7 +654,7 @@ export const DEGENAPEZ =
         },
         {
           "id": "4966ad4e-60e6-4766-8960-c8113e282dc6",
-          "address": "0x89bb80b57a27fd30f00b47071c8344d9fca781e9",
+          "address": "0x4Ed09FB1F747A3F35CEBb640D55B235cA990E44e",
           "portfolio": 0.24257759095188963,
           "nfts": 3,
           "discord": null,
@@ -667,6 +667,9 @@ export const DEGENAPEZ =
           "alsoHold": {
             "total": 1,
             "collectionInfo": [
+              {
+                "logo": "https://rove.to/api/v1/rock/62bf729c51da38f665ce1bb1/metadata"
+              },
               {
                 "logo": "https://openseauserdata.com/files/3b6f8ffd5d8d63dc8610fdf4d0f2e049.gif"
               },
