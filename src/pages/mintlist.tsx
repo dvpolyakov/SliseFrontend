@@ -228,16 +228,16 @@ const MintList = () => {
     } else {
       const id = localStorage.getItem('whitelistId');
       const mockWl = getSampleWhitelistById(id!);
-      const arr = [...mockWl.data.topHolders];
+      // const arr = [...mockWl.data.topHolders];
+      //
+      // /*  arr.map((item) => {
+      //     item.avgNFTPrice = item.avgNFTPrice * 10
+      //   });*/
+      // const newArr = arr.sort((a, b) => {
+      //   return b.avgNFTPrice - a.avgNFTPrice;
+      // });
 
-      /*  arr.map((item) => {
-          item.avgNFTPrice = item.avgNFTPrice * 10
-        });*/
-      const newArr = arr.sort((a, b) => {
-        return b.avgNFTPrice - a.avgNFTPrice;
-      });
-
-      newArr.map((holding: any) => {
+      mockWl.data.topHolders.map((holding: any) => {
         holding.id = Math.floor(Math.random() * 1000).toString(16);
         holding.holdings = holding.alsoHold;
         holding.avgNftPrice = holding.avgNFTPrice;
@@ -245,7 +245,7 @@ const MintList = () => {
         holding.holdingTime = holding.holdingTimeLabel;
         holding.totalHolders = holding.totalSupply !== undefined ? holding.totalSupply / 2 * 1.5 : (Math.random() * 100).toFixed(2);
       });
-      setTopHolders(arr);
+      setTopHolders(mockWl.data.topHolders);
       setBots(mockWl.data.bots);
       setWhales(mockWl.data.whales);
       setBluechips(mockWl.data.bluechipHolders);

@@ -1198,7 +1198,6 @@ export const DEGENAPEZ =
           },
           "percent": 14.285714285714285
         }
-      ],
-      "blockchain": "Polygon"
+      ]
     }
   }
