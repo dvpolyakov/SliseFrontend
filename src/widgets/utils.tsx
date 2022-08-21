@@ -1,12 +1,15 @@
-const { format } = new Intl.NumberFormat('en-US', {
-  minimumFractionDigits: 0,
-  maximumFractionDigits: 0,
-  useGrouping: true,
-});
+const formatWithDigits = (num: number, digits: number) => {
+  const { format } = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: digits,
+    useGrouping: true,
+  });
+  return format(num)
+}
 
 export const formatNumber = (num: number, digits: number) => {
   if (num <= 10_000) {
-    return format(num);
+    return formatWithDigits(num, digits);
   }
   const lookup = [
     { value: 1, symbol: '' },

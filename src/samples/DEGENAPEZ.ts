@@ -865,7 +865,7 @@ export const DEGENAPEZ =
           "totalholdings": 9,
           "holdings": {
             "totalSupply": 0,
-            "logo": "https://ipfs.moralis.io:2053/ipfs/bafybeienovlduayei7ryrx4eyhfmyex5tfivxef6sqmj3jxcie6bb4fy4m/",
+            "logo": "https://pbs.twimg.com/profile_images/1514831958550974472/C4vUiiw-_400x400.jpg",
             "floorPrice": null,
             "numOwners": null
           },
