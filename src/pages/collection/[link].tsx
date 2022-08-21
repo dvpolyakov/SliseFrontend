@@ -28,6 +28,7 @@ import { format } from "date-fns";
 import { setCookie } from 'cookies-next';
 import { signIn, signOut, useSession, } from 'next-auth/react';
 import Label from '../../components/Label';
+import { getBlockchainSymbol } from '../../samples/whitelist-mapper';
 
 const Header = styled('div')(({ theme }) => ({
   background: '#131F0F',
@@ -71,6 +72,7 @@ function PublicPage({ data, link }: WhitelistInfoResponse) {
   const [isTooltipVisible, setTooltipVisibility] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [error, setError] = useState('');
+  const [symbol, setSymbol] = useState<string>('');
   //const [whitelistInfo, setWhitelistInfo] = useState<WhitelistInfo | null>(null);
 
   const isMountedRef = useIsMountedRef();
@@ -105,6 +107,7 @@ function PublicPage({ data, link }: WhitelistInfoResponse) {
   };
 
   useEffect(() => {
+    setSymbol(getBlockchainSymbol(data?.blockchain || ''));
     setTooltipVisibility(true);
   }, [isMountedRef]);
 
@@ -214,11 +217,15 @@ function PublicPage({ data, link }: WhitelistInfoResponse) {
               <Typography color="GrayText" variant="caption" mb={0.5}>
                 Mint Price
               </Typography>
-              {data.blockchain === 'Ethereum' ? (
-                <Typography variant="subtitle1">Ξ{data?.mintPrice}</Typography>
-              ) : (
-                <Typography variant="subtitle1">◎{data.mintPrice}</Typography>
-              )}
+              {symbol === 'MATIC' ?
+                <Typography variant="subtitle1">
+                  {data?.mintPrice} {symbol}
+                </Typography>
+                :
+                <Typography variant="subtitle1">
+                  {symbol} {data?.mintPrice}
+                </Typography>
+              }
             </Grid>
             <Grid item md={4}>
               <Typography color="GrayText" variant="caption" mb={0.5}>
