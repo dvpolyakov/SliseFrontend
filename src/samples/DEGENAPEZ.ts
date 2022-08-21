@@ -311,7 +311,10 @@ export const DEGENAPEZ =
               },
               {
                 "logo": "https://lh3.googleusercontent.com/ARIFwIhXXU1riV_fa9X6ONYTEV3LvPDxvopHVt_5Z8Rf0kWyIizi1drVt_wHVS9ZJg-QzjSNi-G7nJV5u-WRoSB2rKzbmDrr8rnRUw"
-              }
+              },
+              {
+                "logo": "https://bafkreih2r3k33socglnpnl3scoegqs6iggg5pjtbqyvupydjqdtkbopxfi.ipfs.dweb.link"
+              },
             ]
           },
           "percent": 100

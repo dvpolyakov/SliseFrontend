@@ -43,7 +43,7 @@ const AvgNtfPrice = ({ value, row }: any) => {
         <Bar sx={{ width: `${row.percent}%` }} />
       </Wrapper>
       <Typography textAlign={'right'} variant="body2">
-        ${formatNumber(value, 0)}
+        ${formatNumber(value, 1)}
       </Typography>
     </Root>
   );
