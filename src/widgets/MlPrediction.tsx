@@ -95,11 +95,39 @@ const MlPrediction = ({ blockchain, symbol }: Props) => {
     setCollectionSizeSliderValue(value);
   }
 
+  const getStep = (): number => {
+    switch(blockchain){
+      case 'Solana':
+        return 1;
+      case 'Ethereum':
+        return 0.01;
+      case 'Polygon':
+        return 5
+      default:
+        return 1;
+    }
+  }
+
+  const getMax = () => {
+    switch(blockchain){
+      case 'Solana':
+        return 100;
+      case 'Ethereum':
+        return 1;
+      case 'Polygon':
+        return 1000;
+      default:
+        return 1;
+    }
+  }
+
   const whitelistSize = localStorage.getItem('whitelistSize');
   const [mintShare, setMintShare] = useState(0);
   const [sharePredict, setSharePredict] = useState('???');
   const [error, setError] = useState('');
   const [open, setOpen] = React.useState(false);
+  const [sliderStep, setSliderStep] = useState(0);
+  const [sliderMax, setSliderMax] = useState(0);
 
   const handleCloseAlert = (event: React.SyntheticEvent<Element, Event>) => {
     setOpen(false);
@@ -113,7 +141,10 @@ const MlPrediction = ({ blockchain, symbol }: Props) => {
     setOpen(false);
   };
 
+
   useEffect(() => {
+    setSliderMax(getMax());
+    setSliderStep(getStep());
     const getData = setTimeout(() => {
       const val = blockchain === 'Solana' ? priceSliderValue * 0.025 : priceSliderValue;
       console.log(val);
@@ -179,9 +210,9 @@ const MlPrediction = ({ blockchain, symbol }: Props) => {
         </Stack>
         <Slider
           value={priceSliderValue}
-          min={blockchain === 'Solana' ? 0 : 0}
-          step={blockchain === 'Solana' ? 1 : 0.01}
-          max={blockchain === 'Solana' ? 100 : 1}
+          min={0}
+          step={getStep()}
+          max={getMax()}
           onChange={handlePriceChange}
           valueLabelDisplay="off"
           marks

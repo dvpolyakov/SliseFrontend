@@ -111,8 +111,7 @@ function PublicPage({ data, link }: WhitelistInfoResponse) {
     setTooltipVisibility(true);
   }, [isMountedRef]);
 
-  const [finished, setFinished] = useState(false);
-  const handleSubmit = async () => {
+  const checkAllDone = (): boolean => {
     let requiersCount: number = 0;
     if(data?.discordRequired)
       requiersCount = requiersCount++;
@@ -125,19 +124,39 @@ function PublicPage({ data, link }: WhitelistInfoResponse) {
       requiresDone = requiresDone++;
     if(registrationDiscordStatus === 'success')
       requiresDone = requiresDone++;
+    if(registrationWalletStatus === 'success')
+      requiresDone = requiresDone++;
+
+    let requires:number[] = [];
+    requires.push(1);
+    if(data?.discordRequired)
+      requires.push(1);
+    if(data?.twitterRequired == true)
+      requires.push(1);
+
     let done:string[] = [];
+    if(registrationWalletStatus === 'success')
+      done.push(registrationWalletStatus);
     if(data?.discordRequired)
       done.push(registrationDiscordStatus);
     if(data?.twitterRequired)
       done.push(registrationTwitterStatus);
-    if(data?.minBalance! > 0)
-      done.push(registrationWalletStatus);
+
+    console.log(`req ${requires.length}`);
+    console.log(data?.twitterRequired);
     const allDone = done.every(
       (item) => item === 'success'
     );
+    const isDone = allDone && done.length === requires.length;
 
-    console.log(allDone);
+    return isDone;
+  }
+
+  const [finished, setFinished] = useState(false);
+  const handleSubmit = async () => {
+   const allDone = checkAllDone();
     if(allDone){
+      console.log(111111);
       const response = await axiosInstance.post(`${process.env.BACKEND_URL}auth/authWhitelistMember`,{
         'address': address,
         'link': link,
@@ -149,7 +168,7 @@ function PublicPage({ data, link }: WhitelistInfoResponse) {
           setError(error.message);
           setOpen(true);
         });
-      console.log(response);
+      console.log(finished);
     }
    /* setFinished(true);*/
   };
@@ -344,7 +363,7 @@ function PublicPage({ data, link }: WhitelistInfoResponse) {
                   status={registrationWalletStatus}
                   onChange={handleRegistrationWalletStatus}
                 />
-                {data?.registrationActive && (
+                {data?.registrationActive && checkAllDone() ? (
                   <Button
                     variant="contained"
                     size="large"
@@ -360,7 +379,25 @@ function PublicPage({ data, link }: WhitelistInfoResponse) {
                   >
                     Register
                   </Button>
-                )}
+                ) :
+                  (
+                    <Button
+                      variant="contained"
+                      size="large"
+                      fullWidth
+                      disabled
+                      onClick={handleSubmit}
+                      sx={{
+                        mt: 4.25,
+                        color: 'black',
+                        backgroundColor: '#DDFF55',
+                        boxShadow: 'none',
+                        ':hover': { opacity: '.6', backgroundColor: '#DDFF55' },
+                      }}
+                    >
+                      Register
+                    </Button>
+                  )}
               </CardContent>
             </Card>
           )}
