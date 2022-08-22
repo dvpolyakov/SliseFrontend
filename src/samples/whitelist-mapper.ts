@@ -4,19 +4,7 @@ import { IKIGAI } from './IKIGAI';
 import { SOLPARK } from './SOLPARK';
 import { DEGENAPEZ } from './DEGENAPEZ';
 
-export const whitelistMapper = (id: string): any => {
-  let wl;
-  switch (id) {
-    case '1':
-      wl = IKIGAI;
-      break;
-    default:
-      break;
-  }
-  return wl;
-}
-
-export const sampleWlIds: Whitelist[] = [
+export const demoWhitelists: Whitelist[] = [
   {
     id: '1',
     name: 'IKIGAI',
@@ -37,7 +25,7 @@ export const sampleWlIds: Whitelist[] = [
   }
 ]
 
-export const getSampleWhitelistById = (id: string) => {
+export const getDemoWhitelistById = (id: string) => {
   let wl;
   switch (id) {
     case '1':
@@ -89,7 +77,7 @@ export const findWhitelistId = (whitelists: Whitelist[], name: string) => {
 };
 
 export const findWhitelistById = (data: Whitelist[], id: any): Whitelist => {
-  let wl = sampleWlIds[0];
+  let wl = demoWhitelists[0];
   data.map((list: any) => {
     if (list.id === id) wl = list;
   });

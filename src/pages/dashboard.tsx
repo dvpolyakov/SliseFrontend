@@ -19,7 +19,7 @@ import { number } from 'yup/lib/locale';
 
 import { getCookie, setCookie } from 'cookies-next';
 import { BAYC } from '../samples/BAYC';
-import { getBlockchainSymbol, getSampleWhitelistById, mockIds, sampleWlIds } from '../samples/whitelist-mapper';
+import { getBlockchainSymbol, getDemoWhitelistById, mockIds, demoWhitelists } from '../samples/whitelist-mapper';
 import useWindowDimensions from '../utils/windowSize';
 import { IKIGAI } from '../samples/IKIGAI';
 
@@ -73,7 +73,7 @@ const DashboardIndex = () => {
       setStatistics(response.data.data);
     } else {
       const id = localStorage.getItem('whitelistId');
-      const mockWl = getSampleWhitelistById(id!);
+      const mockWl = getDemoWhitelistById(id!);
       window.localStorage.setItem('whitelistSize', mockWl!.data!.whitelistSize.toString());
       setStatistics(mockWl!.data);
       setSymbol(getBlockchainSymbol(mockWl.data.blockchain));

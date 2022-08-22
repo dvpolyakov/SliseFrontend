@@ -16,7 +16,7 @@ import { Whitelist } from '../../../models/models';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
 import axiosInstance from '../../../utils/axios';
 
-import { findWhitelistById, findWhitelistId, sampleWlIds } from '../../../samples/whitelist-mapper';
+import { findWhitelistById, findWhitelistId, demoWhitelists } from '../../../samples/whitelist-mapper';
 import { getCookie } from 'cookies-next';
 import MyAvatar from '../../../components/MyAvatar';
 import { PATH_DASHBOARD } from '../../../routes/paths';
@@ -68,7 +68,7 @@ export default function WhitelistsPopover({ isCollapse }: Props) {
 
   const getWhitelists = useCallback(async () => {
     console.log('fetching');
-    const sampleWls = sampleWlIds;
+    const sampleWls = demoWhitelists;
     let whitelists: Whitelist[];
     const jwt = getCookie('jwt-token');
     if (jwt) whitelists = await fetchWhitelists(jwt as string);
@@ -115,7 +115,7 @@ export default function WhitelistsPopover({ isCollapse }: Props) {
   };
 
   const setCollection = (id: string) => {
-    const wl = sampleWlIds.find(x => x.id === id);
+    const wl = demoWhitelists.find(x => x.id === id);
 
     setWhitelist(wl!);
     window.localStorage.setItem('whitelistId',wl!.id);
