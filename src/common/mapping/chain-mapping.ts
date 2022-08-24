@@ -37,7 +37,7 @@ const calculateChance = (chance: number): MlPredictionSuccess => {
   switch (true) {
     case (chance > 0.0 && chance <= 0.4):
       return MlPredictionSuccess.Low;
-    case  (chance > 0.4 && chance < 0.8):
+    case  (chance > 0.4 && chance <= 0.8):
       return MlPredictionSuccess.Medium;
     case (chance > 0.8):
       return MlPredictionSuccess.High;
