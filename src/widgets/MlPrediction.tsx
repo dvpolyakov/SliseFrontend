@@ -5,6 +5,8 @@ import { styled } from '@mui/system';
 import React, { useEffect, useState } from 'react';
 import Label from 'src/components/Label';
 import axiosInstance from 'src/utils/axios';
+import { Networks } from '../common/enums/networks';
+import { calculateMultiplicator, mapMlPredictionResult } from '../common/mapping/chain-mapping';
 
 const Root = styled('div')(() => ({
   gridArea: 'MlPrediction',
@@ -78,7 +80,7 @@ const { format: formatPercent } = new Intl.NumberFormat('en-US', {
 });
 
 type Props = {
-  blockchain: string;
+  blockchain: Networks;
   symbol: string;
 };
 
@@ -146,8 +148,8 @@ const MlPrediction = ({ blockchain, symbol }: Props) => {
     setSliderMax(getMax());
     setSliderStep(getStep());
     const getData = setTimeout(() => {
-      const val = blockchain === 'Solana' ? priceSliderValue * 0.025 : priceSliderValue;
-      console.log(val);
+      const val = calculateMultiplicator(priceSliderValue, blockchain);
+      //console.log(`mult ${val}`);
       if (priceSliderValue > 0.1 || collectionSizeSliderValue > 10)
         axiosInstance
           .get(
@@ -159,20 +161,23 @@ const MlPrediction = ({ blockchain, symbol }: Props) => {
             }
           )
           .then((response) => {
-            console.log(
+            /*console.log(
               `${process.env.ML_URL}items?price=${val}&supply=${collectionSizeSliderValue}&whitelist=${+whitelistSize!}`
-            );
-            console.log(response.data[0]);
-            const mintShare = response.data[0].toFixed(2);
-            setMintShare(mintShare);
-            console.log(mintShare);
-            if (mintShare > 0.0 && mintShare < 0.05) {
+            );*/
+            //console.log(response.data[0]);
+            const mintShare = response.data[0].toFixed(3);
+            const result = mapMlPredictionResult(mintShare,blockchain);
+            //console.log(`ms ${mintShare}`);
+            setMintShare(result.predictionResult);
+            setSharePredict(result.successChance);
+            console.log(result);
+           /* if (mintShare > 0.0 && mintShare < 0.05) {
               setSharePredict('Low');
             } else if (mintShare > 0.05) {
               setSharePredict('High');
             } else {
               setSharePredict('??');
-            }
+            }*/
             setError('');
           })
           .catch((error) => {
